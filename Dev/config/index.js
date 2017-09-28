@@ -31,8 +31,8 @@ module.exports = {
     port: 8080,
     autoOpenBrowser: false,
     // 开发版本中静态文件地址
-    assetsSubDirectory: '/contents',
-    assetsPublicPath: '/',
+    assetsSubDirectory: 'contents',
+    assetsPublicPath: '',
     // 添加本地代理
     proxyTable: {
         '/api': {
