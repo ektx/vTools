@@ -32,7 +32,7 @@ module.exports = {
     autoOpenBrowser: false,
     // 开发版本中静态文件地址
     assetsSubDirectory: 'contents',
-    assetsPublicPath: '',
+    assetsPublicPath: '/',
     // 添加本地代理
     proxyTable: {
         '/api': {

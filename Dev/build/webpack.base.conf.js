@@ -41,9 +41,6 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loaders: [
           {
-            loader: path.resolve(__dirname, 'cssPathResolver')
-          },
-          {
             loader: 'url-loader',
             query: {
               limit: 3000,
