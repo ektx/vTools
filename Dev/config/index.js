@@ -31,30 +31,18 @@ module.exports = {
     port: 8080,
     autoOpenBrowser: false,
     // 开发版本中静态文件地址
-    assetsSubDirectory: '/',
+    assetsSubDirectory: '/contents',
     assetsPublicPath: '/',
     // 添加本地代理
-    // proxyTable: {
-    //     '/api': {
-    //         // 代理到本地的 mock 文件夹   
-    //         target: 'http://localhost:9000/DataService/Dev/static/mock/',
-    //         changeOrigin: true,
-    //         pathRewrite: {
-    //             // 将 请求替换成本地 mock json
-    //             // /api/demo/helloworld.json => /demo/helloworld.json
-    //             '^/api': ''
-    //         }
-    //     }
-    // },
-    // 云栖大会 api 代理
     proxyTable: {
-        '/plugin': {
-            target: 'http://192.168.4.148:8080/',
+        '/api': {
+            // 代理到本地的 mock 文件夹   
+            target: 'http://localhost:9000/DataService/Dev/static/mock/',
             changeOrigin: true,
             pathRewrite: {
                 // 将 请求替换成本地 mock json
                 // /api/demo/helloworld.json => /demo/helloworld.json
-                // '^/api': '/'
+                '^/api': ''
             }
         }
     },

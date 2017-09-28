@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
 	name: 'hello',
 	data () {
@@ -15,26 +17,36 @@ export default {
 	created: function() {
 		this.msg = 'vue is created!';
 
-		let localUrl = '/api/demo/helloworld.json';
-		let serverUrl = '/plugin/yunXiBigScreen/testData.action';
+		let url = localStorage.SERVER_ENV ? 
+			'/api/demo/helloworld.json' :
+			'/plugin/yunXiBigScreen/testData.action';
 
-		fetch(serverUrl, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'Accept': 'application/json'
-			},
-			body: JSON.stringify({
-				"name": "ektx"
+		// fetch 请求demo
+		// fetch(url, {
+		// 	method: 'GET',
+		// 	headers: {
+		// 		'Content-Type': 'application/json',
+		// 		'Accept': 'application/json'
+		// 	}
+		// })
+		// .then(res => res.json())
+		// .then(data => {
+		// 	this.msg = data.data.name
+		// })
+		// .catch(err => {
+		// 	console.error(err)
+		// })
+
+		// axios 请求demo
+		axios.get(url)
+			.then( res => {
+				console.log(res)
+
+				this.msg = res.data.data.name
 			})
-		})
-		.then(res => res.json())
-		.then(data => {
-			this.msg = data.data.name
-		})
-		.catch(err => {
-			console.error(err)
-		})
+			.catch(err => {
+				console.log(err)
+			})
 
 	}
 }
