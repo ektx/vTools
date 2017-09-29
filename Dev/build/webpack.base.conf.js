@@ -1,17 +1,24 @@
 var path = require('path')
+// 工具
 var utils = require('./utils')
+// config/index
 var config = require('../config')
+// loader 设置
 var vueLoaderConfig = require('./vue-loader.conf')
 
+// 拼接我们的工作区路径为一个绝对路径
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
 module.exports = {
+  // 编译入口
   entry: {
     app: './src/main.js'
   },
+  // 出口
   output: {
+    // 编译输出的静态资源根路径
     path: config.build.assetsRoot,
     filename: '[name].js',
     publicPath: process.env.NODE_ENV === 'production'
@@ -19,7 +26,10 @@ module.exports = {
       : config.dev.assetsPublicPath
   },
   resolve: {
+    // 自动补全扩展名
     extensions: ['.js', '.vue', '.json'],
+    // 默认路径代理
+    // 例如: import Vue from 'vue',会查询 'vue/dist/vue.commin.js'
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),

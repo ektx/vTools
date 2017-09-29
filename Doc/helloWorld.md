@@ -15,14 +15,14 @@
 
 | 参数         | 内容                   |
 | ---------- | -------------------- |
-| dev url    | /api/helloworld.json |
+| dev url    | /api/demo/helloworld.json |
 | dev method | GET                  |
 
 ### 1.2 线上接口
 
 | 参数     | 内容         |
 | ------ | ---------- |
-| url    | /api/hello |
+| url    | /api/demo/hello |
 | method | GET        |
 
 #### 参数

@@ -19,7 +19,7 @@ export default {
 
 		let url = localStorage.SERVER_ENV ? 
 			'/api/demo/helloworld.json' :
-			'/plugin/yunXiBigScreen/testData.action';
+			'/api/demo/helloworld';
 
 		// fetch 请求demo
 		// fetch(url, {
