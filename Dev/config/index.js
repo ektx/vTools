@@ -6,20 +6,23 @@ module.exports = {
 	build: {
 		// 使用 config/prod.env.js 中定义的编译环境
 		env: require('./prod.env'),
-		// 页面入口
+		// 编译的 index.html(多页面可以在些添加)
 		index: path.resolve(__dirname, '../dist/index.html'),
-		// 文件生成位置
+		// 编译输出的静态资源路径
 		assetsRoot: path.resolve(__dirname, '../dist'),
-		// 静态文件存放目录
+		// 编译输出二级目录
 		assetsSubDirectory: 'contents',
-		// 设置项目静态文件的根请求位置,默认为 '/'
+		// 编译输出根目录,可配置为服务器或 CDN 域名
 		assetsPublicPath: '',
+		// 是否使用 CSSsourceMap
 		productionSourceMap: true,
 		// Gzip off by default as many popular static hosts such as
 		// Surge or Netlify already gzip all static assets for you.
 		// Before setting to `true`, make sure to:
 		// npm install --save-dev compression-webpack-plugin
+		// 是否开房 gzip
 		productionGzip: false,
+		// 需要 gzip 压缩的文件扩展名
 		productionGzipExtensions: ['js', 'css'],
 		// Run the build command with an extra argument to
 		// View the bundle analyzer report after build finishes:
@@ -29,12 +32,14 @@ module.exports = {
 	},
 	// 开发配置
 	dev: {
+		// 使用 config/dev.js 中定义的编译环境
 		env: require('./dev.env'),
 		// 开发版本中端口
 		port: 8080,
 		autoOpenBrowser: false,
 		// 开发版本中静态文件地址
 		assetsSubDirectory: 'contents',
+		// 测试二级目录
 		assetsPublicPath: '/',
 		// 添加本地代理
 		proxyTable: {

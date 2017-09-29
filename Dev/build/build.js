@@ -2,15 +2,21 @@ require('./check-versions')()
 
 process.env.NODE_ENV = 'production'
 
+// loading 插件
 var ora = require('ora')
+// 删除文件插件
 var rm = require('rimraf')
 var path = require('path')
 var chalk = require('chalk')
 var webpack = require('webpack')
+// 加载 config/index.js
 var config = require('../config')
+// 加载生产环境
 var webpackConfig = require('./webpack.prod.conf')
 
+// 打印
 var spinner = ora('building for production...')
+// loading 动画
 spinner.start()
 
 rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
