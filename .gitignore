@@ -1,3 +1,4 @@
+
 #忽略常用文件
 
 # node project
@@ -5,7 +6,10 @@
 
 # yarn
 *yarn.lock
+yarn-debug.log*
+yarn-error.log*
 *package-lock.json
+npm-debug.log*
 
 
 # Mac
@@ -23,4 +27,17 @@ Thumbs.db
 *_HTML2
 *.psd
 *version.json
-*dist
+*.project
+
+dist/
+
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.project
+*.vscode
+*.zip
