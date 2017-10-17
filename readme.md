@@ -8,15 +8,15 @@ vuem
 │  
 ├── Dev 开发文件  
 │  │  
-│  ├── src 开发内容
-│  │    │ 
-│  │    ├── assets 内嵌内容
-│  │    │ 
-│  │    ├── components 组件内容
-│  │    │
-│  │    ├── pages 业务内容 
-│  │    │
-│  │    └── router 路由   
+│  ├── src 开发内容  
+│  │    │   
+│  │    ├── assets 内嵌内容  
+│  │    │   
+│  │    ├── components 组件内容  
+│  │    │  
+│  │    ├── pages 业务内容   
+│  │    │  
+│  │    └── router 路由     
 │  │  
 │  ├── static 静态资源  
 │  │  
