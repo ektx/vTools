@@ -24,8 +24,9 @@ export default function AFetch(url, option = false) {
 		}
 
 		// options = { local: true } 强制使用本地数据
-		if (localStorage.SERVER_ENV === 'dev' || (option.local && option.local === true)) {
+		if (window.SERVER_ENV === 'dev' || (option.local && option.local === true)) {
 			url = url.replace('.action', '.json')
+			url = url.replace(/^\/api/i, '/mock')
 		}
 
 		fetch(url, option)
