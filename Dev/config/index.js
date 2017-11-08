@@ -53,15 +53,11 @@ module.exports = {
 						'^/mock': '/mock/'
 				}
 			},
-			'/api': {
+			'/': {
 				// 代理到本地的 mock 文件夹   
-				target: 'http://192.168.10.36:8080/',
+				target: 'http://localhost:9000/',
 				changeOrigin: true,
-				pathRewrite: {
-						// 将 请求替换成本地 mock json
-						// /api/demo/helloworld.json => /demo/helloworld.json
-						'^/api': '/api'
-				}
+				pathRewrite: {}
 			}
 		},
 		// CSS Sourcemaps off by default because relative paths are "buggy"

@@ -1,0 +1,18 @@
+@charset 'utf-8';
+
+.main-app {
+	header {
+		padding: 0 1rem;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 1000;
+
+		h1 {
+			color: #333;
+			font-size: 1.4rem;
+			line-height: 3rem;
+		}
+	}
+}
