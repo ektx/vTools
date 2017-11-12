@@ -1,5 +1,7 @@
 @charset 'utf-8';
 
+$headerH: 4rem;
+
 .main-app {
 	header {
 		padding: 0 1rem;
@@ -8,11 +10,46 @@
 		left: 0;
 		right: 0;
 		z-index: 1000;
+		height: $headerH;
 
 		h1 {
 			color: #333;
-			font-size: 1.4rem;
-			line-height: 3rem;
+			font-size: 1.8rem;
+			line-height: $headerH;
+
+			a {
+				color: inherit;
+			}
+		}
+	}
+
+	main {
+		padding: $headerH 1rem 0;
+
+		ul {
+			margin: .5rem 0;
+
+			li {
+				line-height: 1.6rem;
+
+				svg {
+					vertical-align: text-top;
+
+					path {
+						fill: #333;
+					}
+				}
+			}
+		}
+
+		a {
+			color: #333;
+			font-size: 1.2rem;
+			cursor: pointer;
+
+			&:hover {
+				text-decoration: underline;
+			}
 		}
 	}
 }

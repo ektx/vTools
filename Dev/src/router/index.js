@@ -6,11 +6,19 @@ import Home from '@/pages/home'
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'Home',
-      component: Home
-    }
-  ]
+	mode: 'history',
+	routes: [
+		{
+			path: '/',
+			name: '',
+			component: Home,
+			children: [
+				{
+					path: '*',
+					name: 'Hello',
+					component: Hello
+				}
+			]
+		},
+	]
 })

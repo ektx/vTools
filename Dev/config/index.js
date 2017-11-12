@@ -12,8 +12,8 @@ module.exports = {
 		assetsRoot: path.resolve(__dirname, '../dist'),
 		// 编译输出二级目录
 		assetsSubDirectory: 'contents',
-		// 编译输出根目录,可配置为服务器或 CDN 域名
-		assetsPublicPath: '',
+		// 生成的文件引用采用 /@/ 开头
+		assetsPublicPath: '/@/',
 		// 是否使用 CSSsourceMap
 		productionSourceMap: true,
 		// Gzip off by default as many popular static hosts such as
@@ -53,8 +53,8 @@ module.exports = {
 						'^/mock': '/mock/'
 				}
 			},
-			'/': {
-				// 代理到本地的 mock 文件夹   
+			// 测试服务器地址   
+			'/api': {
 				target: 'http://localhost:9000/',
 				changeOrigin: true,
 				pathRewrite: {}

@@ -11,6 +11,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+@import '../static/css/reset-1.3.4.css';
+
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
