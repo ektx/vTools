@@ -16,6 +16,7 @@ $headerH: 4rem;
 			color: #333;
 			font-size: 1.8rem;
 			line-height: $headerH;
+			cursor: pointer;
 
 			a {
 				color: inherit;
@@ -27,7 +28,7 @@ $headerH: 4rem;
 		padding: $headerH 1rem 0;
 
 		ul {
-			margin: .5rem 0;
+			margin: .5rem 0 1rem;
 
 			li {
 				line-height: 1.6rem;
