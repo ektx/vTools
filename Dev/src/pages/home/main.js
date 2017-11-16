@@ -68,6 +68,8 @@ export default {
 			// 更新标题
 			this.title = title ? title : 'iTools'
 
+			document.title = this.title
+
 			url = '/api' + url
 
 			this.axios.get(url)
