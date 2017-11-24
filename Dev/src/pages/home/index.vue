@@ -19,6 +19,7 @@
 						v-if="file.isDir" 
 						href="#" 
 						@click.prevent="getFiles_c(file, $event)"
+						@contextmenu.prevent="rightMenu(file, $event)"
 					>
 						{{ file.file }}
 					</a>
@@ -27,11 +28,14 @@
 						target="_blank" 
 						:href="'./'+file.file"
 						@click.shift.prevent="askServerOpenDir(file)"
+						@contextmenu.prevent="rightMenu(file, $event)"
 					>{{ file.file }}</a>
 				</li>
 			</ul>
 
 			<p>共有 {{files.length}} 个文件</p>
+
+			<VContextmenus></VContextmenus>
 
 		</main>
 	</section>
@@ -41,7 +45,6 @@
 	import main from './main'
 
 	export default main
-
 </script>
 
 <style lang="scss" scoped>

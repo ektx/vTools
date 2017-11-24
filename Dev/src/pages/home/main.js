@@ -1,16 +1,18 @@
 
 import VBreadcrumb from '@/components/VBreadcrumb'
-
+import VContextmenus from '@/components/VContextmenus'
 
 export default {
 	name: 'home',
 	components: {
-		VBreadcrumb
+		VBreadcrumb,
+		VContextmenus
 	},
 	data () {
 		return {
 			title: '',
-			files: []
+			files: [],
+			onServer: true
 		}
 	},
 	created: function() {
@@ -74,7 +76,8 @@ export default {
 
 			this.axios.get(url)
 				.then(res => {
-					this.files = res.data
+					this.files = res.data.data
+					this.onServer = res.data.server
 				})
 				.catch(err => {
 					console.error(err)
@@ -101,6 +104,52 @@ export default {
 			.catch(err => {
 				console.error(err)
 			})
-		} 
+		},
+
+		rightMenu (file, evt) {
+
+			let _ = this
+			let rightMenuData = {
+				data: [
+					{
+						title: '重命名',
+						disabled: true
+					},
+					{
+						title: '下载',
+						disabled: true
+					},
+					{
+						type: 'separator'
+					},
+					{
+						disabled: true,
+						title: '删除'
+					}
+				],
+				evt
+			};
+
+			if (this.onServer) {
+				rightMenuData.data.unshift(
+					{
+						title: '在系统中打开',
+						evt: function() {
+							_.askServerOpenDir(file)
+							_.$store.commit('setContextmenu', { show: false })
+
+						}
+					},
+					{
+						type: 'separator'
+					}
+				)
+			}
+
+			_.$store.commit('setContextmenu',  rightMenuData)
+
+		}
+
+
 	}
 }
