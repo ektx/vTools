@@ -112,10 +112,6 @@ export default {
 			let rightMenuData = {
 				data: [
 					{
-						title: '重命名',
-						disabled: true
-					},
-					{
 						title: '下载',
 						disabled: true
 					},
@@ -142,6 +138,10 @@ export default {
 					},
 					{
 						type: 'separator'
+					},
+					{
+						title: '重命名',
+						disabled: true
 					}
 				)
 			}
