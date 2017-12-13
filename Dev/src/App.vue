@@ -12,7 +12,7 @@ export default {
 
 <style lang="scss" scoped>
 
-@import '../static/css/reset-1.3.4.css';
+@import '../static/css/reset-1.3.5.css';
 
 #app {
   -webkit-font-smoothing: antialiased;

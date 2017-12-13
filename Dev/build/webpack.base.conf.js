@@ -14,8 +14,7 @@ function resolve (dir) {
 module.exports = {
   // 编译入口
   entry: {
-    // 让 IE 低版本支持 ES2015
-    app: ["babel-polyfill", "./src/main.js"]
+    app: "./src/main.js"
   },
   // 出口
   output: {

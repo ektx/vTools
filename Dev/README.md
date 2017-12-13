@@ -8,6 +8,8 @@ npm install
 
 # 启动本地服务器 localhost:8080
 npm run dev
+# or 
+npm run start
 
 # 生成
 npm run build

@@ -17,7 +17,6 @@ export default {
 	},
 	created: function() {
 		let that = this
-
 		// 默认请求地址
 		this.refreshFilesList(location.pathname)
 
@@ -76,7 +75,7 @@ export default {
 
 			this.axios.get(url)
 				.then(res => {
-					this.files = res.data.data
+					this.files = this.formatFileList( res.data.data )
 					this.onServer = res.data.server
 				})
 				.catch(err => {
@@ -137,17 +136,43 @@ export default {
 						}
 					},
 					{
-						type: 'separator'
+						title: '前往工作台',
+						evt: function() {
+							let url = location.pathname + file.file;
+							window.open( '/@workbench?path=' + url )
+						}
 					},
 					{
 						title: '重命名',
 						disabled: true
+					},
+					{
+						type: 'separator'
 					}
 				)
 			}
 
 			_.$store.commit('setContextmenu',  rightMenuData)
 
+		},
+
+		sortArr (arr) {
+			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator
+			return arr.sort( (a,b) => new Intl.Collator(navigator.language, {caseFirst: "lower"}).compare(a.file, b.file) )
+		},
+
+		formatFileList (data) {
+			let fileArr = []
+			let dirArr = []
+
+			data.forEach(val => {
+				val.isDir ? dirArr.push(val) : fileArr.push(val)
+			})
+
+			dirArr = this.sortArr(dirArr)
+			fileArr = this.sortArr(fileArr)
+
+			return dirArr.concat(fileArr)
 		}
 
 

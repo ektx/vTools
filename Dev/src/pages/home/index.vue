@@ -33,7 +33,7 @@
 				</li>
 			</ul>
 
-			<p>共有 {{files.length}} 个文件</p>
+			<p class="folder-info">共有 {{files.length}} 个文件</p>
 
 			<VContextmenus></VContextmenus>
 
