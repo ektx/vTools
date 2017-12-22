@@ -1,8 +1,8 @@
 <template>
 	<section class="main-app">
 		<header>
-			<h1 @click="getFiles_c('../', $event)">
-				{{ title }}
+			<h1>
+				<span @click="getFiles_c('../', $event)">{{ title }}</span>
 			</h1>
 		</header>
 		<main>

@@ -5,8 +5,11 @@
 				<input type="text" 
 					placeholder="生成页面URL" 
 					v-model='projectPath'
+					:readonly="!editable"
 				>
 				<button type="reset">清空</button>
+
+				<div class="process-bar" :style="{width: doneFile / files.length * 100 +'%'}"></div>
 			</div>
 			<!-- 辅助功能 -->
 			<div class="accessibility-mod">

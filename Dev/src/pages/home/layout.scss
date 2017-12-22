@@ -16,10 +16,9 @@ $headerH: 4rem;
 			color: #333;
 			font-size: 1.8rem;
 			line-height: $headerH;
-			cursor: pointer;
 
-			a {
-				color: inherit;
+			span {
+				cursor: pointer;
 			}
 		}
 	}

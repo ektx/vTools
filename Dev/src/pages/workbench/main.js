@@ -6,14 +6,18 @@ export default {
 	components: {},
 	data () {
 		return {
-			// 线上 => location.origin
+			// 线上 => location.origin 'http://localhost:9000/'
 			socket: io.connect( location.origin ),
 			// 所有文件
 			files: [],
+			// 处理完成的文件数
+			doneFile: 0,
 			// 过滤后显示的文件
 			data: [],
 			// 项目地址
 			projectPath: '',
+			// 项目是否可以输入
+			editable: true,
 			// 生成后文件地址
 			outProPath: '',
 			// 输出文件在files中的索引
@@ -48,11 +52,16 @@ export default {
 			this.filterFilesBtn.data[0].size = newVal.length
 
 			this.data = this.files
+
 		}
 	},
 	methods: {
 		// 发送项目
 		sendProject: function () {
+
+			this.doneFile = 0
+			// 不可编辑项目地址了
+			this.editable = false
 
 			let getOutPath = (path) => {
 				let _l = path.length;
@@ -145,19 +154,28 @@ export default {
 
 			// 保存数据的索引 方便后期更新状态
 			this.filesIndex[data.to] = index
-			this.files.push( data )
+			this.files.unshift( data )
 		})
 
 		// 生成完成
 		this.socket.on('GENERATE_MAKE_FILE', data => {
 			// 查询索引，更新状态
-			if (!!this.files[ this.filesIndex[data] ])
+			if (!!this.files[ this.filesIndex[data] ]) {
+				this.doneFile += 1
 				this.files[ this.filesIndex[data] ].status = 'done'
+			}
 		})
 
 		// 出现错误
 		this.socket.on('IO_ERROR_INFO', data => {
 			console.error(data)
+		})
+
+		this.socket.on('PROJECT_DONE_SUCCESS', data => {
+			setTimeout(() => {
+				this.doneFile = 0
+				this.editable = true
+			}, 1000)
 		})
 
 

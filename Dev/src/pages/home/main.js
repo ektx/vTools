@@ -140,6 +140,7 @@ export default {
 						evt: function() {
 							let url = location.pathname + file.file;
 							window.open( '/@workbench?path=' + url )
+							_.$store.commit('setContextmenu', { show: false })
 						}
 					},
 					{
