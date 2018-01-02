@@ -38,7 +38,24 @@
 			<VContextmenus></VContextmenus>
 
 		</main>
+
+		<!-- 遮盖层 -->
+		<transition name="show-layer">
+			<div v-show="showLayer" class="over-layer" @click="showLayer = !showLayer">
+
+				<!-- 二维码 -->
+				<transition name="show-qrcode">
+					<section v-show="showLayer" class="ask-link-qrcode-mod">
+						<div id="ask-link-qrcode-box"></div>
+					</section>
+				</transition>
+				<!-- // 二维码 -->
+
+			</div>
+		</transition>
+
 	</section>
+
 </template>
 
 <script type="text/javascript">

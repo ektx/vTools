@@ -12,7 +12,10 @@ export default {
 		return {
 			title: '',
 			files: [],
-			onServer: true
+			onServer: true,
+			showLayer: false,
+			// 快速访问二维码
+			QRBox: null
 		}
 	},
 	created: function() {
@@ -152,6 +155,47 @@ export default {
 					}
 				)
 			}
+
+			rightMenuData.data.unshift(
+					{
+						title: '二维码访问',
+						evt: function(i, e, data) {
+// debugger
+							if (!_.QRBox) {
+								_.QRBox = new QRCode(document.getElementById("ask-link-qrcode-box"), {
+									text: '',
+									width: 180 * window.devicePixelRatio,
+									height: 180 * window.devicePixelRatio,
+									colorDark: '#333'
+								})
+							}
+
+							let generateQRcode = function(data) {
+								_.QRBox.makeCode(data)
+							}
+
+							// 显示遮盖层
+							if (location.hostname === 'localhost') {
+								_.axios.get('/get-iserver-ip')
+								.then(res => {
+									generateQRcode( location.href.replace('localhost',  res.data.mes.IPv4.public) )
+								})
+								.catch(err => {
+									console.err(err)
+								})
+							} else {
+								generateQRcode(location.href)
+							}
+
+							_.showLayer = true
+
+							_.$store.commit('setContextmenu', { show: false })
+						}
+					},
+					{
+						type: 'separator'
+					}
+				)
 
 			_.$store.commit('setContextmenu',  rightMenuData)
 

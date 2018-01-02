@@ -43,17 +43,13 @@ module.exports = {
 		assetsPublicPath: '/',
 		// 添加本地代理
 		proxyTable: {
-			'/mock': {
+			'/get-iserver-ip': {
 				// 代理到本地的 mock 文件夹   
-				target: 'http://localhost:9000/vuem/Dev/static/',
+				target: 'http://localhost:9000/',
 				changeOrigin: true,
-				pathRewrite: {
-						// 将 请求替换成本地 mock json
-						// /mock/demo/helloworld.json => /demo/helloworld.json
-						'^/mock': '/mock/'
-				}
+				pathRewrite: { }
 			},
-			// 测试服务器地址   
+			// 文件跳转   
 			'/api': {
 				target: 'http://localhost:9000/',
 				changeOrigin: true,
