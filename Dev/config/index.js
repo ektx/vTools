@@ -43,8 +43,8 @@ module.exports = {
 		assetsPublicPath: '/',
 		// 添加本地代理
 		proxyTable: {
+			// 请求服务器 IP 
 			'/get-iserver-ip': {
-				// 代理到本地的 mock 文件夹   
 				target: 'http://localhost:9000/',
 				changeOrigin: true,
 				pathRewrite: { }
@@ -54,6 +54,13 @@ module.exports = {
 				target: 'http://localhost:9000/',
 				changeOrigin: true,
 				pathRewrite: {}
+			},
+			'/@/': {
+				target: 'http://localhost:8080/',
+				changeOrigin: true,
+				pathRewrite: {
+					'/@/': ''
+				}
 			}
 		},
 		// CSS Sourcemaps off by default because relative paths are "buggy"
