@@ -1,21 +1,26 @@
 
 import VBreadcrumb from '@/components/VBreadcrumb'
 import VContextmenus from '@/components/VContextmenus'
+import OverLayer from '@/components/overLayer'
 
 export default {
 	name: 'home',
 	components: {
 		VBreadcrumb,
-		VContextmenus
+		VContextmenus,
+		OverLayer
 	},
 	data () {
 		return {
 			title: '',
 			files: [],
 			onServer: true,
-			showLayer: false,
+			// showLayer: false,
 			// 快速访问二维码
-			QRBox: null
+			// QRBox: {
+			// 	el: null,
+			// 	text: ''
+			// }
 		}
 	},
 	created: function() {
@@ -160,18 +165,9 @@ export default {
 					{
 						title: '二维码访问',
 						evt: function(i, e, data) {
-// debugger
-							if (!_.QRBox) {
-								_.QRBox = new QRCode(document.getElementById("ask-link-qrcode-box"), {
-									text: '',
-									width: 180 * window.devicePixelRatio,
-									height: 180 * window.devicePixelRatio,
-									colorDark: '#333'
-								})
-							}
 
 							let generateQRcode = function(data) {
-								_.QRBox.makeCode(data)
+								_.$refs.overlayermod.generateQRCode(true, data)
 							}
 
 							// 显示遮盖层
@@ -181,13 +177,12 @@ export default {
 									generateQRcode( location.href.replace('localhost',  res.data.mes.IPv4.public) )
 								})
 								.catch(err => {
-									console.err(err)
+									console.error(err)
 								})
 							} else {
 								generateQRcode(location.href)
 							}
 
-							_.showLayer = true
 
 							_.$store.commit('setContextmenu', { show: false })
 						}
