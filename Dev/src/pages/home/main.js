@@ -117,6 +117,7 @@ export default {
 
 			let _ = this
 			let rightMenuData = {
+				el: file,
 				data: [
 					{
 						title: '下载',
@@ -164,10 +165,11 @@ export default {
 			rightMenuData.data.unshift(
 					{
 						title: '二维码访问',
-						evt: function(i, e, data) {
+						evt: function(i, e) {
 
 							let generateQRcode = function(data) {
-								_.$refs.overlayermod.generateQRCode(true, data)
+								let url = decodeURI(data + file.file)
+								_.$refs.overlayermod.generateQRCode(true, url)
 							}
 
 							// 显示遮盖层
