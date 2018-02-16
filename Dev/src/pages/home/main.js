@@ -23,7 +23,7 @@ export default {
 			// }
 		}
 	},
-	created: function() {
+	created () {
 		let that = this
 		// 默认请求地址
 		this.refreshFilesList(location.pathname)
