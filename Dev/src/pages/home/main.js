@@ -1,6 +1,6 @@
 
 import VBreadcrumb from '@/components/VBreadcrumb'
-import VContextmenus from '@/components/VContextmenus'
+import VContextmenus from 'v-contextmenus'
 import OverLayer from '@/components/overLayer'
 
 export default {
@@ -14,20 +14,13 @@ export default {
 		return {
 			title: '',
 			files: [],
-			onServer: true,
-			// showLayer: false,
-			// 快速访问二维码
-			// QRBox: {
-			// 	el: null,
-			// 	text: ''
-			// }
+			onServer: true
 		}
 	},
 	created () {
 		let that = this
 		// 默认请求地址
 		this.refreshFilesList(location.pathname)
-
 
 		// 监听浏览器前进后退按钮功能
 		if (history.pushState) {
@@ -81,10 +74,11 @@ export default {
 
 			url = '/api' + url
 
-			this.axios.get(url)
+			fetch(url)
+				.then(res => res.json())
 				.then(res => {
-					this.files = this.formatFileList( res.data.data )
-					this.onServer = res.data.server
+					this.files = this.formatFileList( res.data )
+					this.onServer = res.server
 				})
 				.catch(err => {
 					console.error(err)
@@ -99,12 +93,17 @@ export default {
 
 		// 打开本地文件夹
 		askServerOpenDir (file) {
-			console.log('will do open dir', file)
-
-			this.axios.post('/api/opendir', {
-				path: file.path,
-				name: file.file
+			fetch('/api/opendir', {
+				method: 'post',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					path: file.path,
+					name: file.file
+				})
 			})
+			.then(res => res.json())
 			.then(res => {
 				console.log(res)
 			})
@@ -163,36 +162,36 @@ export default {
 			}
 
 			rightMenuData.data.unshift(
-					{
-						title: '二维码访问',
-						evt: function(i, e) {
+				{
+					title: '二维码访问',
+					evt: function(i, e) {
 
-							let generateQRcode = function(data) {
-								let url = decodeURI(data + file.file)
-								_.$refs.overlayermod.generateQRCode(true, url)
-							}
+						let generateQRcode = function(data) {
+							let url = decodeURI(data + file.file)
+							_.$refs.overlayermod.generateQRCode(true, url)
+						}
 
-							// 显示遮盖层
-							if (location.hostname === 'localhost') {
-								_.axios.get('/get-iserver-ip')
+						// 显示遮盖层
+						if (location.hostname === 'localhost') {
+							fetch(`/get-iserver-ip`)
+								.then(res => res.json())
 								.then(res => {
-									generateQRcode( location.href.replace('localhost',  res.data.mes.IPv4.public) )
+									generateQRcode( location.href.replace('localhost',  res.mes.IPv4.public) )
 								})
 								.catch(err => {
 									console.error(err)
 								})
-							} else {
-								generateQRcode(location.href)
-							}
-
-
-							_.$store.commit('setContextmenu', { show: false })
+						} else {
+							generateQRcode(location.href)
 						}
-					},
-					{
-						type: 'separator'
+
+						_.$store.commit('setContextmenu', { show: false })
 					}
-				)
+				},
+				{
+					type: 'separator'
+				}
+			)
 
 			_.$store.commit('setContextmenu',  rightMenuData)
 
@@ -203,12 +202,20 @@ export default {
 			return arr.sort( (a,b) => new Intl.Collator(navigator.language, {caseFirst: "lower"}).compare(a.file, b.file) )
 		},
 
+		/**
+		 * 格式化文件列表
+		 * @param {object} data 数据列表
+		 */
 		formatFileList (data) {
 			let fileArr = []
 			let dirArr = []
 
 			data.forEach(val => {
-				val.isDir ? dirArr.push(val) : fileArr.push(val)
+				if (val.isDir) {
+					dirArr.push(val)
+				} else {
+					fileArr.push(val)
+				}
 			})
 
 			dirArr = this.sortArr(dirArr)

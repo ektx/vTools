@@ -4,12 +4,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import App from './App'
 import router from './router'
-import axios  from 'axios'
 
 Vue.config.productionTip = false
-
-Vue.prototype.axios = axios
-
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -26,15 +22,12 @@ const store = new Vuex.Store({
 	}
 })
 
-/* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  router,
-  // 根部注入 vuex stroe
-  // 这样就可以全局访问，不用在组件里引用
-  store,
-  template: '<App/>',
-  components: { App }
+	el: '#app',
+	router,
+	store,
+	template: '<App/>',
+	components: { App }
 })
 
 

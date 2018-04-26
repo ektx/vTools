@@ -43,6 +43,3 @@ dist/
 *.zip
 
 # 忽略组件中的文件
-*components
-# 除 Hello.vue 之外
-!*components/Hello.vue

@@ -1,0 +1,57 @@
+@charset 'utf-8';
+
+
+.over-layer {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 1000;
+	background: rgba(0,0,0,.2);
+}
+.show-layer-enter-active,
+.show-layer-leave-active {
+	transition: background .5s;
+	background: rgba(0,0,0,.2);
+}
+.show-layer-enter,
+.show-layer-leave-to {
+	background: rgba(0,0,0,0);
+	transition: background .5s;
+}
+
+.ask-link-qrcode-mod {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	padding: 1em;
+	border-radius: 3px;
+	transform: translate(-50%, -50%);
+	background: #fff;
+	overflow: hidden;
+
+	& /deep/ img {
+		width: 180px;
+		height: 180px;
+	}
+
+	input {
+		width: 100%;
+		padding: 1em 0 0;
+		border: none;
+		outline: none;
+	}
+}
+.show-qrcode-enter-active,
+.show-qrcode-leave-active {
+	transition: opacity .5s, transform .5s;
+	opacity: 1;
+	transform: translate(-50%, -50%);
+}
+.show-qrcode-enter,
+.show-qrcode-leave-to {
+	opacity: 0;
+	transition: opacity .5s, transform .5s;
+	transform: translate(-50%, -30%);
+}
