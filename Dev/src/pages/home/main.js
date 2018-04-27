@@ -2,6 +2,9 @@
 import VBreadcrumb from '@/components/VBreadcrumb'
 import VContextmenus from 'v-contextmenus'
 import OverLayer from '@/components/overLayer'
+import marked from 'marked'
+import HLJS from 'highlight.js'
+import 'highlight.js/styles/atom-one-light.css'
 
 export default {
 	name: 'home',
@@ -14,7 +17,8 @@ export default {
 		return {
 			title: '',
 			files: [],
-			onServer: true
+			onServer: true,
+			readmeInner: ''
 		}
 	},
 	created () {
@@ -69,12 +73,11 @@ export default {
 			this.$router.push( url )
 			// 更新标题
 			this.title = title ? title : 'iTools'
+			this.readmeInner = ''
 
 			document.title = this.title
 
-			url = '/api' + url
-
-			fetch(url)
+			fetch(`/api${url}`)
 				.then(res => res.json())
 				.then(res => {
 					this.files = this.formatFileList( res.data )
@@ -215,6 +218,8 @@ export default {
 					dirArr.push(val)
 				} else {
 					fileArr.push(val)
+
+					if (/readme\.(md|markdown)/i.test(val.file)) this.catFileInner()
 				}
 			})
 
@@ -222,8 +227,24 @@ export default {
 			fileArr = this.sortArr(fileArr)
 
 			return dirArr.concat(fileArr)
+		},
+
+		catFileInner () {
+			fetch(`${location.href}readme.md`)
+			.then(res => res.text())
+			.then(res => {
+					this.readmeInner = marked(res)
+
+					this.$nextTick(function() {
+						let codes = document.querySelectorAll('pre code')
+						codes.forEach(code => {
+							HLJS.highlightBlock(code)
+						})
+					})
+				})
+				.catch(err => {
+					console.log(err)
+				})
 		}
-
-
 	}
 }

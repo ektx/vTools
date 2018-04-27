@@ -1,21 +1,21 @@
 @charset 'utf-8';
 
-$headerH: 4rem;
+.file-list-box {
+	position: relative;
+	padding: 1rem;
 
-.main-app {
-	header {
-		padding: 0 1rem;
-		position: absolute;
+	& > header {
+		position: sticky;
 		top: 0;
 		left: 0;
 		right: 0;
 		z-index: 1000;
-		height: $headerH;
+		background: #fff;
 
 		h1 {
 			color: #333;
-			font-size: 1.8rem;
-			line-height: $headerH;
+			font-size: 2rem;
+			line-height: 3.5rem;
 
 			span {
 				cursor: pointer;
@@ -24,7 +24,6 @@ $headerH: 4rem;
 	}
 
 	main {
-		padding: $headerH 1rem 0;
 
 		ul.file-list {
 			margin: .5rem 0 1rem;
@@ -52,7 +51,6 @@ $headerH: 4rem;
 				}
 			}
 		}
-
 	}
 }
 
@@ -84,8 +82,4 @@ $headerH: 4rem;
 			
 		}
 	}
-}
-
-.folder-info {
-	margin: 0 0  3rem
 }
