@@ -40,11 +40,5 @@
 	</section>
 </template>
 
-<script>
-	import main from './main.js'
-	export default main
-</script>
-
-<style lang="scss" scoped>
-	@import './layout.scss'
-</style>
+<script src="./main.js"></script>
+<style lang="less" scoped src="./layout.less"></style>

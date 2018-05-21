@@ -81,7 +81,7 @@
 	overflow: hidden;
 	
 	input[type="text"] {
-		$txtColor: #fff;
+		@txtColor: #fff;
 
 		flex: 1;
 		margin: 0;
@@ -89,17 +89,17 @@
 		font-size: 16px;
 		height: 22px;
 		background: transparent;
-		color: $txtColor;
+		color: @txtColor;
 		box-sizing: border-box;
 		outline: none;
 
 		// webkit
 		&::-webkit-input-placeholder {
-			color: $txtColor;
+			color: @txtColor;
 		}
 
 		&::-moz-placeholder {
-			color: $txtColor;
+			color: @txtColor;
 		}
 
 		&:placeholder-shown + button {

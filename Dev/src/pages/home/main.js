@@ -1,5 +1,5 @@
 
-import VBreadcrumb from '@/components/VBreadcrumb'
+import VBreadcrumb from '@ektx/v-breadcrumb'
 import VContextmenus from 'v-contextmenus'
 import OverLayer from '@/components/overLayer'
 import marked from 'marked'
@@ -219,7 +219,9 @@ export default {
 				} else {
 					fileArr.push(val)
 
-					if (/readme\.(md|markdown)/i.test(val.file)) this.catFileInner()
+					if (/readme\.(md|markdown)/i.test(val.file)) {
+						this.catFileInner(val.file)
+					}
 				}
 			})
 
@@ -229,8 +231,8 @@ export default {
 			return dirArr.concat(fileArr)
 		},
 
-		catFileInner () {
-			fetch(`${location.href}readme.md`)
+		catFileInner (name) {
+			fetch(location.href + name)
 			.then(res => res.text())
 			.then(res => {
 					this.readmeInner = marked(res)

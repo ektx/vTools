@@ -48,13 +48,6 @@
 
 </template>
 
-<script type="text/javascript">
-	import main from './main'
-
-	export default main
-</script>
-
-<style lang="scss">
-	@import './layout.scss';
-	@import './markdown.scss';
-</style>
+<script type="text/javascript" src="./main.js"></script>
+<style lang="less" src="./layout.less"></style>
+<style lang="less" src="./markdown.less"></style>
