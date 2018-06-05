@@ -40,7 +40,7 @@
 
 		<section class="readme-box markdown-mod" v-html="readmeInner"></section>
 
-		<VContextmenus></VContextmenus>
+		<VContextmenus/>
 
 		<OverLayer ref="overlayermod" ></OverLayer>
 

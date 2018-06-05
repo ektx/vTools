@@ -1,6 +1,6 @@
 
 import VBreadcrumb from '@ektx/v-breadcrumb'
-import VContextmenus from 'v-contextmenus'
+import VContextmenus from '@ektx/v-contextmenu'
 import OverLayer from '@/components/overLayer'
 import marked from 'marked'
 import HLJS from 'highlight.js'
@@ -164,6 +164,18 @@ export default {
 				)
 			}
 
+			if (!file.isDir && /\.(md|markdown)$/i.test(file.file)) {
+				rightMenuData.data.unshift(
+					{
+						title: '预览文件',
+						evt: () => {
+							this.catFileInner(file.file)
+							_.$store.commit('setContextmenu', { show: false })
+						}
+					}
+				)
+			}
+
 			rightMenuData.data.unshift(
 				{
 					title: '二维码访问',
@@ -231,10 +243,13 @@ export default {
 			return dirArr.concat(fileArr)
 		},
 
+		/** 查看文件
+		 * @param {string} name 文件名 
+		 */
 		catFileInner (name) {
 			fetch(location.href + name)
-			.then(res => res.text())
-			.then(res => {
+				.then(res => res.text())
+				.then(res => {
 					this.readmeInner = marked(res)
 
 					this.$nextTick(function() {

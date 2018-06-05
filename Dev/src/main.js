@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import Vuex from 'vuex'
+import VContextmenu from '@ektx/v-contextmenu/store'
 import App from './App'
 import router from './router'
 
@@ -10,16 +11,8 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
 	state: {},
-	mutations: {
-		setContextmenu (state, data) {
-			if (Object.keys(data).length > 1) {
-				state.contextmenu = data
-			} else {
-				state.contextmenu.show = data.show
-			}
-
-		}
-	}
+	mutations: {},
+	modules: { VContextmenu }
 })
 
 new Vue({

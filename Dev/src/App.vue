@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 
 @import '../static/css/reset-1.3.5.css';
 
