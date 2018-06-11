@@ -5,10 +5,8 @@
 *node_modules
 
 # yarn
-*yarn.lock
 yarn-debug.log*
 yarn-error.log*
-*package-lock.json
 npm-debug.log*
 
 

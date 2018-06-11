@@ -45,7 +45,8 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test')]
+        // 添加 /node_modules/@ektx/v-contextmenu 用于编译其中的代码
+        include: [resolve('src'), resolve('test'), resolve('/node_modules/@ektx/v-contextmenu')]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
