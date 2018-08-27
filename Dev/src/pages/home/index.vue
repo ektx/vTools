@@ -5,10 +5,7 @@
 				<h1>
 					<span @click="getFiles_c('../', $event)">{{ title }}</span>
 				</h1>
-				<!-- 面包屑组件 自定义跳转方式 -->
-				<VBreadcrumb 
-					ref="vbreadcrumb" v-on:sendBreadCrumbEvt="emitBreadCrumbEvt"
-				></VBreadcrumb>
+				
 			</header>
 			<main>
 				<ul class="file-list">
@@ -36,6 +33,12 @@
 
 				<p class="folder-info">共有 {{files.length}} 个文件</p>
 			</main>
+			<footer>
+				<!-- 面包屑组件 自定义跳转方式 -->
+				<VBreadcrumb 
+					ref="vbreadcrumb" v-on:sendBreadCrumbEvt="emitBreadCrumbEvt"
+				></VBreadcrumb>
+			</footer>
 		</div>
 
 		<section class="readme-box markdown-mod" v-html="readmeInner"></section>
