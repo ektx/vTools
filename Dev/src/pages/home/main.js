@@ -4,21 +4,33 @@ import VContextmenus from '@ektx/v-contextmenu'
 import OverLayer from '@/components/overLayer'
 import marked from 'marked'
 import HLJS from 'highlight.js'
-import 'highlight.js/styles/atom-one-light.css'
+import VCode from '@/components/VCodeMirror'
 
 export default {
 	name: 'home',
 	components: {
 		VBreadcrumb,
 		VContextmenus,
-		OverLayer
+		OverLayer,
+		VCode
 	},
 	data () {
 		return {
 			title: '',
 			files: [],
 			onServer: true,
-			readmeInner: ''
+			// 存在 markdown
+			markdown: false,
+			// markdown 文件内容
+			readmeInner: '',
+			// 代码内容
+			code: '',
+			// 代码显示配置
+			codeOption: {
+				lineNumbers: true,
+				readOnly: true,
+				mode: ''
+			}
 		}
 	},
 	created () {
@@ -35,6 +47,7 @@ export default {
 			console.warn('您的浏览器不支持 History API，请升级您的浏览器！')
 		}
 	},
+
 	methods: {
 
 		getFiles_c (file, e) {
@@ -147,14 +160,6 @@ export default {
 						}
 					},
 					{
-						title: '前往工作台',
-						evt: function() {
-							let url = location.pathname + file.file;
-							window.open( '/@workbench?path=' + url )
-							_.$store.commit('setContextmenu', { show: false })
-						}
-					},
-					{
 						title: '重命名',
 						disabled: true
 					},
@@ -232,7 +237,8 @@ export default {
 					fileArr.push(val)
 
 					if (/readme\.(md|markdown)/i.test(val.file)) {
-						this.catFileInner(val.file)
+						this.hasReadme = true
+						this.catFileInner(val)
 					}
 				}
 			})
@@ -243,13 +249,42 @@ export default {
 			return dirArr.concat(fileArr)
 		},
 
-		/** 查看文件
-		 * @param {string} name 文件名 
+		/** 
+		 * 查看文件
+		 * @param {Object} file 文件信息
 		 */
-		catFileInner (name) {
-			fetch(location.href + name)
-				.then(res => res.text())
-				.then(res => {
+		catFileInner (file) {
+			let setMode = ''
+			this.markdown = false
+
+			switch (file.extname) {
+				case '.css':
+				case '.scss':
+				case '.sass':
+				case '.less':
+					setMode = 'css'
+					break
+				
+				case '.vue':
+					setMode = 'text/x-vue'
+					break
+
+				case '.js':
+				case '.json':
+					setMode = 'javascript'
+					break
+
+				case '.md':
+				case '.markdown':
+					this.markdown = true
+					break
+			}
+
+			this.axios({
+				url: location.href + file.file,
+				methods: 'get'
+			}).then(res => {
+				if (this.markdown) {
 					this.readmeInner = marked(res)
 
 					this.$nextTick(function() {
@@ -258,10 +293,28 @@ export default {
 							HLJS.highlightBlock(code)
 						})
 					})
-				})
-				.catch(err => {
-					console.log(err)
-				})
+				} else {
+					this.code = res
+					this.codeOption.mode = setMode
+				}
+			})
+		},
+
+		/**
+		 * 处理文件路径
+		 * @param {Object} file 文件信息
+		 * @param {Event} evt 鼠标事件
+		 */
+		goFilePath (file, evt) {
+			if (file.isDir) {
+				this.getFiles_c(file, evt)
+			} else {
+				this.catFileInner(file)
+			}
+		},
+
+		getCodeInfo (code) {
+			console.log('code:', code)
 		}
 	}
 }
