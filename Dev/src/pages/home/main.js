@@ -278,6 +278,12 @@ export default {
 				case '.markdown':
 					this.markdown = true
 					break
+
+				case '.ejs':
+				case '.xml':
+				case '.html':
+					setMode = 'text/html'
+					break
 			}
 
 			this.axios({
