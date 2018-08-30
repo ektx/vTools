@@ -13,7 +13,7 @@
 			<main>
 				<aside>
 					<ul class="file-list">
-						<li v-for="file in files" :key="file.file">
+						<li v-for="(file, index) in files" :key="file.file" :class="file.classes">
 							<svg v-if="!file.isDir" aria-hidden="true" version="1.1" viewBox="0 0 12 16">
 								<path d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path>
 							</svg>
@@ -21,7 +21,7 @@
 								<path d="M13 4H7V3c0-.66-.31-1-1-1H1c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1zM6 4H1V3h5v1z"></path>
 							</svg>
 							<div
-								@click="goFilePath(file, $event)"
+								@click="goFilePath(index, file, $event)"
 								@click.shift.prevent="askServerOpenDir(file)"
 								@contextmenu.prevent="rightMenu(file, $event)"
 							>{{file.file}}</div>
@@ -31,15 +31,24 @@
 				<article class="article-box">
 					<VCode 
 						ref="code"
-						v-if="!markdown"
+						v-show="fileType === 'code'"
 						:data="code" 
 						:option="codeOption"
 					></VCode>
-					<div v-if="markdown" class="readme-box" v-html="readmeInner"></div>
+					<div v-if="fileType === 'markdown'" class="readme-box" v-html="readmeInner"></div>
+					<div v-else-if="fileType === 'img'" class="img-box">
+						<img :src="`./${currentFile.file}`" :alt="currentFile.file">
+					</div>
+
 				</article>
 			</main>
 			<footer>
 				<p class="folder-info">共有 {{files.length}} 个文件</p>
+				<ul class="current-file-info" v-if="currentFile">
+					<li class="path" @click="askServerOpenDir(currentFile)">{{currentFile.path}}</li>
+					<li class="size">{{currentFile.stats.size | fileSize}}</li>
+					<li class="extname">{{currentFile.extname.slice(1).toUpperCase()}}</li>
+				</ul>
 			</footer>
 		</div>
 

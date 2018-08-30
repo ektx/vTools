@@ -1,10 +1,12 @@
 
+import filesize from 'filesize'
 import VBreadcrumb from '@ektx/v-breadcrumb'
 import VContextmenus from '@ektx/v-contextmenu'
 import OverLayer from '@/components/overLayer'
 import marked from 'marked'
 import HLJS from 'highlight.js'
 import VCode from '@/components/VCodeMirror'
+
 
 export default {
 	name: 'home',
@@ -18,9 +20,10 @@ export default {
 		return {
 			title: '',
 			files: [],
+			currentFile: null,
 			onServer: true,
-			// 存在 markdown
-			markdown: false,
+			// 文件的类型
+			fileType: 'text',
 			// markdown 文件内容
 			readmeInner: '',
 			// 代码内容
@@ -47,7 +50,11 @@ export default {
 			console.warn('您的浏览器不支持 History API，请升级您的浏览器！')
 		}
 	},
-
+	filters: {
+		fileSize (val) {
+			return filesize(val)
+		}
+	},
 	methods: {
 
 		getFiles_c (file, e) {
@@ -109,23 +116,40 @@ export default {
 
 		// 打开本地文件夹
 		askServerOpenDir (file) {
-			fetch('/api/opendir', {
-				method: 'post',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					path: file.path,
-					name: file.file
-				})
+			let path = file.path
+
+			if (!file.isDir) {
+				path = path.replace(file.file, '')
+			}
+
+			this.axios({
+				url: '/api/opendir',
+				method: 'POST',
+				data: {
+					path,
+					name: file.file 
+				}
+			}).then(data => {
+				console.log(data)
 			})
-			.then(res => res.json())
-			.then(res => {
-				console.log(res)
-			})
-			.catch(err => {
-				console.error(err)
-			})
+
+			// fetch(, {
+			// 	method: 'post',
+			// 	headers: {
+			// 		'Content-Type': 'application/json'
+			// 	},
+			// 	body: JSON.stringify({
+			// 		path: file.path,
+			// 		name: file.file
+			// 	})
+			// })
+			// .then(res => res.json())
+			// .then(res => {
+			// 	console.log(res)
+			// })
+			// .catch(err => {
+			// 	console.error(err)
+			// })
 		},
 
 		rightMenu (file, evt) {
@@ -237,7 +261,8 @@ export default {
 					fileArr.push(val)
 
 					if (/readme\.(md|markdown)/i.test(val.file)) {
-						this.hasReadme = true
+						val.classes = ['current']
+						this.currentFile = val
 						this.catFileInner(val)
 					}
 				}
@@ -281,14 +306,26 @@ export default {
 
 				case '.ejs':
 				case '.xml':
-				case '.html':
+					setMode = 'text/html'
+					break
+
+				// case '.html':
+				// 	window.open(`./${file.file}`)
+				// 	setMode = 'text/html'
+				// 	return
+				
+				case '.svg':
 					setMode = 'text/html'
 					break
 			}
 
+			setMode = this.getFileMode(file)
+
+			if (typeof setMode === 'boolean' && !setMode) return
+
 			this.axios({
 				url: location.href + file.file,
-				methods: 'get'
+				method: 'GET'
 			}).then(res => {
 				if (this.markdown) {
 					this.readmeInner = marked(res)
@@ -311,16 +348,35 @@ export default {
 		 * @param {Object} file 文件信息
 		 * @param {Event} evt 鼠标事件
 		 */
-		goFilePath (file, evt) {
+		goFilePath (index, file, evt) {
 			if (file.isDir) {
 				this.getFiles_c(file, evt)
 			} else {
+				if (this.currentFile) {
+					this.currentFile.classes = []
+				}
+
+				file.classes = ['current']
+				this.currentFile = file
 				this.catFileInner(file)
 			}
 		},
 
-		getCodeInfo (code) {
-			console.log('code:', code)
+		getFileMode (file) {
+			let { extname } = file
+			let result = false
+			console.log('code:', extname)
+
+			if (/\.png|jpg|gif/i.test(extname)) {
+				console.log('is img')
+				this.fileType = 'img'
+			}
+			else if (/\.html/i.test(extname)) {
+				this.fileType = 'code'
+				result = 'text/html'
+			}
+
+			return result
 		}
 	}
 }

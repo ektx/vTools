@@ -72,7 +72,7 @@
 					}
 
 					&.current {
-						background: #eee;
+						background: rgb(224, 224, 224);
 					}
 				}
 			}
@@ -86,13 +86,35 @@
 	}
 
 	footer {
-		line-height: 24px;
+		display: flex;
+		flex-direction: row;
 		padding: 0 20px;
+		color: #777;
+		line-height: 24px;
 		background: #fff;
 		border-top: 1px solid #eee;
 
 		.folder-info {
-			color: #777;
+			width: 280px;
+		}
+
+		.current-file-info {
+			flex: 1;
+			display: flex;
+			flex-direction: row;
+
+			.path {
+				flex: 1;
+				cursor: pointer;
+				transition: color .3s ease-out;
+
+				&:hover {
+					color: #09f;
+				}
+			}
+			li:not(.path) {
+				margin-left: 10px;
+			}
 		}
 	}
 }

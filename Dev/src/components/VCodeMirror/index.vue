@@ -68,6 +68,11 @@ export default {
 
     /deep/ .CodeMirror {
         height: 100%;
+    
+        pre {
+            font-size: 1.17rem;
+        }
     }
+
 }
 </style>

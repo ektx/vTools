@@ -15,7 +15,7 @@ module.exports = {
 		// 生成的文件引用采用 /@/ 开头
 		assetsPublicPath: '/@/',
 		// 是否使用 CSSsourceMap
-		productionSourceMap: true,
+		productionSourceMap: false,
 		// Gzip off by default as many popular static hosts such as
 		// Surge or Netlify already gzip all static assets for you.
 		// Before setting to `true`, make sure to:
