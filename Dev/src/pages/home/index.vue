@@ -35,9 +35,9 @@
 						:data="code" 
 						:option="codeOption"
 					></VCode>
-					<div v-if="fileType === 'markdown'" class="readme-box" v-html="readmeInner"></div>
+					<div v-if="fileType === 'markdown'" class="readme-box" v-html="markdownInner"></div>
 					<div v-else-if="fileType === 'img'" class="img-box">
-						<img :src="`./${currentFile.file}`" :alt="currentFile.file">
+						<figure :style="imgStyle"></figure>
 					</div>
 
 				</article>

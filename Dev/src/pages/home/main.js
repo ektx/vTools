@@ -25,7 +25,7 @@ export default {
 			// 文件的类型
 			fileType: 'text',
 			// markdown 文件内容
-			readmeInner: '',
+			markdownInner: '',
 			// 代码内容
 			code: '',
 			// 代码显示配置
@@ -33,7 +33,12 @@ export default {
 				lineNumbers: true,
 				readOnly: true,
 				mode: ''
-			}
+			},
+			// 图片信息
+			imgStyle: {},
+			// article
+			articleEle: {},
+			articleBCR: {}
 		}
 	},
 	created () {
@@ -54,6 +59,9 @@ export default {
 		fileSize (val) {
 			return filesize(val)
 		}
+	},
+	mounted: function () {
+		this.articleEle = this.$el.querySelector('.article-box')
 	},
 	methods: {
 
@@ -93,7 +101,7 @@ export default {
 			this.$router.push( url )
 			// 更新标题
 			this.title = title ? title : 'iTools'
-			this.readmeInner = ''
+			this.markdownInner = ''
 
 			document.title = this.title
 
@@ -132,24 +140,6 @@ export default {
 			}).then(data => {
 				console.log(data)
 			})
-
-			// fetch(, {
-			// 	method: 'post',
-			// 	headers: {
-			// 		'Content-Type': 'application/json'
-			// 	},
-			// 	body: JSON.stringify({
-			// 		path: file.path,
-			// 		name: file.file
-			// 	})
-			// })
-			// .then(res => res.json())
-			// .then(res => {
-			// 	console.log(res)
-			// })
-			// .catch(err => {
-			// 	console.error(err)
-			// })
 		},
 
 		rightMenu (file, evt) {
@@ -280,44 +270,6 @@ export default {
 		 */
 		catFileInner (file) {
 			let setMode = ''
-			this.markdown = false
-
-			switch (file.extname) {
-				case '.css':
-				case '.scss':
-				case '.sass':
-				case '.less':
-					setMode = 'css'
-					break
-				
-				case '.vue':
-					setMode = 'text/x-vue'
-					break
-
-				case '.js':
-				case '.json':
-					setMode = 'javascript'
-					break
-
-				case '.md':
-				case '.markdown':
-					this.markdown = true
-					break
-
-				case '.ejs':
-				case '.xml':
-					setMode = 'text/html'
-					break
-
-				// case '.html':
-				// 	window.open(`./${file.file}`)
-				// 	setMode = 'text/html'
-				// 	return
-				
-				case '.svg':
-					setMode = 'text/html'
-					break
-			}
 
 			setMode = this.getFileMode(file)
 
@@ -327,8 +279,8 @@ export default {
 				url: location.href + file.file,
 				method: 'GET'
 			}).then(res => {
-				if (this.markdown) {
-					this.readmeInner = marked(res)
+				if (setMode === 'markdown') {
+					this.markdownInner = marked(res)
 
 					this.$nextTick(function() {
 						let codes = document.querySelectorAll('pre code')
@@ -365,18 +317,80 @@ export default {
 		getFileMode (file) {
 			let { extname } = file
 			let result = false
+			
 			console.log('code:', extname)
 
 			if (/\.png|jpg|gif/i.test(extname)) {
 				console.log('is img')
 				this.fileType = 'img'
+				this.setImgStyle()
 			}
-			else if (/\.html/i.test(extname)) {
+			else if (/\.(html|htm|ejs|xml)/i.test(extname)) {
 				this.fileType = 'code'
 				result = 'text/html'
 			}
+			else if (/\.(md|markdown)/i.test(extname)) {
+				this.fileType = 'markdown'
+				result = 'markdown'
+			}
+			else if (/\.(js|jsx|json)/i.test(extname)) {
+				this.fileType = 'code'
+				result = 'javascript'
+			} 
+			else if (/\.(css|less|scss|sass|style)/i.test(extname)) {
+				this.fileType = 'code'
+				result = 'css'
+			} 
+			else if (/\.vue/i.test(extname)) {
+				this.fileType = 'code'
+				result = 'text/x-vue'
+			}
+			else if (/\.vue/i.test(extname)) {
+				this.fileType = 'code'
+				result = 'text/x-vue'
+			}
+			else {
+				this.fileType = 'code'
+				result = ''
+			}
 
 			return result
+		},
+
+		setImgStyle () {
+			this.articleBCR = this.articleEle.getBoundingClientRect()
+			let img = new Image
+			let src = `./${this.currentFile.file}`
+			// 测试
+			// let src = location.href + this.currentFile.file
+			// src = src.replace('8080', '8080/api')
+
+			img.onload = () => {
+				let {width: imgW, height: imgH } = img
+
+				if (imgH > this.articleBCR.height || imgW > this.articleBCR.width) {
+					if (imgH > imgW) {
+						imgW = imgW / (imgH / this.articleBCR.height)
+						imgH = this.articleBCR.height
+					} 
+					// -
+					else {
+						imgH = imgH / (imgW / this.articleBCR.width)
+						imgW = this.articleBCR.width
+					}
+				}
+
+				this.imgStyle = {
+					background: `url(${src}) 50% 50% / 100% 100%`,
+					width: `${imgW}px`,
+					height: `${imgH}px`
+				}
+			}
+			img.onerror = () => {
+				console.warn('图片处理时出现错误')
+			}
+
+			img.src = src
 		}
 	}
 }
