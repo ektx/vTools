@@ -151,13 +151,6 @@ export default {
 					{
 						title: '下载',
 						disabled: true
-					},
-					{
-						type: 'separator'
-					},
-					{
-						disabled: true,
-						title: '删除'
 					}
 				],
 				evt
@@ -174,23 +167,7 @@ export default {
 						}
 					},
 					{
-						title: '重命名',
-						disabled: true
-					},
-					{
 						type: 'separator'
-					}
-				)
-			}
-
-			if (!file.isDir && /\.(md|markdown)$/i.test(file.file)) {
-				rightMenuData.data.unshift(
-					{
-						title: '预览文件',
-						evt: () => {
-							this.catFileInner(file.file)
-							_.$store.commit('setContextmenu', { show: false })
-						}
 					}
 				)
 			}
@@ -318,8 +295,6 @@ export default {
 			let { extname } = file
 			let result = false
 			
-			console.log('code:', extname)
-
 			if (/\.png|jpg|gif/i.test(extname)) {
 				console.log('is img')
 				this.fileType = 'img'
@@ -327,6 +302,7 @@ export default {
 			}
 			else if (/\.(html|htm|ejs|xml)/i.test(extname)) {
 				this.fileType = 'code'
+				window.open(`./${file.file}`)
 				result = 'text/html'
 			}
 			else if (/\.(md|markdown)/i.test(extname)) {
@@ -350,8 +326,15 @@ export default {
 				result = 'text/x-vue'
 			}
 			else {
-				this.fileType = 'code'
-				result = ''
+	
+				if (file.file === '.gitignore') {
+					this.fileType = 'code'
+					result = 'bash'
+				} else {
+					this.fileType = ''
+					window.open(`./${file.file}`)
+					result = false
+				}
 			}
 
 			return result
