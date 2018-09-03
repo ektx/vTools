@@ -1,4 +1,3 @@
-
 import filesize from 'filesize'
 import VBreadcrumb from '@ektx/v-breadcrumb'
 import VContextmenus from '@ektx/v-contextmenu'
@@ -6,7 +5,6 @@ import OverLayer from '@/components/overLayer'
 import marked from 'marked'
 import HLJS from 'highlight.js'
 import VCode from '@/components/VCodeMirror'
-
 
 export default {
 	name: 'home',
@@ -38,7 +36,11 @@ export default {
 			imgStyle: {},
 			// article
 			articleEle: {},
-			articleBCR: {}
+			articleBCR: {},
+			// 是否显示升级
+			showFace: false,
+			faceInfo: 'v 7.0.0',
+			version: '7.0.0'
 		}
 	},
 	created () {
@@ -62,6 +64,8 @@ export default {
 	},
 	mounted: function () {
 		this.articleEle = this.$el.querySelector('.article-box')
+		
+		this.getNewVersion()
 	},
 	methods: {
 
@@ -100,7 +104,7 @@ export default {
 			// 更新地址栏
 			this.$router.push( url )
 			// 更新标题
-			this.title = title ? title : 'iTools'
+			this.title = title ? title : 'iServer'
 			this.markdownInner = ''
 
 			document.title = this.title
@@ -340,6 +344,7 @@ export default {
 			return result
 		},
 
+		// 处理图片预览
 		setImgStyle () {
 			this.articleBCR = this.articleEle.getBoundingClientRect()
 			let img = new Image
@@ -374,6 +379,20 @@ export default {
 			}
 
 			img.src = src
+		},
+
+		getNewVersion () {
+			if (navigator.onLine) {
+				this.axios({
+					url: 'https://raw.githubusercontent.com/ektx/iServer/master/package.json',
+					methods: 'GET'
+				}).then(res => {
+					if (res.version !== this.version) {
+						this.showFace = true
+						this.faceInfo = `您需要升级，目前版本是: v${res.version}`
+					}
+				})
+			}
 		}
 	}
 }
