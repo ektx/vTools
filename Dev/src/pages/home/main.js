@@ -39,8 +39,9 @@ export default {
 			articleBCR: {},
 			// 是否显示升级
 			showFace: false,
-			faceInfo: 'v 7.0.0',
-			version: '7.0.0'
+			faceInfo: 'v 7.1.0',
+			version: '7.1.0',
+			scrollObj: {}
 		}
 	},
 	created () {
@@ -63,6 +64,11 @@ export default {
 		}
 	},
 	mounted: function () {
+		// 读取缓存中的位置
+		if (localStorage.scrollObj) {
+			this.scrollObj = JSON.parse(localStorage.scrollObj)
+		}
+
 		this.articleEle = this.$el.querySelector('.article-box')
 		
 		this.getNewVersion()
@@ -105,8 +111,7 @@ export default {
 			this.$router.push( url )
 			// 更新标题
 			this.title = title ? title : 'iServer'
-			this.markdownInner = ''
-
+			// 更新 document title
 			document.title = this.title
 
 			fetch(`/api${url}`)
@@ -114,6 +119,14 @@ export default {
 				.then(res => {
 					this.files = this.formatFileList( res.data )
 					this.onServer = res.server
+					
+					// 回显滚动条
+					if (location.href in this.scrollObj) {
+						let scrollTop = this.scrollObj[location.href]
+						this.$nextTick(() => {
+							this.$el.querySelector('.file-list').scrollTop = scrollTop
+						})
+					}
 				})
 				.catch(err => {
 					console.error(err)
@@ -278,11 +291,15 @@ export default {
 
 		/**
 		 * 处理文件路径
+		 * @param {Number} index 索引
 		 * @param {Object} file 文件信息
 		 * @param {Event} evt 鼠标事件
 		 */
 		goFilePath (index, file, evt) {
 			if (file.isDir) {
+				// 缓存到本地
+				localStorage.scrollObj = JSON.stringify(this.scrollObj)
+				// 跳转
 				this.getFiles_c(file, evt)
 			} else {
 				if (this.currentFile) {
@@ -393,6 +410,11 @@ export default {
 					}
 				})
 			}
+		},
+
+		// 时时更新目录的滚动条位置
+		listScroll (evt) {
+			this.scrollObj[location.href] = evt.target.scrollTop
 		}
 	}
 }
