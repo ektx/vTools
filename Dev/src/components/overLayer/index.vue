@@ -19,11 +19,6 @@
 	</transition>
 </template>
 
-<script>
-	import main from './main.js'
-	export default main
-</script>
+<script src="./main.js"></script>
 
-<style lang="scss" scoped>
-	@import './layout.scss'
-</style>
+<style lang="less" scoped src="./layout.less"></style>

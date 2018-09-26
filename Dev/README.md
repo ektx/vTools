@@ -1,19 +1,16 @@
-# vue 项目基础模板功能
+# dev
 
-## 运行
+## Project setup
+```
+yarn install
+```
 
-``` bash
-# 安装项目依赖
-npm install
+### Compiles and hot-reloads for development
+```
+yarn run serve
+```
 
-# 启动本地服务器 localhost:8080
-npm run dev
-# or 
-npm run start
-
-# 生成
-npm run build
-
-# 重新编译
-npm run build --report
+### Compiles and minifies for production
+```
+yarn run build
 ```
