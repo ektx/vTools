@@ -39,8 +39,8 @@ export default {
 			articleBCR: {},
 			// 是否显示升级
 			showFace: false,
-			faceInfo: 'v 7.1.0',
-			version: '7.1.0',
+			faceInfo: 'v 7.2.0',
+			version: '7.2.0',
 			scrollObj: {}
 		}
 	},
@@ -63,7 +63,13 @@ export default {
 			return filesize(val)
 		}
 	},
-	mounted: function () {
+	watch: {
+		currentFile (val, old) {
+			if (old && old.classes) old.classes = []
+			val.classes = ['current']
+		}
+	},
+	mounted () {
 		// 读取缓存中的位置
 		if (localStorage.scrollObj) {
 			this.scrollObj = JSON.parse(localStorage.scrollObj)
@@ -81,10 +87,7 @@ export default {
 
 			// 如果用户用户点击同时按住了 shift 键
 			// 我们打开文件夹
-			if (e.shiftKey) {
-				this.askServerOpenDir(file)
-				return
-			}
+			if (e.shiftKey) return this.askServerOpenDir(file)
 
 			if (file === '../') {
 				url = `${location.pathname.split('/').slice(0,-2).join('/')}`
@@ -93,16 +96,13 @@ export default {
 			}
 
 			this.refreshFilesList(url)
-
 			// 更新面包屑
 			this.$refs.vbreadcrumb.update()
-
 		},
 
 		// 刷新文件列表
 		// @url [string] 请求地址
 		refreshFilesList (url) {
-
 			url = url.endsWith('/') ? url : `${url}/`
 
 			let title = decodeURI(url).split('/').slice(-2).shift()
@@ -131,7 +131,6 @@ export default {
 				.catch(err => {
 					console.error(err)
 				})
-
 		},
 
 		// 面包屑回调功能
@@ -160,7 +159,6 @@ export default {
 		},
 
 		rightMenu (file, evt) {
-
 			let _ = this
 			let rightMenuData = {
 				el: file,
@@ -171,16 +169,46 @@ export default {
 					}
 				],
 				evt
-			};
+			}
+
+			this.currentFile = file
 
 			if (this.onServer) {
 				rightMenuData.data.unshift(
 					{
 						title: '在系统中打开',
-						evt: function() {
+						evt () {
 							_.askServerOpenDir(file)
 							_.$store.commit('setContextmenu', { show: false })
+						}
+					},
+					{
+						title: '复制当前路径',
+						evt () {
+							if (navigator.clipboard) {
+								navigator.clipboard.writeText(file.path)
+									 .then(() => {
+										console.log('Text copied to clipboard:', file.path)
+									})
+									.catch(err => {
+										// This can happen if the user denies clipboard permisions:
+										console.error(`Could not copy text: ${err}`)
+									})
+							} else {
+								const int = document.createElement('input')
+								document.body.appendChild(int)
+								int.value = file.path
+								int.focus()
+								int.select()
+								const result = document.execCommand('copy')
+								if (result === 'unsuccessful') {
+									console.error('Faild to copy path')
+								} else {
+									document.body.removeChild(int)
+								}
+							}
 
+							_.$store.commit('setContextmenu', { show: false })
 						}
 					},
 					{
@@ -296,18 +324,14 @@ export default {
 		 * @param {Event} evt 鼠标事件
 		 */
 		goFilePath (index, file, evt) {
+			this.currentFile = file
+
 			if (file.isDir) {
 				// 缓存到本地
 				localStorage.scrollObj = JSON.stringify(this.scrollObj)
 				// 跳转
 				this.getFiles_c(file, evt)
 			} else {
-				if (this.currentFile) {
-					this.currentFile.classes = []
-				}
-
-				file.classes = ['current']
-				this.currentFile = file
 				this.catFileInner(file)
 			}
 		},
@@ -317,7 +341,6 @@ export default {
 			let result = false
 			
 			if (/\.png|jpg|gif/i.test(extname)) {
-				console.log('is img')
 				this.fileType = 'img'
 				this.setImgStyle()
 			}
@@ -366,9 +389,6 @@ export default {
 			this.articleBCR = this.articleEle.getBoundingClientRect()
 			let img = new Image
 			let src = `./${this.currentFile.file}`
-			// 测试
-			// let src = location.href + this.currentFile.file
-			// src = src.replace('8080', '8080/api')
 
 			img.onload = () => {
 				let {width: imgW, height: imgH } = img

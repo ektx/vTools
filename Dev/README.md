@@ -1,4 +1,4 @@
-# dev
+# vTools
 
 ## Project setup
 ```
@@ -13,4 +13,9 @@ yarn run serve
 ### Compiles and minifies for production
 ```
 yarn run build
+```
+
+### build for production and view the bundle analyzer report
+```
+yarn run build --repeat
 ```
