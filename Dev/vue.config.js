@@ -1,7 +1,8 @@
 // https://cli.vuejs.org/zh/config/
 
 module.exports = {
-    baseUrl: '/@/',
+    // 生成时使用
+    // baseUrl: '/@/',
     assetsDir: 'contents',
     devServer: {
         port: 8080,
