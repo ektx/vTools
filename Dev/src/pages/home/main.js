@@ -2,8 +2,6 @@ import filesize from 'filesize'
 import VBreadcrumb from '@ektx/v-breadcrumb'
 import VContextmenus from '@ektx/v-contextmenu'
 import OverLayer from '@/components/overLayer'
-import marked from 'marked'
-import HLJS from 'highlight.js'
 import VCode from '@/components/VCodeMirror'
 
 export default {
@@ -290,8 +288,9 @@ export default {
 		 * 查看文件
 		 * @param {Object} file 文件信息
 		 */
-		catFileInner (file) {
+		async catFileInner (file) {
 			let setMode = ''
+			const marked = (await import(/* webpackChunkName: "marked" */ 'marked')).default
 
 			setMode = this.getFileMode(file)
 
@@ -304,8 +303,10 @@ export default {
 				if (setMode === 'markdown') {
 					this.markdownInner = marked(res)
 
-					this.$nextTick(function() {
+					this.$nextTick(async function() {
 						let codes = document.querySelectorAll('pre code')
+						const HLJS = await import(/* webpackChunkName: "highlight" */ 'highlight.js')
+
 						codes.forEach(code => {
 							HLJS.highlightBlock(code)
 						})
