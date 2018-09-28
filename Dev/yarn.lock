@@ -562,9 +562,9 @@
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@ektx/v-breadcrumb/-/v-breadcrumb-0.1.1.tgz#3d4679dee508dcf05141253f8b3e01d9c48c64ef"
 
-"@ektx/v-contextmenu@^0.2.7":
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/@ektx/v-contextmenu/-/v-contextmenu-0.2.7.tgz#3b98135986b1bd60237696c32699e9ade2c4ba9b"
+"@ektx/v-contextmenu@^0.2.8":
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/@ektx/v-contextmenu/-/v-contextmenu-0.2.8.tgz#93836ea0b807e0ad1e3ac65ea28b8d11070347f2"
 
 "@intervolga/optimize-cssnano-plugin@^1.0.5":
   version "1.0.6"

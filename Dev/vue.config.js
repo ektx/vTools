@@ -2,7 +2,7 @@
 
 module.exports = {
     // 生成时使用
-    // baseUrl: '/@/',
+    baseUrl: process.env.NODE_ENV === 'production' ? '/@/' : '',
     assetsDir: 'contents',
     devServer: {
         port: 8080,

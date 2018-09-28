@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@ektx/v-breadcrumb": "^0.1.1",
-    "@ektx/v-contextmenu": "^0.2.7",
+    "@ektx/v-contextmenu": "^0.2.8",
     "axios": "^0.18.0",
     "codemirror": "^5.40.2",
     "filesize": "^3.6.1",
