@@ -4,7 +4,6 @@ import axios from 'axios'
 axios.interceptors.request.use(
     config => {
         // 测试版本
-        config.url = config.url.replace(':8080', ':8080/api')
         return config
     },
     err => {

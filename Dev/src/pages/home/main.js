@@ -43,14 +43,15 @@ export default {
 		}
 	},
 	created () {
-		let that = this
 		// 默认请求地址
 		this.refreshFilesList(location.pathname)
 
 		// 监听浏览器前进后退按钮功能
 		if (history.pushState) {
-			window.addEventListener('popstate', function(e) {
-				that.refreshFilesList(location.pathname)
+			window.addEventListener('popstate', e => {
+				if (this.$route.path !== location.pathname) {
+					this.refreshFilesList(this.$route.path)
+				}
 			}, false)
 		} else {
 			console.warn('您的浏览器不支持 History API，请升级您的浏览器！')
@@ -292,6 +293,31 @@ export default {
 			let setMode = ''
 			const marked = (await import(/* webpackChunkName: "marked" */ 'marked')).default
 
+			// 添加 TOC
+			// https://marked.js.org/#/USING_PRO.md#renderer
+			let renderer = new marked.Renderer()
+			let toc = []
+			let levelObj = {}
+
+			renderer.heading = function (text, level) {
+				if (level in levelObj) {
+					levelObj[level] += 1
+				} else {
+					levelObj[level] = 1
+				}
+
+				let slug = text + '-' + levelObj[level]
+				console.log(text, level, slug)
+
+				toc.push({
+					level,
+					slug,
+					title: text
+				})
+
+				return `<h${level} id="${slug}">${text}<a href="#${slug}" class="anchor"></a></h${level}>`
+			}
+
 			setMode = this.getFileMode(file)
 
 			if (typeof setMode === 'boolean' && !setMode) return
@@ -301,7 +327,7 @@ export default {
 				method: 'GET'
 			}).then(res => {
 				if (setMode === 'markdown') {
-					this.markdownInner = marked(res)
+					this.markdownInner = marked(res, {renderer})
 
 					this.$nextTick(async function() {
 						let codes = document.querySelectorAll('pre code')
