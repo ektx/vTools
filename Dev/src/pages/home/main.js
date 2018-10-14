@@ -307,15 +307,44 @@ export default {
 				}
 
 				let slug = text + '-' + levelObj[level]
-				console.log(text, level, slug)
 
 				toc.push({
 					level,
 					slug,
-					title: text
+					text
 				})
 
 				return `<h${level} id="${slug}">${text}<a href="#${slug}" class="anchor"></a></h${level}>`
+			}
+
+			renderer.link = function (href, title, text) {
+				let target = ''
+				let end = ''
+
+				if (href.startsWith('http')) {
+					target = ' target="_blank" '
+				}
+
+				if (text.endsWith('  ')) {
+					end = '<br/>'
+				}
+
+				return `<a href="${href}" ${target}>${text}</a>${end}`
+			}
+			
+			renderer.paragraph = function (text) {
+				let result = ''
+				if (/\[toc\]/i.test(text)) {
+					result = text
+				} else {
+					if (text.endsWith('  ')) {
+						result = `${text}<br/>`
+					} else {
+						result = `<p>${text}</p>`
+					}
+				}
+
+				return result
 			}
 
 			setMode = this.getFileMode(file)
@@ -327,7 +356,36 @@ export default {
 				method: 'GET'
 			}).then(res => {
 				if (setMode === 'markdown') {
-					this.markdownInner = marked(res, {renderer})
+					let html = marked(res, {renderer})
+					let tocHtml = ``
+					// 旧的级别
+					let level = 0
+
+					toc.forEach(val => {
+						// 新建一个 ul
+						if (level < val.level) {
+							tocHtml += `<ul>`
+						}
+						// 相等时，表示为同级，只要为之前生成的 li 收尾
+						else if (val.level === level) {
+							tocHtml += `</li>`
+						}
+						// 小于时 表示现在需要返回上级 而上级的个数正好与级别差呈倍数
+						else if (val.level < level) {
+							tocHtml += `</li></ul>`.repeat(level - val.level)
+						}
+
+						tocHtml += `<li><a href="#${val.slug}">${val.text}</a>`
+
+						// 将当前的级别赋值为老的级别 方便下次循环使用
+						level = val.level
+					})
+
+					// 收尾 ul 因为前面我们并没有结束li与ul
+					// ul与li都是在下次循环时进行收尾工作，最后一次需要人为处理
+					tocHtml += `</li></ul>`.repeat(level - 1)
+
+					this.markdownInner = html.replace(/\[toc\]/i, tocHtml)
 
 					this.$nextTick(async function() {
 						let codes = document.querySelectorAll('pre code')
