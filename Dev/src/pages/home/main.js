@@ -37,8 +37,8 @@ export default {
 			articleBCR: {},
 			// 是否显示升级
 			showFace: false,
-			faceInfo: 'v 7.2.0',
-			version: '7.2.0',
+			faceInfo: 'v 7.3.1',
+			version: '7.3.1',
 			scrollObj: {}
 		}
 	},
@@ -290,6 +290,7 @@ export default {
 		 * @param {Object} file 文件信息
 		 */
 		async catFileInner (file) {
+			console.log(file)
 			let setMode = ''
 			const marked = (await import(/* webpackChunkName: "marked" */ 'marked')).default
 
@@ -383,7 +384,7 @@ export default {
 
 					// 收尾 ul 因为前面我们并没有结束li与ul
 					// ul与li都是在下次循环时进行收尾工作，最后一次需要人为处理
-					tocHtml += `</li></ul>`.repeat(level - 1)
+					tocHtml += `</li></ul>`.repeat(level)
 
 					this.markdownInner = html.replace(/\[toc\]/i, tocHtml)
 
