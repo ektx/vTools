@@ -49,8 +49,13 @@ export default {
 		// 监听浏览器前进后退按钮功能
 		if (history.pushState) {
 			window.addEventListener('popstate', e => {
-				if (this.$route.path !== location.pathname) {
+				if (!this.$route.hash.length) {
 					this.refreshFilesList(this.$route.path)
+				} else {
+					if (location.hash) {
+						let ele = document.getElementById(location.hash.slice(1))
+						this.articleEle.scrollTop = ele.offsetTop
+					}
 				}
 			}, false)
 		} else {
@@ -290,7 +295,6 @@ export default {
 		 * @param {Object} file 文件信息
 		 */
 		async catFileInner (file) {
-			console.log(file)
 			let setMode = ''
 			const marked = (await import(/* webpackChunkName: "marked" */ 'marked')).default
 
@@ -307,12 +311,13 @@ export default {
 					levelObj[level] = 1
 				}
 
-				let slug = text + '-' + levelObj[level]
+				let slug = encodeURI(text + '-' + levelObj[level])
 
 				toc.push({
 					level,
 					slug,
-					text
+					text,
+					slug
 				})
 
 				return `<h${level} id="${slug}">${text}<a href="#${slug}" class="anchor"></a></h${level}>`
@@ -521,6 +526,10 @@ export default {
 		// 时时更新目录的滚动条位置
 		listScroll (evt) {
 			this.scrollObj[location.href] = evt.target.scrollTop
+		},
+
+		articleScroll (evt) {
+			console.log(evt)
 		}
 	}
 }
