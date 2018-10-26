@@ -37,8 +37,8 @@ export default {
 			articleBCR: {},
 			// 是否显示升级
 			showFace: false,
-			faceInfo: 'v 7.3.1',
-			version: '7.3.1',
+			faceInfo: 'v 7.3.2',
+			version: '7.3.2',
 			scrollObj: {}
 		}
 	},
