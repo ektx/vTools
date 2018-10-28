@@ -558,9 +558,9 @@
     lodash "^4.17.5"
     to-fast-properties "^2.0.0"
 
-"@ektx/v-breadcrumb@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@ektx/v-breadcrumb/-/v-breadcrumb-0.1.1.tgz#3d4679dee508dcf05141253f8b3e01d9c48c64ef"
+"@ektx/v-breadcrumb@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@ektx/v-breadcrumb/-/v-breadcrumb-0.2.1.tgz#c112ac131939c80bd620be37400262418662292f"
 
 "@ektx/v-contextmenu@^0.2.8":
   version "0.2.8"

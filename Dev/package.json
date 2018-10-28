@@ -7,7 +7,7 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "@ektx/v-breadcrumb": "^0.1.1",
+    "@ektx/v-breadcrumb": "^0.2.1",
     "@ektx/v-contextmenu": "^0.2.8",
     "axios": "^0.18.0",
     "codemirror": "^5.40.2",

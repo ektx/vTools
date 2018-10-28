@@ -37,9 +37,11 @@ export default {
 			articleBCR: {},
 			// 是否显示升级
 			showFace: false,
-			faceInfo: 'v 7.3.2',
-			version: '7.3.2',
-			scrollObj: {}
+			faceInfo: 'v 7.4.0',
+			version: '7.4.0',
+			scrollObj: {},
+			// URL
+			pathname: ''
 		}
 	},
 	created () {
@@ -84,20 +86,12 @@ export default {
 		this.getNewVersion()
 	},
 	methods: {
-
 		getFiles_c (file, e) {
-
-			let url = ''
-
 			// 如果用户用户点击同时按住了 shift 键
 			// 我们打开文件夹
 			if (e.shiftKey) return this.askServerOpenDir(file)
 
-			if (file === '../') {
-				url = `${location.pathname.split('/').slice(0,-2).join('/')}`
-			} else {
-				url = location.pathname + file.file
-			}
+			let url = this.pathname + file.file
 
 			this.refreshFilesList(url)
 			// 更新面包屑
@@ -109,14 +103,14 @@ export default {
 		refreshFilesList (url) {
 			url = url.endsWith('/') ? url : `${url}/`
 
-			let title = decodeURI(url).split('/').slice(-2).shift()
-
-			// 更新地址栏
-			this.$router.push( url )
+			let title = Array.from(new Set(decodeURI(url).split('/'))).pop()
 			// 更新标题
 			this.title = title ? title : 'iServer'
 			// 更新 document title
 			document.title = this.title
+			
+			this.$router.push(url)
+			this.pathname = url
 
 			fetch(`/api${url}`)
 				.then(res => res.json())
@@ -289,13 +283,8 @@ export default {
 
 			return dirArr.concat(fileArr)
 		},
-
-		/** 
-		 * 查看文件
-		 * @param {Object} file 文件信息
-		 */
-		async catFileInner (file) {
-			let setMode = ''
+		// 展示 markedown 文件
+		async showMarked (res) {
 			const marked = (await import(/* webpackChunkName: "marked" */ 'marked')).default
 
 			// 添加 TOC
@@ -352,59 +341,72 @@ export default {
 
 				return result
 			}
+			
+			let html = marked(res, {renderer})
+			let tocHtml = ``
+			// 旧的级别
+			let level = 0
 
+			toc.forEach(val => {
+				// 新建一个 ul
+				if (level < val.level) {
+					tocHtml += `<ul>`
+				}
+				// 相等时，表示为同级，只要为之前生成的 li 收尾
+				else if (val.level === level) {
+					tocHtml += `</li>`
+				}
+				// 小于时 表示现在需要返回上级 而上级的个数正好与级别差呈倍数
+				else if (val.level < level) {
+					tocHtml += `</li></ul>`.repeat(level - val.level)
+				}
+
+				tocHtml += `<li><a href="#${val.slug}">${val.text}</a>`
+
+				// 将当前的级别赋值为老的级别 方便下次循环使用
+				level = val.level
+			})
+
+			// 收尾 ul 因为前面我们并没有结束li与ul
+			// ul与li都是在下次循环时进行收尾工作，最后一次需要人为处理
+			tocHtml += `</li></ul>`.repeat(level)
+
+			this.markdownInner = html.replace(/\[toc\]/i, tocHtml)
+
+			this.$nextTick(async function() {
+				let codes = document.querySelectorAll('pre code')
+				const HLJS = await import(/* webpackChunkName: "highlight" */ 'highlight.js')
+
+				codes.forEach(code => {
+					HLJS.highlightBlock(code)
+				})
+			})
+		},
+
+		/** 
+		 * 查看文件
+		 * @param {Object} file 文件信息
+		 */
+		async catFileInner (file) {
+			let setMode = ''
+			
 			setMode = this.getFileMode(file)
 
 			if (typeof setMode === 'boolean' && !setMode) return
 
 			this.axios({
-				url: location.href + file.file,
+				url: this.pathname + file.file,
 				method: 'GET'
 			}).then(res => {
 				if (setMode === 'markdown') {
-					let html = marked(res, {renderer})
-					let tocHtml = ``
-					// 旧的级别
-					let level = 0
-
-					toc.forEach(val => {
-						// 新建一个 ul
-						if (level < val.level) {
-							tocHtml += `<ul>`
-						}
-						// 相等时，表示为同级，只要为之前生成的 li 收尾
-						else if (val.level === level) {
-							tocHtml += `</li>`
-						}
-						// 小于时 表示现在需要返回上级 而上级的个数正好与级别差呈倍数
-						else if (val.level < level) {
-							tocHtml += `</li></ul>`.repeat(level - val.level)
-						}
-
-						tocHtml += `<li><a href="#${val.slug}">${val.text}</a>`
-
-						// 将当前的级别赋值为老的级别 方便下次循环使用
-						level = val.level
-					})
-
-					// 收尾 ul 因为前面我们并没有结束li与ul
-					// ul与li都是在下次循环时进行收尾工作，最后一次需要人为处理
-					tocHtml += `</li></ul>`.repeat(level)
-
-					this.markdownInner = html.replace(/\[toc\]/i, tocHtml)
-
-					this.$nextTick(async function() {
-						let codes = document.querySelectorAll('pre code')
-						const HLJS = await import(/* webpackChunkName: "highlight" */ 'highlight.js')
-
-						codes.forEach(code => {
-							HLJS.highlightBlock(code)
-						})
-					})
+					this.showMarked(res)
 				} else {
 					this.code = res
 					this.codeOption.mode = setMode
 				}
+			}).catch(err => {
+				this.code = err.response.data
+				this.codeOption.mode = 'text/plain'
 			})
 		},
 
@@ -416,7 +418,6 @@ export default {
 		 */
 		goFilePath (index, file, evt) {
 			this.currentFile = file
-
 			if (file.isDir) {
 				// 缓存到本地
 				localStorage.scrollObj = JSON.stringify(this.scrollObj)
@@ -435,7 +436,7 @@ export default {
 				this.fileType = 'img'
 				this.setImgStyle()
 			}
-			else if (/\.(html|htm|ejs|xml)/i.test(extname)) {
+			else if (/\.(htm|ejs|xml|jade|pug|svg|php)/i.test(extname)) {
 				this.fileType = 'code'
 				window.open(`./${file.file}`)
 				result = 'text/html'
@@ -456,13 +457,12 @@ export default {
 				this.fileType = 'code'
 				result = 'text/x-vue'
 			}
-			else if (/\.vue/i.test(extname)) {
+			else if (/\.txt/i.test(extname)) {
 				this.fileType = 'code'
-				result = 'text/x-vue'
+				result = 'text/plain'
 			}
 			else {
-	
-				if (file.file === '.gitignore') {
+				if (['.gitignore', '.eslintrc'].includes(file.file)) {
 					this.fileType = 'code'
 					result = 'bash'
 				} else {
@@ -479,7 +479,7 @@ export default {
 		setImgStyle () {
 			this.articleBCR = this.articleEle.getBoundingClientRect()
 			let img = new Image
-			let src = `./${this.currentFile.file}`
+			let src = `${this.pathname + this.currentFile.file}`
 
 			img.onload = () => {
 				let {width: imgW, height: imgH } = img
@@ -526,10 +526,6 @@ export default {
 		// 时时更新目录的滚动条位置
 		listScroll (evt) {
 			this.scrollObj[location.href] = evt.target.scrollTop
-		},
-
-		articleScroll (evt) {
-			console.log(evt)
 		}
 	}
 }

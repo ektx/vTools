@@ -3,7 +3,7 @@
 		<div class="file-list-box">
 			<header>
 				<h1>
-					<span @click="getFiles_c('../', $event)">{{ title }}</span>
+					<span>{{ title }}</span>
 				</h1>
 				<!-- 面包屑组件 自定义跳转方式 -->
 				<VBreadcrumb 
