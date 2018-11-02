@@ -37,8 +37,8 @@ export default {
 			articleBCR: {},
 			// 是否显示升级
 			showFace: false,
-			faceInfo: 'v 7.4.0',
-			version: '7.4.0',
+			faceInfo: 'v 7.4.1',
+			version: '7.4.1',
 			scrollObj: {},
 			// URL
 			pathname: ''
