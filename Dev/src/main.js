@@ -12,15 +12,8 @@ Vue.use(VContextmenu)
 
 Vue.prototype.axios = axios
 
-const store = new Vuex.Store({
-	state: {},
-	mutations: {},
-	modules: { VContextmenu }
-})
-
 new Vue({
 	router,
-	store,
 	render: h => h(App)
 }).$mount('#app')
 
