@@ -65,8 +65,6 @@
 			</footer>
 		</div>
 
-		<VContextmenus/>
-
 		<OverLayer ref="overlayermod" ></OverLayer>
 
 	</section>

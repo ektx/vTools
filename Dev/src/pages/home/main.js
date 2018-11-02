@@ -157,27 +157,16 @@ export default {
 		},
 
 		rightMenu (file, evt) {
-			let _ = this
-			let rightMenuData = {
-				el: file,
-				data: [
-					{
-						title: '下载',
-						disabled: true
-					}
-				],
-				evt
-			}
+			let rightMenuData = []
 
 			this.currentFile = file
 
 			if (this.onServer) {
-				rightMenuData.data.unshift(
+				rightMenuData.unshift(
 					{
 						title: '在系统中打开',
-						evt () {
-							_.askServerOpenDir(file)
-							_.$store.commit('setContextmenu', { show: false })
+						evt: () => {
+							this.askServerOpenDir(file)
 						}
 					},
 					{
@@ -205,8 +194,6 @@ export default {
 									document.body.removeChild(int)
 								}
 							}
-
-							_.$store.commit('setContextmenu', { show: false })
 						}
 					},
 					{
@@ -215,14 +202,14 @@ export default {
 				)
 			}
 
-			rightMenuData.data.unshift(
+			rightMenuData.unshift(
 				{
 					title: '二维码访问',
-					evt: function(i, e) {
+					evt: (i, e) => {
 
-						let generateQRcode = function(data) {
+						let generateQRcode = (data) => {
 							let url = decodeURI(data + file.file)
-							_.$refs.overlayermod.generateQRCode(true, url)
+							this.$refs.overlayermod.generateQRCode(true, url)
 						}
 
 						// 显示遮盖层
@@ -238,8 +225,6 @@ export default {
 						} else {
 							generateQRcode(location.href)
 						}
-
-						_.$store.commit('setContextmenu', { show: false })
 					}
 				},
 				{
@@ -247,7 +232,7 @@ export default {
 				}
 			)
 
-			_.$store.commit('setContextmenu',  rightMenuData)
+			this.$VContextmenu.show(rightMenuData, evt)
 
 		},
 
