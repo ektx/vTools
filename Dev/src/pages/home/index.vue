@@ -46,9 +46,6 @@ export default {
 		// 默认请求地址
 		this.getFileList(location.pathname)
 	},
-	mounted () {
-		
-	},
 	methods: {
 		...mapActions('home', ['getFileList']),
 

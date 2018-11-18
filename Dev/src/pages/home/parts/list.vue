@@ -61,7 +61,7 @@ export default {
 				// 缓存到本地
 				localStorage.scrollObj = JSON.stringify(this.scrollObj)
 				// 跳转
-				this.getFileList('./'+file.file+'/')
+                this.getFileList('./'+file.file+'/')
 			}
         },
         

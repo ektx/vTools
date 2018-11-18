@@ -50,6 +50,12 @@ export default {
 
             file.classes = ['current']
             state.currentFile = file
+        },
+
+        setTitle (state) {
+            let title = [...new Set(decodeURI(location.pathname).split('/'))].pop()
+            state.title = title ? title : 'iServer'
+            document.title = state.title
         }
     },
     actions: {
@@ -60,15 +66,16 @@ export default {
          */
         getFileList (context, url) {
             let root = location.pathname
-
+            
             root = root.endsWith('/') ? root : `${root}/`
-
+            
             if (url.startsWith('./')) {
                 url = root + url.slice(2)
             }
-
+            
             // 更新路由
             router.push(url)
+            context.commit('setTitle')
 
             axios(`/api${url}`).then(res => {
                 context.commit('setFiles', res.data)
