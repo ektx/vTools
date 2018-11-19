@@ -63,6 +63,10 @@ export default {
 		 * @param {Event} evt 鼠标事件
 		 */
 		goFilePath (index, file, evt) {
+            if (file.file === this.currentFile.file) {
+                this.setCurrentFile({})
+            }
+            
             this.setCurrentFile(file)
             
 			if (file.isDir) {
