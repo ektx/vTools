@@ -10,7 +10,6 @@
                 </svg>
                 <div
                     @click="goFilePath(index, file, $event)"
-                    @click.shift.prevent="askServerOpenDir(file)"
                     @contextmenu.prevent="rightMenu(file, $event)"
                 >{{file.file}}</div>
             </li>
@@ -42,7 +41,16 @@ export default {
         // 读取缓存中的位置
 		if (localStorage.scrollObj) {
 			this.scrollObj = JSON.parse(localStorage.scrollObj)
-		}
+        }
+    },
+    updated () {
+        // 回显滚动条
+        if (location.href in this.scrollObj) {
+            let scrollTop = this.scrollObj[location.href]
+            this.$nextTick(() => {
+                this.$el.querySelector('.file-list').scrollTop = scrollTop
+            })
+        }
     },
     methods: {
         ...mapActions('home', ['getFileList', 'askServerOpenDir']),
@@ -72,8 +80,6 @@ export default {
          */
         rightMenu (file, evt) {
 			let rightMenuData = []
-
-			// this.currentFile = file
 
 			if (this.isServer) {
 				rightMenuData.unshift(
