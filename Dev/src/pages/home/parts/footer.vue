@@ -33,8 +33,8 @@ export default {
         return {
 			// 是否显示升级
             showFace: false,
-            faceInfo: 'v 7.4.1',
-			version: '7.4.1',
+            faceInfo: 'v 7.5.0',
+			version: '7.5.0',
         }
     },
     filters: {
