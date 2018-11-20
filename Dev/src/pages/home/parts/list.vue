@@ -63,7 +63,8 @@ export default {
 		 * @param {Event} evt 鼠标事件
 		 */
 		goFilePath (index, file, evt) {
-            if (file.file === this.currentFile.file) {
+			// 用于强制刷新页面
+            if (this.currentFile && file.file === this.currentFile.file) {
                 this.setCurrentFile({})
             }
             
