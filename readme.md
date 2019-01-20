@@ -17,9 +17,11 @@ vTools
 │  │    │  
 │  │    ├── pages 业务内容   
 │  │    │  
-│  │    └── router 路由     
+|  |    ├── router 路由   
+│  │    │  
+│  │    └── store 状态     
 │  │  
-│  ├── static 静态资源  
+│  ├── public 静态资源  
 │  │  
 │  └── dist 生成文件  
 │  
