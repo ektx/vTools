@@ -11,6 +11,7 @@
 				></VBreadcrumb>
 			</header>
 			<main>
+				<Bar/>
 				<List/>
 				<Article/>
 			</main>
@@ -25,6 +26,7 @@ import VBreadcrumb from '@ektx/v-breadcrumb'
 import List from './parts/list'
 import Footer from './parts/footer'
 import Article from './parts/article'
+import Bar from './parts/bar'
 
 import { mapActions, mapState } from 'vuex'
 
@@ -34,7 +36,8 @@ export default {
 		VBreadcrumb,
 		List,
 		Footer,
-		Article
+		Article,
+		Bar
 	},
 	data () {
 		return {}
