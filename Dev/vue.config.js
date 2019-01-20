@@ -6,7 +6,7 @@ module.exports = {
     assetsDir: 'contents',
     devServer: {
         port: 8080,
-        proxy: "http://localhost:9000"
+        proxy: "http://localhost:8000"
     },
     productionSourceMap: false
 }

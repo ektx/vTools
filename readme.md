@@ -1,10 +1,11 @@
 # vTools
 
-vue项目基础模板
+iServer项目展示页面。
 
 ## 文件说明
 
-vuem  
+```bash
+vTools  
 │  
 ├── Dev 开发文件  
 │  │  
@@ -23,8 +24,5 @@ vuem
 │  └── dist 生成文件  
 │  
 └── Doc 开发文档  
-
-## GitLab
-
-[vue](http://gitlab.hztianque.com/f2e/vuem)项目基础模板
+```
 
