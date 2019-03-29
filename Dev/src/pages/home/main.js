@@ -3,6 +3,7 @@ import VBreadcrumb from '@ektx/v-breadcrumb'
 import VContextmenus from '@ektx/v-contextmenu'
 import OverLayer from '@/components/overLayer'
 import VCode from '@/components/VCodeMirror'
+import Marked from '@/components/marked'
 
 export default {
 	name: 'home',
@@ -10,7 +11,8 @@ export default {
 		VBreadcrumb,
 		VContextmenus,
 		OverLayer,
-		VCode
+		VCode,
+		Marked
 	},
 	data () {
 		return {
@@ -37,8 +39,8 @@ export default {
 			articleBCR: {},
 			// 是否显示升级
 			showFace: false,
-			faceInfo: 'v 7.4.1',
-			version: '7.4.1',
+			faceInfo: 'v 7.6.0',
+			version: '7.6.0',
 			scrollObj: {},
 			// URL
 			pathname: ''
@@ -206,7 +208,6 @@ export default {
 				{
 					title: '二维码访问',
 					evt: (i, e) => {
-
 						let generateQRcode = (data) => {
 							let url = decodeURI(data + file.file)
 							this.$refs.overlayermod.generateQRCode(true, url)
@@ -217,7 +218,7 @@ export default {
 							fetch(`/get-iserver-ip`)
 								.then(res => res.json())
 								.then(res => {
-									generateQRcode( location.href.replace('localhost',  res.mes.IPv4.public) )
+									generateQRcode( location.href.replace('localhost',  res.IPv4) )
 								})
 								.catch(err => {
 									console.error(err)
@@ -268,106 +269,6 @@ export default {
 
 			return dirArr.concat(fileArr)
 		},
-		// 展示 markedown 文件
-		async showMarked (res) {
-			const marked = (await import(/* webpackChunkName: "marked" */ 'marked')).default
-
-			// 添加 TOC
-			// https://marked.js.org/#/USING_PRO.md#renderer
-			let renderer = new marked.Renderer()
-			let toc = []
-			let levelObj = {}
-
-			renderer.heading = function (text, level) {
-				if (level in levelObj) {
-					levelObj[level] += 1
-				} else {
-					levelObj[level] = 1
-				}
-
-				let slug = encodeURI(text + '-' + levelObj[level])
-
-				toc.push({
-					level,
-					slug,
-					text,
-					slug
-				})
-
-				return `<h${level} id="${slug}">${text}<a href="#${slug}" class="anchor"></a></h${level}>`
-			}
-
-			renderer.link = function (href, title, text) {
-				let target = ''
-				let end = ''
-
-				if (href.startsWith('http')) {
-					target = ' target="_blank" '
-				}
-
-				if (text.endsWith('  ')) {
-					end = '<br/>'
-				}
-
-				return `<a href="${href}" ${target}>${text}</a>${end}`
-			}
-			
-			renderer.paragraph = function (text) {
-				let result = ''
-				if (/\[toc\]/i.test(text)) {
-					result = text
-				} else {
-					if (text.endsWith('  ')) {
-						result = `${text}<br/>`
-					} else {
-						result = `<p>${text}</p>`
-					}
-				}
-
-				return result
-			}
-			
-			let html = marked(res, {renderer})
-			let tocHtml = ``
-			// 旧的级别
-			let level = 0
-
-			toc.forEach(val => {
-				// 新建一个 ul
-				if (level < val.level) {
-					tocHtml += `<ul>`
-				}
-				// 相等时，表示为同级，只要为之前生成的 li 收尾
-				else if (val.level === level) {
-					tocHtml += `</li>`
-				}
-				// 小于时 表示现在需要返回上级 而上级的个数正好与级别差呈倍数
-				else if (val.level < level) {
-					tocHtml += `</li></ul>`.repeat(level - val.level)
-				}
-
-				tocHtml += `<li><a href="#${val.slug}">${val.text}</a>`
-
-				// 将当前的级别赋值为老的级别 方便下次循环使用
-				level = val.level
-			})
-
-			// 收尾 ul 因为前面我们并没有结束li与ul
-			// ul与li都是在下次循环时进行收尾工作，最后一次需要人为处理
-			tocHtml += `</li></ul>`.repeat(level)
-
-			this.markdownInner = html.replace(/\[toc\]/i, tocHtml)
-
-			this.$nextTick(async function() {
-				let codes = document.querySelectorAll('pre code')
-				const HLJS = await import(/* webpackChunkName: "highlight" */ 'highlight.js')
-
-				codes.forEach(code => {
-					HLJS.highlightBlock(code)
-				})
-			})
-		},
-
 		/** 
 		 * 查看文件
 		 * @param {Object} file 文件信息
@@ -384,7 +285,8 @@ export default {
 				method: 'GET'
 			}).then(res => {
 				if (setMode === 'markdown') {
-					this.showMarked(res)
+					this.markdownInner = res
+					// this.showMarked(res)
 				} else {
 					this.code = res
 					this.codeOption.mode = setMode
@@ -503,6 +405,7 @@ export default {
 					if (res.version !== this.version) {
 						this.showFace = true
 						this.faceInfo = `您需要升级，目前版本是: v${res.version}`
+						console.log(`%c${this.faceInfo}`, 'background-color:red; color:#fff; padding: 2px 5px; border-radius: 3px')
 					}
 				})
 			}

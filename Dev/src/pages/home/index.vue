@@ -20,8 +20,8 @@
 							<svg v-else-if="file.isDir" aria-hidden="true" version="1.1" viewBox="0 0 14 16">
 								<path d="M13 4H7V3c0-.66-.31-1-1-1H1c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1zM6 4H1V3h5v1z"></path>
 							</svg>
-							<div
-								@click="goFilePath(index, file, $event)"
+							<div 
+								@click.exact="goFilePath(index, file, $event)"
 								@click.shift.prevent="askServerOpenDir(file)"
 								@contextmenu.prevent="rightMenu(file, $event)"
 							>{{file.file}}</div>
@@ -35,7 +35,7 @@
 						:data="code" 
 						:option="codeOption"
 					></VCode>
-					<div v-if="fileType === 'markdown'" class="readme-box" v-html="markdownInner"></div>
+					<marked v-if="fileType === 'markdown'" :value="markdownInner"/>
 					<div v-else-if="fileType === 'img'" class="img-box">
 						<figure :style="imgStyle"></figure>
 					</div>

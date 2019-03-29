@@ -4,6 +4,7 @@ import axios from '@/assets/js/myAxios'
 import VContextmenu from '@ektx/v-contextmenu'
 import App from './App'
 import router from './router'
+
 import '@ektx/v-contextmenu/dist/vcontextmenu.css'
 
 Vue.config.productionTip = false
