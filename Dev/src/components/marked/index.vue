@@ -150,6 +150,7 @@ export default {
             color: #E91E63;
         }
     }
+    
     h4, h5, h6 {
         color: #444;
     }
@@ -242,10 +243,14 @@ code, kbd, pre, samp, tt {
     -webkit-font-smoothing: initial;
     -moz-osx-font-smoothing: initial;
 }
+
 code {
     color: #28962c;
-    padding: 2px 7px;
-    margin: 0 2px;
-    border-radius: 2px;
+}
+
+pre {
+    max-height: 50em;
+    overflow: auto;
+    border-radius: 3px;
 }
 </style>
