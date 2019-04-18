@@ -1,5 +1,69 @@
-@charset 'utf-8';
+<template>
+	<section class="main-app">
+		<div class="file-list-box">
+			<header>
+				<h1>
+					<span>{{ title }}</span>
+				</h1>
+				<!-- 面包屑组件 自定义跳转方式 -->
+				<VBreadcrumb 
+					ref="vbreadcrumb" @sendBreadCrumbEvt="emitBreadCrumbEvt"
+				></VBreadcrumb>
+			</header>
+			<main>
+				<Bar/>
+				<List/>
+				<Article/>
+			</main>
+			<Footer/>
+		</div>
+	</section>
 
+</template>
+
+<script type="text/javascript">
+import VBreadcrumb from '@ektx/v-breadcrumb'
+import List from './parts/list'
+import Footer from './parts/footer'
+import Article from './parts/article'
+import Bar from './parts/bar'
+
+import { mapActions, mapState } from 'vuex'
+
+export default {
+    name: 'home',
+    components: {
+        VBreadcrumb,
+        List,
+        Footer,
+        Article,
+        Bar
+    },
+    computed: {
+        ...mapState('home', ['files', 'title'])
+    },
+    created () {
+    // 默认请求地址
+        this.getFileList(location.pathname)
+    },
+    methods: {
+        ...mapActions('home', ['getFileList']),
+
+        // 面包屑回调功能
+        emitBreadCrumbEvt (data) {
+            console.log(111, data)
+            this.getFileList(data.url)
+        }
+    },
+    beforeRouteUpdate (to, from, next) {
+        next()
+        if (this.$refs.vbreadcrumb)
+            this.$refs.vbreadcrumb.update()
+    }
+}
+</script>
+
+<style lang="scss">
 .file-list-box {
 	display: flex;
 	flex-direction: column;
@@ -161,3 +225,6 @@
 		}
 	}
 }
+</style>
+
+<style lang="scss" src="./markdown.scss"></style>

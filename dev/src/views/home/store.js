@@ -10,32 +10,37 @@ export default {
         currentFile: null
     },
     mutations: {
-        
+        /**
+         * 设置文件排序
+         * @param {*} state 
+         * @param {*} list 文件列表
+         */
         setFiles (state, list) {
             let fileArr = []
-			let dirArr = []
-            let sortArr = (arr) => {
+            let dirArr = []
+
+            let sortArr = arr => {
                 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator
                 return arr.sort((a,b) => new Intl.Collator(navigator.language, {caseFirst: "lower"}).compare(a.file, b.file) )
             }
 
-			list.forEach(val => {
+            list.forEach(val => {
                 val.classes = []
 
-				if (val.isDir) {
-					dirArr.push(val)
-				} else {
-					fileArr.push(val)
+                if (val.isDir) {
+                    dirArr.push(val)
+                } else {
+                    fileArr.push(val)
 
-					if (/readme\.(md|markdown)/i.test(val.file)) {
-						val.classes = ['current']
+                    if (/readme\.(md|markdown)/i.test(val.name)) {
+                        val.classes = ['current']
                         state.currentFile = val
-					}
-				}
-			})
+                    }
+                }
+            })
 
-			dirArr = sortArr(dirArr)
-			fileArr = sortArr(fileArr)
+            dirArr = sortArr(dirArr)
+            fileArr = sortArr(fileArr)
 
             state.files = [...dirArr, ...fileArr]
         },
@@ -61,10 +66,11 @@ export default {
     actions: {
         /**
          * 请求路径下文件内容
-         * @param {store} context store内容
+         * @param {store} ctx store内容
          * @param {string} url 地址
          */
-        getFileList (context, url) {
+        getFileList (ctx, url) {
+            console.log(url)
             let root = location.pathname
             
             root = root.endsWith('/') ? root : `${root}/`
@@ -75,39 +81,34 @@ export default {
             
             // 更新路由
             router.push(url)
-            context.commit('setTitle')
+            ctx.commit('setTitle')
 
-            axios(`/api${url}`).then(res => {
-                context.commit('setFiles', res.data)
-                context.commit('setIsServer', res.server)
+            axios({
+                url: '/api/filelist',
+                method: 'GET',
+                params: {
+                    path: url
+                }
+            }).then(res => {
+                ctx.commit('setFiles', res)
             }).catch(err => {
                 console.error(err)
             })
         },
 
         // 打开本地文件夹
-		askServerOpenDir (ctx, file) {
-            // 不是自己启动的服务器，不可以打开本地文件
-            if (!ctx.state.isServer) return
+        opendir (ctx, file) {
+            let path = file.path
 
-			let path = file.path
-
-			if (!file.isDir) {
-				path = path.replace(file.file, '')
-			}
-
-			axios({
-				url: '/api/opendir',
-				method: 'POST',
-				data: {
-					path,
-					name: file.file 
-				}
-			}).then(data => {
-				console.log(data)
-			}).catch(err => {
+            axios({
+                url: '/api/opendir',
+                method: 'GET',
+                params: { path }
+            }).then(data => {
+                console.log(data)
+            }).catch(err => {
                 console.error(err)
             })
-		},
+        },
     }
 }

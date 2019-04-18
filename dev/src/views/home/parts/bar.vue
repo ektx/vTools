@@ -8,16 +8,16 @@
 
 <script>
 export default {
-    name: 'active-bar',
-    data () {
-        return {
+  name: 'active-bar',
+  data () {
+    return {
 
-        }
     }
+  }
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .bar-mod {
     width: 50px;
 }

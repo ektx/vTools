@@ -9,12 +9,12 @@ import '@ektx/v-contextmenu/dist/vcontextmenu.css'
 Vue.config.productionTip = false
 Vue.use(VContextmenu)
 
-Vue.prototype.axios = axios
+Vue.prototype.$axios = axios
 
 new Vue({
-	store,
-	router,
-	render: h => h(App)
+    store,
+    router,
+    render: h => h(App)
 }).$mount('#app')
 
 
