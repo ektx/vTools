@@ -8,12 +8,12 @@
 
 <script>
 export default {
-  name: 'active-bar',
-  data () {
-    return {
+    name: 'active-bar',
+    data () {
+        return {
 
+        }
     }
-  }
 }
 </script>
 

@@ -163,67 +163,6 @@ export default {
 			}
 		}
 	}
-
-	footer {
-		display: flex;
-		flex-direction: row;
-		padding: 0 20px;
-		height: 24px;
-		color: #777;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		line-height: 24px;
-		overflow: hidden;
-		background: #fff;
-		border-top: 1px solid #eee;
-
-		.folder-info {
-			width: 280px;
-		}
-
-		.current-file-info {
-			flex: 1;
-			display: flex;
-			flex-direction: row;
-
-			.path {
-				flex: 1;
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				cursor: pointer;
-				transition: color .3s ease-out;
-
-				&:hover {
-					color: #09f;
-				}
-			}
-			li:not(.path) {
-				margin-left: 10px;
-			}
-
-			.face-box {
-				svg {
-					width: 18px;
-					height: 100%;
-
-					&.warn-ico path {
-						fill: #f90;
-					}
-					&.normal-ico path {
-						fill: #aaa;
-					}
-				}
-
-				&:only-child {
-					flex: 1;
-					display: flex;
-					justify-content: flex-end;
-				}
-
-			}
-		}
-	}
 }
 </style>
 
