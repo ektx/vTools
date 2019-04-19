@@ -88,87 +88,81 @@ export default {
          * @param {event} evt 鼠标事件
          */
         rightMenu(file, evt) {
-            let rightMenuData = [];
+            let rightMenuData = []
 
             if (this.isServer) {
-                rightMenuData.unshift(
-                    {
-                        title: "在系统中打开",
-                        evt: () => {
-                            this.askServerOpenDir(file);
-                        }
-                    },
-                    {
-                        title: "复制当前路径",
-                        evt() {
-                            if (navigator.clipboard) {
-                                navigator.clipboard
-                                    .writeText(file.path)
-                                    .then(() => {
-                                        console.log("Text copied to clipboard:", file.path);
-                                    })
-                                    .catch(err => {
-                                        // This can happen if the user denies clipboard permisions:
-                                        console.error(`Could not copy text: ${err}`);
-                                    });
-                            } else {
-                                const int = document.createElement("input");
-                                document.body.appendChild(int);
-                                int.value = file.path;
-                                int.focus();
-                                int.select();
-                                const result = document.execCommand("copy");
-                                if (result === "unsuccessful") {
-                                    console.error("Faild to copy path");
-                                } else {
-                                    document.body.removeChild(int);
-                                }
-                            }
-                        }
-                    },
-                    {
-                        type: "separator"
-                    }
-                );
-            }
-
-            rightMenuData.unshift(
-                {
-                    title: "二维码访问",
+                rightMenuData.unshift({
+                    title: "在系统中打开",
                     evt: () => {
-                        let generateQRcode = url => {
-                            url = decodeURI(url + file.name);
-                            this.$refs.overlayermod.generateQRCode(true, url);
-                        };
-
-                        // 显示遮盖层
-                        if (location.hostname === "localhost") {
-                            this.$axios({
-                                url: "api/serverip",
-                                method: "GET"
-                            })
-                                .then(res => {
-                                    generateQRcode(location.href.replace("localhost", res.IPv4));
+                        this.askServerOpenDir(file)
+                    }
+                },
+                {
+                    title: "复制当前路径",
+                    evt() {
+                        if (navigator.clipboard) {
+                            navigator.clipboard
+                                .writeText(file.path)
+                                .then(() => {
+                                    console.log("Text copied to clipboard:", file.path);
                                 })
                                 .catch(err => {
-                                    console.error(err);
+                                    // This can happen if the user denies clipboard permisions:
+                                    console.error(`Could not copy text: ${err}`);
                                 });
                         } else {
-                            generateQRcode(location.href);
+                            const int = document.createElement("input")
+                            document.body.appendChild(int)
+                            int.value = file.path
+                            int.focus()
+                            int.select()
+                            const result = document.execCommand("copy")
+                            if (result === "unsuccessful") {
+                                console.error("Faild to copy path")
+                            } else {
+                                document.body.removeChild(int)
+                            }
                         }
                     }
                 },
                 {
                     type: "separator"
+                })
+            }
+
+            rightMenuData.unshift({
+                title: "二维码访问",
+                evt: () => {
+                    let generateQRcode = url => {
+                        url = decodeURI(url + file.name);
+                        this.$refs.overlayermod.generateQRCode(true, url)
+                    }
+
+                    // 显示遮盖层
+                    if (location.hostname === "localhost") {
+                        this.$axios({
+                            url: "/api/serverip",
+                            method: "GET"
+                        }).then(res => {
+                            generateQRcode(location.href.replace("localhost", res.IPv4));
+                        }).catch(err => {
+                            console.error(err);
+                        })
+                    } else {
+                        generateQRcode(location.href);
+                    }
                 }
-            );
+            },
+            {
+                type: "separator"
+            })
 
             this.$VContextmenu.show(rightMenuData, evt);
         },
 
         // 时时更新目录的滚动条位置
-        listScroll(evt) {
-            this.scrollObj[location.href] = evt.target.scrollTop;
+        listScroll (evt) {
+            this.scrollObj[location.href] = evt.target.scrollTop
         }
     }
 };
