@@ -4,6 +4,7 @@ import VContextmenu from '@ektx/v-contextmenu'
 import App from './App'
 import router from './router'
 import store from './store'
+import './assets/icons'
 import '@ektx/v-contextmenu/dist/vcontextmenu.css'
 
 Vue.config.productionTip = false
