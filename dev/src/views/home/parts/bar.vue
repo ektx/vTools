@@ -23,6 +23,10 @@ export default {
                     hold: false
                 },
                 {
+                    icon: 'qrcode',
+                    hold: false
+                },
+                {
                     icon: 'search',
                     hold: false
                 }
