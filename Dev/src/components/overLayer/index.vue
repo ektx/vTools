@@ -1,4 +1,3 @@
-
 <template>
 	<!-- 遮盖层 -->
 	<transition name="show-layer">

@@ -23,10 +23,6 @@ export default {
                     hold: false
                 },
                 {
-                    icon: 'tag',
-                    hold: false
-                },
-                {
                     icon: 'search',
                     hold: false
                 }
