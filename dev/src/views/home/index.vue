@@ -92,55 +92,7 @@ export default {
 		flex-direction: row;
 		overflow: hidden;
 
-		aside {
-			width: 300px;
-			overflow: hidden;
-			background: #f5f5f5;
-
-			ul.file-list {
-				height: 100%;
-				padding: 10px 0;
-				overflow: auto;
-				box-sizing: border-box;
-	
-				li {
-					display: flex;
-					flex-direction: row;
-					height: 1.8rem;
-					padding: 0 0 0 20px;
-	
-					svg {
-						display: block;
-						width: 1.1rem;
-	
-						path {
-							fill: #333;
-						}
-					}
-					
-					div {
-						flex: 1;
-						padding: 0 0 0 5px;
-						color: #333;
-						font-size: 1.2rem;
-						word-break: normal;
-						white-space: nowrap;
-						text-overflow: ellipsis;
-						overflow: hidden;
-						cursor: pointer;
-						box-sizing: border-box;
-			
-						&:hover {
-							text-decoration: underline;
-						}
-					}
-
-					&.current {
-						background: rgb(224, 224, 224);
-					}
-				}
-			}
-		}
+		
 
 		article {
 			flex: 1;

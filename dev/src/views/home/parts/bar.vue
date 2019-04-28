@@ -42,6 +42,13 @@ export default {
     },
     mounted () {
         this.current = this.navs[0]
+
+        window.addEventListener('keydown', function (e) {
+            if(e.metaKey && e.keyCode == 'S'.charCodeAt(0)){
+                e.preventDefault();
+                alert("kl")
+            }
+        }, false)
     }
 };
 </script>

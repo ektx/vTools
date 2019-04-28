@@ -1,7 +1,17 @@
 <template>
     <aside>
+        <header class="search-box">
+            <VSearch 
+                class="search-input" 
+                placeholder="搜索" 
+                v-model="searchInner" 
+                :delay="300" 
+                :focus="focusSearch"
+                @blur="focusSearch = false"
+            />
+        </header>
         <ul class="file-list" @scroll="listScroll($event)">
-            <li v-for="(file, index) in files" :key="file.name" :class="file.classes">
+            <li v-for="(file, index) in listData" :key="file.name" :class="file.classes">
                 <svg v-if="file.isDir" version="1.1" viewBox="0 0 14 16">
                     <path fill-rule="evenodd" 
                         d="M13 4H7V3c0-.66-.31-1-1-1H1c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1V5c0-.55-.45-1-1-1zM6 4H1V3h5v1z"
@@ -18,32 +28,50 @@
                 >{{file.name}}</div>
             </li>
         </ul>
-        <OverLayer ref="overlayermod"></OverLayer>
+        <overLayer ref="overlayermod"></overLayer>
     </aside>
 </template>
 
 <script>
-import OverLayer from "@/components/overLayer";
 import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
     name: "list-mod",
-    components: {
-        OverLayer
-    },
     data() {
         return {
-            scrollObj: {}
+            scrollObj: {},
+            searchInner: '',
+            focusSearch: false
         }
     },
     computed: {
-        ...mapState("home", ["files", "currentFile", "isServer"])
+        ...mapState('home', ['files', 'currentFile', 'isServer']),
+
+        listData () {
+            if (this.searchInner) {
+                return this.files.filter(item => item.name.includes(this.searchInner))
+            } else {
+                return this.files
+            }
+        }
+    },
+    watch: {
+        searchInner (val) {
+            console.log(val)
+        }
     },
     mounted() {
         // 读取缓存中的位置
         if (localStorage.scrollObj) {
             this.scrollObj = JSON.parse(localStorage.scrollObj);
         }
+
+        window.addEventListener('keydown', e => {
+            if(e.metaKey && e.keyCode == 'F'.charCodeAt(0)){
+                e.preventDefault()
+                this.focusSearch = true
+            }
+        }, false)
     },
     updated() {
         // 回显滚动条
@@ -167,3 +195,80 @@ export default {
     }
 };
 </script>
+
+<style lang="scss" scoped>
+$searchBoxH: 36px;
+
+aside {
+    position: relative;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #f5f5f5;
+
+    ul.file-list {
+        flex: 1;
+        padding: 10px 0;
+        overflow: auto;
+        box-sizing: border-box;
+
+        @supports (backdrop-filter: blur(5px)) {
+            padding: $searchBoxH + 10 0 0;
+        }
+
+        li {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            height: 2rem;
+            padding: 0 0 0 .8em;
+
+            svg {
+                display: block;
+                width: 1.1rem;
+
+                path {
+                    fill: #333;
+                }
+            }
+            
+            div {
+                flex: 1;
+                padding: 0 0 0 5px;
+                color: #333;
+                font-size: 1.2rem;
+                word-break: normal;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                cursor: pointer;
+                box-sizing: border-box;
+            }
+
+            &:hover,
+            &.current {
+                background: rgba(0, 0, 0, .1);
+            }
+        }
+    }
+}
+
+.search-box {
+    width: 100%;
+    height: $searchBoxH;
+    background: rgba(255, 255, 255, .5);
+
+    @supports (backdrop-filter: blur(5px)) {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: rgba(255, 255, 255, .65);
+        backdrop-filter: blur(10px); 
+    }
+
+    .search-input {
+        padding: 5px;
+    }
+}
+</style>
