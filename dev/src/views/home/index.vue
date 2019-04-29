@@ -1,23 +1,21 @@
 <template>
-	<section class="main-app">
-		<div class="file-list-box">
-			<header>
-				<h1>
-					<span>{{ title }}</span>
-				</h1>
-				<!-- 面包屑组件 自定义跳转方式 -->
-				<VBreadcrumb 
-					ref="vbreadcrumb" @sendBreadCrumbEvt="emitBreadCrumbEvt"
-				></VBreadcrumb>
-			</header>
-			<main>
-				<Bar/>
-				<List/>
-				<Article/>
-			</main>
-			<Footer/>
-		</div>
-	</section>
+    <div class="file-list-box">
+        <header>
+            <h1>
+                <span>{{ title }}</span>
+            </h1>
+            <!-- 面包屑组件 自定义跳转方式 -->
+            <VBreadcrumb 
+                ref="vbreadcrumb" @sendBreadCrumbEvt="emitBreadCrumbEvt"
+            ></VBreadcrumb>
+        </header>
+        <main>
+            <Bar/>
+            <List/>
+            <Article/>
+        </main>
+        <Footer/>
+    </div>
 
 </template>
 
@@ -27,7 +25,6 @@ import List from './parts/list'
 import Footer from './parts/footer'
 import Article from './parts/article'
 import Bar from './parts/bar'
-
 import { mapActions, mapState } from 'vuex'
 
 export default {
@@ -40,7 +37,7 @@ export default {
         Bar
     },
     computed: {
-        ...mapState('home', ['files', 'title'])
+        ...mapState('home', ['title'])
     },
     created () {
     // 默认请求地址
@@ -51,7 +48,6 @@ export default {
 
         // 面包屑回调功能
         emitBreadCrumbEvt (data) {
-            console.log(111, data)
             this.getFileList(data.url)
         }
     },
