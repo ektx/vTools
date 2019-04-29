@@ -91,7 +91,7 @@ export default {
 		border: none;
 		outline: none;
 		background: transparent;
-		border-radius: 100%;
+        border-radius: 100%;
 		cursor: pointer;
 		transform: translate(0%, -50%);
 		transition: 
@@ -99,6 +99,7 @@ export default {
             opacity .3s ease-in-out;
 
 		svg {
+            display: block;
             width: 12px;
             height: 12px;
             padding: 4px;
