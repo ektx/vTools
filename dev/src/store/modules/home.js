@@ -2,11 +2,26 @@ import axios from '../../assets/js/myAxios'
 import router from '../../router'
 
 const state = {
+    // 标题
     title: 'iServer',
+    // 文件列表
     files: [],
+    // 展示的文件列表
+    displayListCount: 0,
+    // 服务器环境
     isServer: false,
+    // 当前文件
     currentFile: null
 }
+
+const getters = {
+    displayList: state => key => {
+        let list = state.files.filter(i => i.name.includes(key))
+        state.displayListCount = list.length
+        return list
+    }
+}
+
 const mutations = {
     /**
      * 设置文件排序
@@ -69,7 +84,6 @@ const actions = {
      * @param {string} url 地址
      */
     getFileList (ctx, url) {
-        console.log(url)
         let root = location.pathname
         
         root = root.endsWith('/') ? root : `${root}/`
@@ -115,6 +129,7 @@ const actions = {
 export default {
     namespaced: true,
     state,
+    getters,
     mutations,
     actions
 }

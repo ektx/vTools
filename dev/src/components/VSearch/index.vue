@@ -3,10 +3,9 @@
 		<div class="v-search-inner">
 			<input
 				type="text"
-				:placeholder="placeholder"
+				v-bind="$attrs"
 				v-model="searchVal"
                 v-focus="focus"
-				@input="sendVal"
                 @blur="blurEvt"
 			>
 			<button @click="resetInt">
@@ -22,18 +21,12 @@
 export default {
     name: 'VSearch',
     props: {
-        // 清空按钮
-        resetBtn: {
-            type: Boolean,
-            default: false
+        value: {
+            type: [Number, String]
         },
         delay: {
             type: Number,
             default: 0
-        },
-        placeholder: {
-            type: String,
-            default: 'Search...'
         },
         focus: {
             type: Boolean,
@@ -42,9 +35,25 @@ export default {
     },
     data () {
         return {
-            searchVal: '',
-            btn: this.resetBtn,
             delayEvt: null
+        }
+    },
+    computed: {
+        searchVal: {
+            get () {
+                return this.value
+            },
+            set (val) {
+                if (this.delay) {
+                    clearTimeout(this.delayEvt)
+
+                    this.delayEvt = setTimeout(()=> {
+                        this.$emit('input', val)
+                    }, this.delay)
+                } else {
+                    this.$emit('input', val)
+                }
+            }
         }
     },
     directives: {
@@ -60,19 +69,6 @@ export default {
         resetInt (event) {
             this.searchVal = ''
             this.$emit('reset', { event })
-            this.$emit('input', '')
-        },
-
-        sendVal () {
-            if (this.delay) {
-                clearTimeout(this.delayEvt)
-
-                this.delayEvt = setTimeout(()=> {
-                    this.$emit('input', this.searchVal)
-                }, this.delay)
-            } else {
-                this.$emit('input', this.searchVal)
-            }
         },
 
         blurEvt (evt) {
@@ -92,25 +88,20 @@ export default {
 		position: absolute;
 		right: 3px;
 		top: 50%;
-		display: flex;
-		width: 1.8em;
-		height: 1.8em;
-		vertical-align: top;
-		justify-content: center;
 		border: none;
 		outline: none;
 		background: transparent;
 		border-radius: 100%;
-        visibility: visible;
 		cursor: pointer;
 		transform: translate(0%, -50%);
 		transition: 
-            background-color .3s ease,
+            background-color .3s ease-in-out,
             opacity .3s ease-in-out;
 
 		svg {
-            width: 14px;
-            height: 14px;
+            width: 12px;
+            height: 12px;
+            padding: 4px;
 			fill: rgba(0, 0, 0, .2);
             transform: rotate(45deg);
 			transition: transform .3s ease;

@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from "vuex";
+import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
     name: "list-mod",
@@ -46,18 +46,10 @@ export default {
     },
     computed: {
         ...mapState('home', ['files', 'currentFile', 'isServer']),
+        ...mapGetters('home', ['displayList']),
 
         listData () {
-            if (this.searchInner) {
-                return this.files.filter(item => item.name.includes(this.searchInner))
-            } else {
-                return this.files
-            }
-        }
-    },
-    watch: {
-        searchInner (val) {
-            console.log(val)
+            return this.displayList(this.searchInner)
         }
     },
     mounted() {
@@ -101,6 +93,8 @@ export default {
             }
 
             this.setCurrentFile(file)
+            // 清除查询条件
+            this.searchInner = ''
 
             if (isDir) {
                 // 缓存到本地
