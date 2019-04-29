@@ -8,7 +8,7 @@
 					<div id="ask-link-qrcode-box">
 						<img :src="QRBox.img">
 					</div>
-					<input type="text" readonly :value="QRBox.text">
+                    <textarea v-model="QRBox.text"></textarea>
 				</section>
 			</transition>
 			<!-- // 二维码 -->
@@ -20,7 +20,7 @@
 import QRcode from 'qrcode'
 
 export default {
-    name: 'overlayer',
+    name: 'over-layer',
     data () {
         return {
             show: false,
@@ -41,10 +41,9 @@ export default {
                 margin: 0
             }).then(url => {
                 this.QRBox.img = url
+            }).catch(err => {
+                console.error(err)
             })
-                .catch(err => {
-                    console.error(err)
-                })
 
         }
     }

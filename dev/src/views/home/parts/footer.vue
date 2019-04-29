@@ -9,7 +9,9 @@
         </span>
         <ul class="current-file-info">
             <template v-if="currentFile">
-                <li class="path" @click="opendir(currentFile)">- {{currentFile.path}}</li>
+                <li class="path" @click="opendir(currentFile)">
+                    <svg-icon icon="directory" class="path-icon"/> {{currentFile.path}}
+                </li>
                 <li class="size">{{currentFile.stat.size | fileSize}}</li>
                 <li class="extname">{{currentFile.type.slice(1).toUpperCase()}}</li>
             </template>
@@ -117,6 +119,13 @@ footer {
 
             &:hover {
                 color: #09f;
+            }
+
+            .path-icon {
+                width: 12px;
+                height: 12px;
+                vertical-align: middle;
+                fill: #333;
             }
         }
         li:not(.path) {
