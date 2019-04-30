@@ -253,7 +253,7 @@ export default {
         setImgStyle () {
             this.articleBCR = this.articleEle.getBoundingClientRect()
             let img = new Image
-            let src = `${this.pathname + this.currentFile.file}`
+            let src = `${this.pathname + this.currentFile.name}`
 
             img.onload = () => {
                 let {width: imgW, height: imgH } = img
