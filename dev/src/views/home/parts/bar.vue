@@ -54,8 +54,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/css/mixin.scss';
+
 .bar-mod {
     width: 50px;
+    background-color: var(--mainBGColor);
+    @include BGTransition;
 
     ul {
         margin: 30px 0 0;
@@ -69,14 +73,14 @@ export default {
 
     .svg-icon {
         width: 24px;
-        fill: #ccc;
+        fill: var(--waitColor);
         cursor: pointer;
         transition: fill .3s ease-in-out;
     }
 
     .svg-icon.hold,
     .svg-icon:hover {
-        fill: #333;
+        fill: var(--mainColor);
     }
 }
 </style>

@@ -11,7 +11,9 @@ const state = {
     // 服务器环境
     isServer: false,
     // 当前文件
-    currentFile: null
+    currentFile: null,
+    // 主题 night | day
+    theme: 'day'
 }
 
 const getters = {
@@ -74,6 +76,10 @@ const mutations = {
         let title = [...new Set(decodeURI(location.pathname).split('/'))].pop()
         state.title = title ? title : 'iServer'
         document.title = state.title
+    },
+
+    setTheme (state, val) {
+        state.theme = val
     }
 }
 

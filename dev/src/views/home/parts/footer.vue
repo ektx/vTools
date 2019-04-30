@@ -80,6 +80,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/css/mixin.scss';
+
 footer {
     display: flex;
     flex-direction: row;
@@ -90,8 +92,9 @@ footer {
     text-overflow: ellipsis;
     line-height: 24px;
     overflow: hidden;
-    background: #fff;
-    border-top: 1px solid #eee;
+    background: var(--mainBGColor);
+    border-top: 1px solid var(--mainLineColor);
+    @include BGTransition;
 
     .folder-info {
         display: flex;
@@ -100,6 +103,7 @@ footer {
         .file-icon {
             width: 10px;
             margin: 0 3px 0 0;
+            fill: var(--mainColor);
         }
     }
 
@@ -125,7 +129,7 @@ footer {
                 width: 12px;
                 height: 12px;
                 vertical-align: middle;
-                fill: #333;
+                fill: var(--mainColor);
             }
         }
         li:not(.path) {

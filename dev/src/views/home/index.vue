@@ -1,13 +1,21 @@
 <template>
-    <div class="file-list-box">
+    <div :class="['file-list-box', theme]">
         <header>
-            <h1>
-                <span>{{ title }}</span>
-            </h1>
-            <!-- 面包屑组件 自定义跳转方式 -->
-            <VBreadcrumb 
-                ref="vbreadcrumb" @sendBreadCrumbEvt="emitBreadCrumbEvt"
-            ></VBreadcrumb>
+            <div class="base-info">
+                <h1>
+                    <span>{{ title }}</span>
+                </h1>
+                <!-- 面包屑组件 自定义跳转方式 -->
+                <VBreadcrumb 
+                    ref="vbreadcrumb" @sendBreadCrumbEvt="emitBreadCrumbEvt"
+                ></VBreadcrumb>
+            </div>
+            <ul class="setting-box">
+                <li><svg-icon icon="preview"/></li>
+                <li class="light" @click="toggleTheme">
+                    <svg-icon icon="light"/>
+                </li>
+            </ul>
         </header>
         <main>
             <Bar/>
@@ -25,7 +33,7 @@ import List from './parts/list'
 import Footer from './parts/footer'
 import Article from './parts/article'
 import Bar from './parts/bar'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapMutations } from 'vuex'
 
 export default {
     name: 'home',
@@ -37,7 +45,7 @@ export default {
         Bar
     },
     computed: {
-        ...mapState('home', ['title'])
+        ...mapState('home', ['title', 'theme'])
     },
     created () {
     // 默认请求地址
@@ -45,10 +53,15 @@ export default {
     },
     methods: {
         ...mapActions('home', ['getFileList']),
+        ...mapMutations('home', ['setTheme']),
 
         // 面包屑回调功能
         emitBreadCrumbEvt (data) {
             this.getFileList(data.url)
+        },
+
+        toggleTheme () {
+            this.setTheme(this.theme === 'day' ? 'night' : 'day')
         }
     },
     beforeRouteUpdate (to, from, next) {
@@ -60,6 +73,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/assets/css/mixin.scss';
+
 .file-list-box {
 	display: flex;
 	flex-direction: column;
@@ -67,19 +82,52 @@ export default {
 	width: 100vw;
 
 	& > header {
+        display: flex;
 		padding: 5px 20px;
-		background: #fff;
-		border-bottom: 1px solid #eee;
+        align-items: center;
+		background: var(--mainBGColor);
+		border-bottom: 1px solid var(--mainLineColor);
+        @include BGTransition;
 
-		h1 {
-			color: #333;
-			font-size: 20px;
-			line-height: 32px;
+        .base-info {
+            flex: 1;
+  
+            h1 {
+                color: var(--mainColor);
+                font-size: 20px;
+                line-height: 32px;
 
-			span {
-				cursor: pointer;
-			}
-		}
+                span {
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .setting-box {
+            display: flex;
+
+            svg {
+                width: 24px;
+                height: 24px;
+                fill: var(--waitColor);
+                cursor: pointer;
+                transition: fill .3s ease-in-out;
+
+                &:hover {
+                    fill: var(--mainColor);
+                }
+            }
+
+            li {
+                margin: 0 0 0 10px;
+            }
+
+            .light {
+                svg {
+                    width: 16px;
+                }
+            }
+        }
 	}
 
 	main {
@@ -88,14 +136,14 @@ export default {
 		flex-direction: row;
 		overflow: hidden;
 
-		
-
 		article {
 			flex: 1;
 			overflow: auto;
 			overflow-x: hidden;
 			scroll-behavior: smooth;
-			background: #fff;
+			background: var(--mainBGColor);
+            @include BGTransition;
+
 
 			.img-box {
 				display: flex;

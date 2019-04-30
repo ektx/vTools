@@ -191,6 +191,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/css/mixin.scss';
 $searchBoxH: 36px;
 
 aside {
@@ -199,7 +200,8 @@ aside {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background: #f5f5f5;
+    background: var(--subBGColor);
+    @include BGTransition;
 
     ul.file-list {
         flex: 1;
@@ -223,14 +225,15 @@ aside {
                 width: 1.1rem;
 
                 path {
-                    fill: #333;
+                    fill: var(--mainColor);
+                    transition: fill .4s ease-in-out;
                 }
             }
             
             div {
                 flex: 1;
                 padding: 0 0 0 5px;
-                color: #333;
+                color: var(--mainColor);
                 font-size: 1.2rem;
                 word-break: normal;
                 white-space: nowrap;
@@ -238,6 +241,7 @@ aside {
                 overflow: hidden;
                 cursor: pointer;
                 box-sizing: border-box;
+                transition: color .3s ease-in-out;
             }
 
             &:hover,
@@ -252,6 +256,8 @@ aside {
     width: 100%;
     height: $searchBoxH;
     background: rgba(255, 255, 255, .5);
+    border-bottom: 1px solid transparent;
+    @include BGTransition;
 
     @supports (backdrop-filter: blur(5px)) {
         position: absolute;
@@ -263,6 +269,20 @@ aside {
 
     .search-input {
         padding: 5px;
+    }
+}
+.night .search-box {
+    background: transparent;
+    border-bottom-color: var(--mainLineColor);
+
+    /deep/ input {
+        color: var(--mainColor);
+        border-color: var(--mainLineColor);
+        background: transparent;
+    }
+
+    /deep/ svg {
+        fill: var(--mainColor);
     }
 }
 </style>

@@ -12,6 +12,7 @@ export default {
 
 <style lang="scss" scoped>
 @import url("./assets/css/reset-1.5.0.css");
+@import url("./assets/css/theme.css");
 
 #app {
     -webkit-font-smoothing: antialiased;
