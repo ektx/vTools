@@ -84,11 +84,11 @@ export default {
             let { type } = file
             let result = false
 			
-            if (/\.png|jpg|gif/i.test(type)) {
+            if (/\.png|jpg|gif|svg/i.test(type)) {
                 this.fileType = 'img'
                 this.setImgStyle()
             }
-            else if (/\.(htm|ejs|xml|jade|pug|svg|php)/i.test(type)) {
+            else if (/\.(htm|ejs|xml|jade|pug|php)/i.test(type)) {
                 this.fileType = 'code'
                 result = 'text/html'
             }
