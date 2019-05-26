@@ -111,7 +111,7 @@ const actions = {
         }).then(res => {
             ctx.commit('setFiles', res)
         }).catch(err => {
-            console.error(err)
+            console.error(err) // eslint-disable-line
         })
     },
 
@@ -124,9 +124,9 @@ const actions = {
             method: 'GET',
             params: { path }
         }).then(data => {
-            console.log(data)
+            console.log(data) // eslint-disable-line
         }).catch(err => {
-            console.error(err)
+            console.error(err) // eslint-disable-line
         })
     },
 }
