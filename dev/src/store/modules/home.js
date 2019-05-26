@@ -11,7 +11,7 @@ const state = {
     // 服务器环境
     isServer: false,
     // 当前文件
-    currentFile: null,
+    currentFile: {},
     // 主题 night | day
     theme: 'day'
 }

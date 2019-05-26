@@ -8,7 +8,7 @@
             </svg>{{displayListCount}}
         </span>
         <ul class="current-file-info">
-            <template v-if="currentFile">
+            <template v-if="Object.entries(currentFile).length">
                 <li class="path" @click="opendir(currentFile)">
                     <svg-icon icon="directory" class="path-icon"/> {{currentFile.path}}
                 </li>

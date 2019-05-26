@@ -11,8 +11,12 @@
                 ></VBreadcrumb>
             </div>
             <ul class="setting-box">
-                <li><svg-icon icon="preview"/></li>
-                <li class="light" @click="toggleTheme">
+                <li v-show="currentFile.type === '.html'" title="Preview">
+                    <a :href="currentFile.name" target="_blank">
+                        <svg-icon icon="preview"/>
+                    </a>
+                </li>
+                <li class="light" @click="toggleTheme" title="Toggle Theme">
                     <svg-icon icon="light"/>
                 </li>
             </ul>
@@ -45,7 +49,7 @@ export default {
         Bar
     },
     computed: {
-        ...mapState('home', ['title', 'theme'])
+        ...mapState('home', ['title', 'theme', 'currentFile'])
     },
     created () {
     // 默认请求地址
@@ -59,7 +63,7 @@ export default {
         emitBreadCrumbEvt (data) {
             this.getFileList(data.url)
         },
-
+        // 切换主题
         toggleTheme () {
             this.setTheme(this.theme === 'day' ? 'night' : 'day')
         }
