@@ -7,9 +7,10 @@ module.exports = {
     publicPath: process.env.NODE_ENV === 'production' ? '/@/' : '/',
     assetsDir: 'contents',
     devServer: {
-        port: 8080,
-        proxy: "http://localhost:8000"
+        port: 3000,
+        proxy: "http://localhost:9000"
     },
+    runtimeCompiler: true,
     productionSourceMap: false,
     configureWebpack: {
         plugins: [

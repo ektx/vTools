@@ -12,6 +12,7 @@ Vue.config.productionTip = false
 Vue.use(VContextmenu)
 
 Vue.prototype.$axios = axios
+Vue.prototype.$compile = Vue.compile
 
 new Vue({
     store,

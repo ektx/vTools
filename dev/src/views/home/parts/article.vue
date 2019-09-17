@@ -6,7 +6,7 @@
             :data="code" 
             :option="codeOption"
         ></VCode>
-        <div v-if="fileType === 'markdown'" class="readme-box" v-html="markdownInner"></div>
+        <markdownIt v-if="fileType === 'markdown'" :value="markdownInner"/>
         <div v-else-if="fileType === 'img'" class="img-box">
             <figure :style="imgStyle"></figure>
         </div>
@@ -127,7 +127,7 @@ export default {
         
         // 展示 markedown 文件
         async showMarked (res) {
-            const marked = (await import(/* webpackChunkName: "marked" */ 'marked')).default
+            const marked = (await import(/* webpackChunkName: "marked" */ 'markdown-it')).default
 
             // 添加 TOC
             // https://marked.js.org/#/USING_PRO.md#renderer
@@ -238,7 +238,8 @@ export default {
                 method: 'GET'
             }).then(res => {
                 if (setMode === 'markdown') {
-                    this.showMarked(res)
+                    // this.showMarked(res)
+                    this.markdownInner = res
                 } else {
                     this.code = res
                     this.codeOption.mode = setMode

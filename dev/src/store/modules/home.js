@@ -93,13 +93,13 @@ const actions = {
         let root = location.pathname
         
         root = root.endsWith('/') ? root : `${root}/`
+        url  = url.endsWith('/') ? url : `${url}/`
         
         if (url.startsWith('./')) {
             url = root + url.slice(2)
         }
-        
         // 更新路由
-        router.push(url)
+        router.push(url).catch(err => {}) // eslint-disable-line
         ctx.commit('setTitle')
 
         axios({

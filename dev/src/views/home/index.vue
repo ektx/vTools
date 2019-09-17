@@ -165,5 +165,3 @@ export default {
 	}
 }
 </style>
-
-<style lang="scss" src="./markdown.scss"></style>
