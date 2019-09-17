@@ -10,6 +10,7 @@ import mkItSub from 'markdown-it-sub'
 import mkItSup from 'markdown-it-sup'
 import mkItIns from 'markdown-it-ins'
 import mkItToc from './md-toc.js'
+import 'highlight.js/styles/monokai-sublime.css'
 
 export default {
     name: 'v-markdown-it',
@@ -226,29 +227,20 @@ export default {
             width: 50%;
         }
     
-        code {
-            color: #FF5722;
-        }
-    
         pre {
             display: block;
             padding: 9.5px;
             margin: 0 0 10px;
             font-size: 13px;
             line-height: 1.42857143;
-            color: #333;
             word-break: break-all;
             word-wrap: break-word;
-            background-color: #f5f5f5;
             border-radius: 4px;
     
             code {
                 padding: 0;
                 font-size: inherit;
-                color: inherit;
                 white-space: pre-wrap;
-                background-color: transparent;
-                border-radius: 0;
             }
         }
     
