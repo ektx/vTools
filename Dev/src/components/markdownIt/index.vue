@@ -106,6 +106,9 @@ export default {
     margin-top: 1em;
     color: var(--mainColor);
     font-weight: 600;
+    transition: 
+      color .5s ease-in-out,
+      border-color .5s ease-in-out;
   }
 
   .markdown-it-com {
@@ -148,6 +151,7 @@ export default {
       font-size: 14px;
       line-height: 28px;
       color: var(--mainColor);
+      transition: color .5s ease-in-out;
     }
 
     & > ul {
@@ -157,7 +161,8 @@ export default {
       list-style-type: disc;
 
       li {
-        color: #273849;
+        color: var(--mainColor);
+        transition: color .5s ease-in-out;
       }
 
       ul {
@@ -194,6 +199,7 @@ export default {
             text-align: left;
             vertical-align: bottom;
             border-bottom: 2px solid var(--mainLineColor);
+            transition: border-color .5s ease-in-out;
           }
         }
       }
@@ -205,6 +211,10 @@ export default {
             line-height: 1.4;
             vertical-align: top;
             border-bottom: 1px solid var(--mainLineColor);
+            transition: 
+              color .5s ease-in-out,
+              border-color .5s ease-in-out,
+              background-color .5s ease-in-out;
           }
           &:nth-child(2n) {
             td {
