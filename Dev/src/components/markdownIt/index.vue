@@ -111,6 +111,12 @@ export default {
       border-color .5s ease-in-out;
   }
 
+  h1, h2, h3, h4, h5, h6 {
+    &:target {
+      color: #e91e63;
+    }
+  }
+
   .markdown-it-com {
     max-width: 900px;
 
