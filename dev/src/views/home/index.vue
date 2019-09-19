@@ -12,7 +12,7 @@
             </div>
             <ul class="setting-box">
                 <li v-show="currentFile.type === '.html'" title="Preview">
-                    <a :href="currentFile.name" target="_blank">
+                    <a id="to-preview" :href="currentFile.name" target="_blank">
                         <svg-icon icon="preview"/>
                     </a>
                 </li>
@@ -40,39 +40,39 @@ import Bar from './parts/bar'
 import { mapActions, mapState, mapMutations } from 'vuex'
 
 export default {
-    name: 'home',
-    components: {
-        VBreadcrumb,
-        List,
-        Footer,
-        Article,
-        Bar
-    },
-    computed: {
-        ...mapState('home', ['title', 'theme', 'currentFile'])
-    },
-    created () {
+  name: 'home',
+  components: {
+    VBreadcrumb,
+    List,
+    Footer,
+    Article,
+    Bar
+  },
+  computed: {
+    ...mapState('home', ['title', 'theme', 'currentFile'])
+  },
+  created () {
     // 默认请求地址
-        this.getFileList(location.pathname)
-    },
-    methods: {
-        ...mapActions('home', ['getFileList']),
-        ...mapMutations('home', ['setTheme']),
+    this.getFileList(location.pathname)
+  },
+  methods: {
+    ...mapActions('home', ['getFileList']),
+    ...mapMutations('home', ['setTheme']),
 
-        // 面包屑回调功能
-        emitBreadCrumbEvt (data) {
-            this.getFileList(data.url)
-        },
-        // 切换主题
-        toggleTheme () {
-            this.setTheme(this.theme === 'day' ? 'night' : 'day')
-        }
+    // 面包屑回调功能
+    emitBreadCrumbEvt (data) {
+      this.getFileList(data.url)
     },
-    beforeRouteUpdate (to, from, next) {
-        next()
-        if (this.$refs.vbreadcrumb)
-            this.$refs.vbreadcrumb.update()
+    // 切换主题
+    toggleTheme () {
+      this.setTheme(this.theme === 'day' ? 'night' : 'day')
     }
+  },
+  beforeRouteUpdate (to, from, next) {
+    next()
+    if (this.$refs.vbreadcrumb)
+      this.$refs.vbreadcrumb.update()
+  }
 }
 </script>
 

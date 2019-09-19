@@ -15,9 +15,9 @@ Vue.prototype.$axios = axios
 Vue.prototype.$compile = Vue.compile
 
 new Vue({
-    store,
-    router,
-    render: h => h(App)
+  store,
+  router,
+  render: h => h(App)
 }).$mount('#app')
 
 

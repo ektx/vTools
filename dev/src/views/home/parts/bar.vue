@@ -10,46 +10,46 @@
 
 <script>
 export default {
-    name: "active-bar",
-    data() {
-        return {
-            navs: [
-                {
-                    icon: 'directory',
-                    hold: true
-                },
-                {
-                    icon: 'star',
-                    hold: false
-                },
-                {
-                    icon: 'qrcode',
-                    hold: false
-                },
-                {
-                    icon: 'search',
-                    hold: false
-                }
-            ],
-            current: {}
+  name: "active-bar",
+  data() {
+    return {
+      navs: [
+        {
+          icon: 'directory',
+          hold: true
+        },
+        {
+          icon: 'star',
+          hold: false
+        },
+        {
+          icon: 'qrcode',
+          hold: false
+        },
+        {
+          icon: 'search',
+          hold: false
         }
-    },
-    watch: {
-        current (val, old) {
-            if (old) old.hold = false
-            val.hold = true
-        }
-    },
-    mounted () {
-        this.current = this.navs[0]
-
-        window.addEventListener('keydown', function (e) {
-            if(e.metaKey && e.keyCode == 'S'.charCodeAt(0)){
-                e.preventDefault();
-                alert("kl")
-            }
-        }, false)
+      ],
+      current: {}
     }
+  },
+  watch: {
+    current (val, old) {
+      if (old) old.hold = false
+      val.hold = true
+    }
+  },
+  mounted () {
+    this.current = this.navs[0]
+
+    window.addEventListener('keydown', function (e) {
+      if(e.metaKey && e.keyCode == 'S'.charCodeAt(0)){
+        e.preventDefault();
+        alert("kl")
+      }
+    }, false)
+  }
 };
 </script>
 

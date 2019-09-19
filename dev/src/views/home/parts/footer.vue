@@ -39,43 +39,43 @@ import filesize from "filesize";
 import { mapState, mapActions } from "vuex";
 
 export default {
-    name: "footer-mod",
-    data() {
-        return {
-            // 是否显示升级
-            showFace: false,
-            faceInfo: "v 7.5.0",
-            version: "7.5.0"
-        };
-    },
-    filters: {
-        fileSize(val) {
-            return filesize(val);
-        }
-    },
-    computed: {
-        ...mapState('home', ['currentFile', 'displayListCount'])
-    },
-    mounted() {
-        this.getNewVersion();
-    },
-    methods: {
-        ...mapActions("home", ["opendir"]),
-
-        getNewVersion() {
-            if (navigator.onLine) {
-                this.$axios({
-                    url: "https://raw.githubusercontent.com/ektx/iServer/master/package.json",
-                    methods: "GET"
-                }).then(res => {
-                    if (res.version !== this.version) {
-                        this.showFace = true;
-                        this.faceInfo = `您需要升级，目前版本是: v${res.version}`;
-                    }
-                });
-            }
-        }
+  name: "footer-mod",
+  data() {
+    return {
+      // 是否显示升级
+      showFace: false,
+      faceInfo: "v 7.5.0",
+      version: "7.5.0"
+    };
+  },
+  filters: {
+    fileSize(val) {
+      return filesize(val);
     }
+  },
+  computed: {
+    ...mapState('home', ['currentFile', 'displayListCount'])
+  },
+  mounted() {
+    this.getNewVersion();
+  },
+  methods: {
+    ...mapActions("home", ["opendir"]),
+
+    getNewVersion() {
+      if (navigator.onLine) {
+        this.$axios({
+          url: "https://raw.githubusercontent.com/ektx/iServer/master/package.json",
+          methods: "GET"
+        }).then(res => {
+          if (res.version !== this.version) {
+            this.showFace = true;
+            this.faceInfo = `您需要升级，目前版本是: v${res.version}`;
+          }
+        });
+      }
+    }
+  }
 };
 </script>
 

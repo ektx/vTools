@@ -13,68 +13,68 @@ import mkItToc from './md-toc.js'
 import 'highlight.js/styles/monokai-sublime.css'
 
 export default {
-    name: 'v-markdown-it',
-    props: {
-        value: {
-            type: String,
-            default: ''
-        }
-    },
-    data () {
-        let md = new mkIt({
-            linkify: true,
-            html: true,
-            typographer: true,
-            highlight (str, lang) {
-                if (lang && hljs.getLanguage(lang)) {
-                    try {
-                        return `<pre class="hljs"><code>` +
+  name: 'v-markdown-it',
+  props: {
+    value: {
+      type: String,
+      default: ''
+    }
+  },
+  data () {
+    let md = new mkIt({
+      linkify: true,
+      html: true,
+      typographer: true,
+      highlight (str, lang) {
+        if (lang && hljs.getLanguage(lang)) {
+          try {
+            return `<pre class="hljs"><code>` +
                         hljs.highlight(lang, str, true).value +
                         '</code></pre>'
                     } catch (__) {} // eslint-disable-line
-                }
+        }
 
-                // eslint-disable-next-line
+        // eslint-disable-next-line
                 return '<pre class="hljs"><code>' +  
                     md.utils.escapeHtml(str) + 
                     '</code></pre>'
-            }
-        }).use(mkItContainer, 'warning', {
-            validate (params) {
-                return params.trim() === 'warning'
-            },
-            render (tokens, idx) {
-                if (tokens[idx].nesting === 1) {
-                    return `<div class="vbook-warning-box">`
-                }
-                return `</div>`
-            }
-        }).use(mkItContainer, 'error', {
-            validate (params) {
-                return params.trim() === 'error'
-            },
-            render (tokens, idx) {
-                if (tokens[idx].nesting === 1) {
-                    return `<div class="vbook-error-box">`
-                }
-                return `</div>`
-            }
-        }).use(mkItToc, {
-            anchorLinkSymbol: ''
-        }).use(mkItSub)
-            .use(mkItSup)
-            .use(mkItIns)
+      }
+    }).use(mkItContainer, 'warning', {
+      validate (params) {
+        return params.trim() === 'warning'
+      },
+      render (tokens, idx) {
+        if (tokens[idx].nesting === 1) {
+          return `<div class="vbook-warning-box">`
+        }
+        return `</div>`
+      }
+    }).use(mkItContainer, 'error', {
+      validate (params) {
+        return params.trim() === 'error'
+      },
+      render (tokens, idx) {
+        if (tokens[idx].nesting === 1) {
+          return `<div class="vbook-error-box">`
+        }
+        return `</div>`
+      }
+    }).use(mkItToc, {
+      anchorLinkSymbol: ''
+    }).use(mkItSub)
+      .use(mkItSup)
+      .use(mkItIns)
 
-        return {
-            md,
-            htmlInner: ''
-        }
-    },
-    computed: {
-        HTML () {
-            return `<div class="markdown-it-com">${this.md.render(this.value)}</div>`
-        }
+    return {
+      md,
+      htmlInner: ''
     }
+  },
+  computed: {
+    HTML () {
+      return `<div class="markdown-it-com">${this.md.render(this.value)}</div>`
+    }
+  }
 }
 </script>
 

@@ -19,62 +19,62 @@
 
 <script>
 export default {
-    name: 'VSearch',
-    props: {
-        value: {
-            type: [Number, String]
-        },
-        delay: {
-            type: Number,
-            default: 0
-        },
-        focus: {
-            type: Boolean,
-            default: false
-        }
+  name: 'VSearch',
+  props: {
+    value: {
+      type: [Number, String]
     },
-    data () {
-        return {
-            delayEvt: null
-        }
+    delay: {
+      type: Number,
+      default: 0
     },
-    computed: {
-        searchVal: {
-            get () {
-                return this.value
-            },
-            set (val) {
-                if (this.delay) {
-                    clearTimeout(this.delayEvt)
-
-                    this.delayEvt = setTimeout(()=> {
-                        this.$emit('input', val)
-                    }, this.delay)
-                } else {
-                    this.$emit('input', val)
-                }
-            }
-        }
-    },
-    directives: {
-        focus: {
-            update: function (el, binding) {
-                if (typeof binding.value === 'boolean' && binding.value) {
-                    el.focus()
-                }
-            }
-        }
-    },
-    methods: {
-        resetInt (event) {
-            this.searchVal = ''
-            this.$emit('reset', { event })
-        },
-
-        blurEvt (evt) {
-            this.$emit('blur', evt)
-        }
+    focus: {
+      type: Boolean,
+      default: false
     }
+  },
+  data () {
+    return {
+      delayEvt: null
+    }
+  },
+  computed: {
+    searchVal: {
+      get () {
+        return this.value
+      },
+      set (val) {
+        if (this.delay) {
+          clearTimeout(this.delayEvt)
+
+          this.delayEvt = setTimeout(()=> {
+            this.$emit('input', val)
+          }, this.delay)
+        } else {
+          this.$emit('input', val)
+        }
+      }
+    }
+  },
+  directives: {
+    focus: {
+      update: function (el, binding) {
+        if (typeof binding.value === 'boolean' && binding.value) {
+          el.focus()
+        }
+      }
+    }
+  },
+  methods: {
+    resetInt (event) {
+      this.searchVal = ''
+      this.$emit('reset', { event })
+    },
+
+    blurEvt (evt) {
+      this.$emit('blur', evt)
+    }
+  }
 }
 </script>
 
