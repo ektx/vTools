@@ -51,7 +51,9 @@ module.exports = {
       vuex: 'Vuex',
       'highlight.js': 'hljs'
     }
-    config.externals(externals)
+    if (process.env.NODE_ENV === 'production') {
+      config.externals(externals)
+    }
 
     const CDN = {
       css: [
