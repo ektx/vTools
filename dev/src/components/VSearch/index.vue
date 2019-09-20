@@ -5,8 +5,9 @@
 				type="text"
 				v-bind="$attrs"
 				v-model="searchVal"
-                v-focus="focus"
-                @blur="blurEvt"
+        v-focus="focus"
+        @blur="blurEvt"
+        @keyup="keyUpEvt"
 			>
 			<button @click="resetInt">
 				<svg viewBox="0 0 12 16">
@@ -73,6 +74,13 @@ export default {
 
     blurEvt (evt) {
       this.$emit('blur', evt)
+    },
+
+    keyUpEvt (evt) {
+      console.log(evt)
+      if (evt.keyCode === 13 && this.value) {
+        this.$el.querySelector('input').select()
+      }
     }
   }
 }
@@ -95,25 +103,25 @@ export default {
 		cursor: pointer;
 		transform: translate(0%, -50%);
 		transition: 
-            background-color .3s ease-in-out,
-            opacity .3s ease-in-out;
+      background-color .3s ease-in-out,
+      opacity .3s ease-in-out;
 
 		svg {
-            display: block;
-            width: 12px;
-            height: 12px;
-            padding: 4px;
+      display: block;
+      width: 12px;
+      height: 12px;
+      padding: 4px;
 			fill: rgba(0, 0, 0, .2);
-            transform: rotate(45deg);
+        transform: rotate(45deg);
 			transition: transform .3s ease;
 		}
 
 		&:hover {
 			background-color: rgba(0, 0, 0, .05);
 
-            svg {
+      svg {
 				fill: rgba(0, 0, 0, .4)
-            }
+      }
 		}
 
 		&:active {
@@ -132,6 +140,7 @@ export default {
 		box-sizing: border-box;
 		outline: none;
 		transition: border .3s ease-in-out;
+    caret-color: #999;
 
 		&::placeholder {
 			color: #999;
