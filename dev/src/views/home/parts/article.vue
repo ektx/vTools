@@ -119,109 +119,6 @@ export default {
       return result;
     },
 
-    // 展示 markedown 文件
-    async showMarked(res) {
-      const marked = (await import(
-        /* webpackChunkName: "marked" */ "markdown-it"
-      )).default;
-
-      // 添加 TOC
-      // https://marked.js.org/#/USING_PRO.md#renderer
-      let renderer = new marked.Renderer();
-      let toc = [];
-      let levelObj = {};
-
-      renderer.heading = function(text, level) {
-        if (level in levelObj) {
-          levelObj[level] += 1;
-        } else {
-          levelObj[level] = 1;
-        }
-
-        let slug = encodeURI(text + "-" + levelObj[level]);
-
-        toc.push({
-          level,
-          slug,
-          text
-        });
-
-        return `<h${level} id="${slug}">${text}<a href="#${slug}" class="anchor"></a></h${level}>`;
-      };
-
-      renderer.link = function(href, title, text) {
-        let target = "";
-        let end = "";
-
-        if (href.startsWith("http")) {
-          target = ' target="_blank" ';
-        }
-
-        if (text.endsWith("  ")) {
-          end = "<br/>";
-        }
-
-        return `<a href="${href}" ${target}>${text}</a>${end}`;
-      };
-
-      renderer.paragraph = function(text) {
-        let result = "";
-        if (/\[toc\]/i.test(text)) {
-          result = text;
-        } else {
-          if (text.endsWith("  ")) {
-            result = `${text}<br/>`;
-          } else {
-            result = `<p>${text}</p>`;
-          }
-        }
-
-        return result;
-      };
-
-      let html = marked(res, { renderer });
-      let tocHtml = ``;
-      // 旧的级别
-      let level = 0;
-
-      toc.forEach(val => {
-        // 新建一个 ul
-        if (level < val.level) {
-          tocHtml += `<ul>`;
-        }
-        // 相等时，表示为同级，只要为之前生成的 li 收尾
-        else if (val.level === level) {
-          tocHtml += `</li>`;
-        }
-        // 小于时 表示现在需要返回上级 而上级的个数正好与级别差呈倍数
-        else if (val.level < level) {
-          tocHtml += `</li></ul>`.repeat(level - val.level);
-        }
-
-        tocHtml += `<li><a href="#${val.slug}">${val.text}</a>`;
-
-        // 将当前的级别赋值为老的级别 方便下次循环使用
-        level = val.level;
-      });
-
-      // 收尾 ul 因为前面我们并没有结束li与ul
-      // ul与li都是在下次循环时进行收尾工作，最后一次需要人为处理
-      tocHtml += `</li></ul>`.repeat(level);
-
-      this.markdownInner = html.replace(/\[toc\]/i, tocHtml);
-
-      this.$nextTick(async function() {
-        let codes = document.querySelectorAll("pre code");
-        const HLJS = await import(
-          /* webpackChunkName: "highlight" */ "highlight.js"
-        );
-
-        codes.forEach(code => {
-          HLJS.highlightBlock(code);
-        });
-      });
-    },
-
     /**
      * 查看文件
      * @param {Object} file 文件信息
@@ -230,24 +127,22 @@ export default {
       let setMode = this.getFileMode(file);
 
       if (typeof setMode === "boolean" && !setMode) return;
-
+      // TODO: 添加加载文件延迟功能
       this.$axios({
         url: this.pathname + file.name,
         method: "GET"
-      })
-        .then(res => {
-          if (setMode === "markdown") {
-            // this.showMarked(res)
-            this.markdownInner = res;
-          } else {
-            this.code = res;
-            this.codeOption.mode = setMode;
-          }
-        })
-        .catch(err => {
-          this.code = err.response.data;
-          this.codeOption.mode = "text/plain";
-        });
+      }).then(res => {
+        if (setMode === "markdown") {
+          // this.showMarked(res)
+          this.markdownInner = res;
+        } else {
+          this.code = res;
+          this.codeOption.mode = setMode;
+        }
+      }).catch(err => {
+        this.code = err.response.data;
+        this.codeOption.mode = "text/plain";
+      });
     },
 
     // 处理图片预览

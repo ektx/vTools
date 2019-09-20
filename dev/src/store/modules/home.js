@@ -12,6 +12,7 @@ const state = {
   isServer: false,
   // 当前文件
   currentFile: {},
+  hasCurrentFile: false,
   // 主题 night | day
   theme: 'day'
 }
@@ -20,16 +21,18 @@ const getters = {
   displayList: state => key => {
     let list = state.files.filter(i => i.name.includes(key))
     state.displayListCount = list.length
+    console.log(1, key)
+    if (key) state.hasCurrentFile = false
     return list
   }
 }
 
 const mutations = {
   /**
-     * 设置文件排序
-     * @param {*} state 
-     * @param {*} list 文件列表
-     */
+   * 设置文件排序
+   * @param {*} state 
+   * @param {*} list 文件列表
+   */
   setFiles (state, list) {
     let fileArr = []
     let dirArr = []
@@ -47,9 +50,11 @@ const mutations = {
       } else {
         fileArr.push(val)
 
+        // 如果有read.md文件，默认展示
         if (/readme\.(md|markdown)/i.test(val.name)) {
           val.classes = ['current']
           state.currentFile = val
+          state.hasCurrentFile = true
         }
       }
     })
@@ -64,12 +69,20 @@ const mutations = {
     state.isServer = result
   },
 
-  setCurrentFile (state, file) {
-    if (state.currentFile)
+  setCurrentFile (state, file = {}) {
+    
+    if (state.currentFile) {
       state.currentFile.classes = []
+    }
+
+    if (!Object.keys(file).length) {
+      state.hasCurrentFile = false
+      return state.currentFile = file
+    }
 
     file.classes = ['current']
     state.currentFile = file
+    state.hasCurrentFile = true
   },
 
   setTitle (state) {
@@ -85,10 +98,10 @@ const mutations = {
 
 const actions = {
   /**
-     * 请求路径下文件内容
-     * @param {store} ctx store内容
-     * @param {string} url 地址
-     */
+   * 请求路径下文件内容
+   * @param {store} ctx store内容
+   * @param {string} url 地址
+   */
   getFileList (ctx, url) {
     let root = location.pathname
         
@@ -99,8 +112,9 @@ const actions = {
       url = root + url.slice(2)
     }
     // 更新路由
-        router.push(url).catch(err => {}) // eslint-disable-line
+    router.push(url).catch(err => {}) // eslint-disable-line
     ctx.commit('setTitle')
+    ctx.commit('setCurrentFile', {})
 
     axios({
       url: '/api/filelist',
@@ -111,7 +125,7 @@ const actions = {
     }).then(res => {
       ctx.commit('setFiles', res)
     }).catch(err => {
-            console.error(err) // eslint-disable-line
+      console.error(err) // eslint-disable-line
     })
   },
 
@@ -124,9 +138,9 @@ const actions = {
       method: 'GET',
       params: { path }
     }).then(data => {
-            console.log(data) // eslint-disable-line
+      console.log(data) // eslint-disable-line
     }).catch(err => {
-            console.error(err) // eslint-disable-line
+      console.error(err) // eslint-disable-line
     })
   },
 }

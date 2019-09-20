@@ -45,15 +45,39 @@ export default {
     return {
       scrollObj: {},
       searchInner: '',
-      focusSearch: false
+      focusSearch: false,
+      // 当前文件的位置
+      currentIndex: -1
     }
   },
   computed: {
-    ...mapState('home', ['files', 'currentFile', 'isServer']),
+    ...mapState('home', ['files', 'currentFile', 'isServer', 'displayListCount', 'hasCurrentFile']),
     ...mapGetters('home', ['displayList']),
 
     listData () {
       return this.displayList(this.searchInner)
+    },
+  },
+  watch: {
+    listData (val) {
+      if (this.hasCurrentFile && !this.searchInner) {
+        for (let i = 0; i <= this.displayListCount; i++) {
+          if (val[i].name === this.currentFile.name) {
+            return this.currentIndex = i
+          }
+        }
+      }
+    },
+    // 更新当前的文件索引来更新选择的文件
+    // （文件夹只是选中，并不是进入）
+    currentIndex (val) {
+      this.setCurrentFile(this.listData[val])
+    },
+
+    searchInner (val) {
+      // if (val) {
+      this.currentIndex = -1
+      // }
     }
   },
   mounted() {
@@ -62,67 +86,7 @@ export default {
       this.scrollObj = JSON.parse(localStorage.scrollObj);
     }
 
-    window.addEventListener('keydown', e => {
-      console.log(e, e.keyCode)
-      if (e.metaKey) {
-        switch (e.keyCode) {
-        // F 时，快速查询功能
-        case 70: {
-          e.preventDefault()
-          this.focusSearch = true
-          break;
-        }
-        // 预览 HTML 功能
-        case 86: {
-          e.preventDefault();
-          let link = document.querySelector('#to-preview');
-          if (this.currentFile.type === '.html') {
-            link.click();
-          }
-          break;
-        }
-        // 当用户点击 / 键时，返回到根目录
-        case 191: {
-          e.preventDefault();
-          // 跳转
-          this.getFileList(`/`);
-          break;
-        }
-        }
-      } else {
-        switch (e.keyCode) {
-        // 返回上级目录 
-        case 37: {
-          // 确保用户是在主界面触发功能
-          if (e.target.nodeName !== 'BODY') return
-
-          if (this.$route.path !== '/') {
-            // 获取上级目录
-            let path = this.$route.path.split('/').slice(0, -2).join('/')
-        
-            this.getFileList(path)
-          }
-          break;
-        }
-        case 38: {
-          // 上
-          console.log('UP');
-          break;
-        }
-        // 进入下级目录
-        case 39: {
-          if (e.target.nodeName !== 'BODY') return
-          console.log(1)
-          break;
-        }
-        case 40: {
-          // 下
-          console.log('DOWN')
-          break;
-        }
-        }
-      }
-    }, false)
+    window.addEventListener('keydown', this.keyEvt, false)
   },
   updated() {
     // 回显滚动条
@@ -248,6 +212,87 @@ export default {
     // 时时更新目录的滚动条位置
     listScroll (evt) {
       this.scrollObj[location.href] = evt.target.scrollTop
+    },
+    
+    keyEvt (e) {
+      // console.log(e, e.keyCode)
+      if (e.metaKey) {
+        switch (e.keyCode) {
+        // F 时，快速查询功能
+        case 70: {
+          e.preventDefault()
+          this.focusSearch = true
+          break;
+        }
+        // 预览 HTML 功能
+        case 86: {
+          e.preventDefault();
+          let link = document.querySelector('#to-preview');
+          if (this.currentFile.type === '.html') {
+            link.click();
+          }
+          break;
+        }
+        // 当用户点击 / 键时，返回到根目录
+        case 191: {
+          e.preventDefault();
+          // 跳转
+          this.getFileList(`/`);
+          break;
+        }
+        }
+      } else {
+        switch (e.keyCode) {
+        // 返回上级目录 
+        case 37: {
+          // 确保用户是在主界面触发功能
+          if (e.target.nodeName !== 'BODY') return
+
+          if (this.$route.path !== '/') {
+            // 获取上级目录
+            let path = this.$route.path.split('/').slice(0, -2).join('/')
+        
+            this.getFileList(path)
+          }
+          break;
+        }
+        case 38: {
+          // 上
+          console.log('UP');
+          this.changeFileIndex(e, -1)
+          break;
+        }
+        // 进入下级目录
+        case 39: {
+          if (e.target.nodeName !== 'BODY') return
+          console.log(1)
+          break;
+        }
+        case 40: {
+          // 下
+          console.log('DOWN')
+          this.changeFileIndex(e, 1)
+          break;
+        }
+        }
+      }
+    },
+
+    changeFileIndex (e, step) {
+      // 在搜索框中
+      let isSearchInt = e.path[1].classList.contains('v-search-inner')
+      // 在主界面时
+      let isBody = e.target.nodeName === 'BODY'
+
+      if (isBody || isSearchInt) {
+        if (this.currentIndex + step > this.displayListCount -1) {
+          this.currentIndex = -1
+        } 
+        else if (this.currentIndex + step < 0) {
+          this.currentIndex = this.displayListCount
+        }
+        this.currentIndex += step
+      }
     }
   }
 };
