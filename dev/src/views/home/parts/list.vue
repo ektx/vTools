@@ -14,6 +14,7 @@
       <li 
         v-for="(file, index) in listData" 
         :key="file.name" 
+        :id="`id${file.name}`"
         :class="file.classes"
       >
         <svg v-if="file.isDir" version="1.1" viewBox="0 0 14 16">
@@ -47,7 +48,8 @@ export default {
       searchInner: '',
       focusSearch: false,
       // 当前文件的位置
-      currentIndex: -1
+      currentIndex: -1,
+      keyEventting: false
     }
   },
   computed: {
@@ -75,9 +77,13 @@ export default {
     },
 
     searchInner (val) {
-      // if (val) {
       this.currentIndex = -1
-      // }
+    },
+
+    // 路由变化后，重置索引 
+    '$route' (val) {
+      console.log(val)
+      this.currentIndex = -1
     }
   },
   mounted() {
@@ -85,16 +91,25 @@ export default {
     if (localStorage.scrollObj) {
       this.scrollObj = JSON.parse(localStorage.scrollObj);
     }
-
+    // 监听键盘事件
     window.addEventListener('keydown', this.keyEvt, false)
+    window.addEventListener('keyup', () => {
+      this.keyEventting = false
+    }, false)
+
   },
   updated() {
-    // 回显滚动条
-    if (location.href in this.scrollObj) {
+    // 回显滚动条(非键盘事件时)
+    if (!this.keyEventting && location.href in this.scrollObj) {
+      let UL = this.$el.querySelector(".file-list")
       let scrollTop = this.scrollObj[location.href]
-            
+
+      UL.style.scrollBehavior = 'auto'
+              
       this.$nextTick(() => {
-        this.$el.querySelector(".file-list").scrollTop = scrollTop
+        console.log(111,this.scrollObj, scrollTop)
+        UL.scrollTop = scrollTop
+        UL.style = ''
       })
     }
   },
@@ -215,7 +230,10 @@ export default {
     },
     
     keyEvt (e) {
-      // console.log(e, e.keyCode)
+      console.log(e, e.keyCode)
+      // 键盘事件
+      this.keyEventting = true
+
       if (e.metaKey) {
         switch (e.keyCode) {
         // F 时，快速查询功能
@@ -233,16 +251,15 @@ export default {
           }
           break;
         }
-        // 当用户点击 / 键时，返回到根目录
-        case 191: {
-          e.preventDefault();
-          // 跳转
-          this.getFileList(`/`);
-          break;
-        }
         }
       } else {
         switch (e.keyCode) {
+        case 13: {
+          if (this.currentFile.isDir) {
+            this.goFilePath(this.currentIndex, this.currentFile)
+          }
+          break
+        }
         // 返回上级目录 
         case 37: {
           // 确保用户是在主界面触发功能
@@ -258,7 +275,6 @@ export default {
         }
         case 38: {
           // 上
-          console.log('UP');
           this.changeFileIndex(e, -1)
           break;
         }
@@ -270,8 +286,13 @@ export default {
         }
         case 40: {
           // 下
-          console.log('DOWN')
           this.changeFileIndex(e, 1)
+          break;
+        }
+        // 当用户点击 / 键时，返回到根目录
+        case 191: {
+          if (e.target.nodeName !== 'BODY') return
+          this.getFileList(`/`)
           break;
         }
         }
@@ -279,8 +300,8 @@ export default {
     },
 
     changeFileIndex (e, step) {
-      // 在搜索框中
-      let isSearchInt = e.path[1].classList.contains('v-search-inner')
+      // 当前事件触发的节点，是否是在查寻的框中
+      let isSearchInt = document.querySelector('.v-search-inner').contains(e.target)
       // 在主界面时
       let isBody = e.target.nodeName === 'BODY'
 
@@ -292,6 +313,12 @@ export default {
           this.currentIndex = this.displayListCount
         }
         this.currentIndex += step
+
+        // 更新显示当前选择的文件
+        this.$nextTick(() => {
+          // 当前的位置 = 当前索引 * 单个列有高度
+          this.$el.querySelector(".file-list").scrollTop = this.currentIndex * 24
+        })
       }
     }
   }
@@ -316,6 +343,7 @@ aside {
     padding: 10px 0;
     overflow: auto;
     box-sizing: border-box;
+    scroll-behavior: smooth;
 
     @supports (backdrop-filter: blur(5px)) {
       padding: $searchBoxH + 10 0 0;
