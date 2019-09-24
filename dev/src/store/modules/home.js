@@ -21,7 +21,7 @@ const getters = {
   displayList: state => key => {
     let list = state.files.filter(i => i.name.includes(key))
     state.displayListCount = list.length
-    console.log(1, key)
+    // 如果key有指定过滤内容 我们就把当前文件标记设置为false
     if (key) state.hasCurrentFile = false
     return list
   }

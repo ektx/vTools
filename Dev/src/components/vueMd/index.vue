@@ -271,5 +271,18 @@ export default {
       }
     }
   }
+
+  kdb {
+    display: inline-block;
+    padding: 3px 5px;
+    line-height: 10px;
+    color: #444d56;
+    vertical-align: middle;
+    background-color: #fafbfc;
+    border: 1px solid #d1d5da;
+    border-bottom-color: #c6cbd1;
+    border-radius: 3px;
+    box-shadow: inset 0 -1px 0 #c6cbd1;
+  }
 }
 </style>

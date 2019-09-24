@@ -1,7 +1,7 @@
 <template>
   <article class="article-box">
     <VCode ref="code" v-show="fileType === 'code'" :data="code" :option="codeOption"></VCode>
-    <markdownIt v-if="fileType === 'markdown'" :value="markdownInner" />
+    <vueMd v-if="fileType === 'markdown'" :value="markdownInner" />
     <div v-else-if="fileType === 'img'" class="img-box">
       <figure :style="imgStyle"></figure>
     </div>
