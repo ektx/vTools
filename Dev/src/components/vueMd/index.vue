@@ -88,12 +88,16 @@ export default {
 
 <style lang="scss">
 .markdown-it-preview {
-  margin: 0 2em;
+  margin: 2em;
 
   @media (prefers-color-scheme: dark) {
     & {
       --titleColor: #fff;
     }
+  }
+
+  img {
+    max-width: 100%;
   }
 
   h1,
