@@ -19,7 +19,7 @@ const state = {
 
 const getters = {
   displayList: state => key => {
-    let list = state.files.filter(i => i.name.includes(key))
+    let list = state.files.filter(i => i.name.toLowerCase().includes(key.toLowerCase()))
     state.displayListCount = list.length
     // 如果key有指定过滤内容 我们就把当前文件标记设置为false
     if (key) state.hasCurrentFile = false
