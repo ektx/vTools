@@ -30,10 +30,10 @@
 
 <script type="text/javascript">
 import VBreadcrumb from "@ektx/v-breadcrumb";
-import List from "./parts/list";
-import Footer from "./parts/footer";
-import Article from "./parts/article";
-import Bar from "./parts/bar";
+import List from "./list";
+import Footer from "./footer";
+import Article from "./article";
+import Bar from "./bar";
 import { mapActions, mapState, mapMutations } from "vuex";
 
 export default {

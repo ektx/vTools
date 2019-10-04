@@ -89,6 +89,7 @@ export default {
 <style lang="scss">
 .markdown-it-preview {
   margin: 2em;
+  color: #333;
 
   @media (prefers-color-scheme: dark) {
     & {
