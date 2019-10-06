@@ -1,5 +1,5 @@
 <template>
-  <div :class="['file-list-box', theme]">
+  <div class="file-list-box">
     <header>
       <div class="base-info">
         <h1>
@@ -46,7 +46,7 @@ export default {
     Bar
   },
   computed: {
-    ...mapState("home", ["title", "theme", "currentFile"])
+    ...mapState("home", ["title", "currentFile"])
   },
   created() {
     // 默认请求地址
@@ -54,7 +54,6 @@ export default {
   },
   methods: {
     ...mapActions("home", ["getFileList"]),
-    ...mapMutations("home", ["setTheme"]),
 
     // 面包屑回调功能
     emitBreadCrumbEvt(data) {
@@ -62,7 +61,7 @@ export default {
     },
     // 切换主题
     toggleTheme() {
-      this.setTheme(this.theme === "day" ? "night" : "day");
+      this.$parent.toggleTheme()
     }
   },
   beforeRouteUpdate(to, from, next) {
@@ -135,28 +134,6 @@ export default {
     flex: 1;
     flex-direction: row;
     overflow: hidden;
-
-    article {
-      flex: 1;
-      overflow: auto;
-      overflow-x: hidden;
-      scroll-behavior: smooth;
-      background: var(--mainBGColor);
-      @include BGTransition;
-
-      .img-box {
-        display: flex;
-        width: 100%;
-        height: 100%;
-        justify-content: center;
-        align-items: center;
-
-        figure {
-          will-change: background;
-          transition: all 300ms ease-in-out;
-        }
-      }
-    }
   }
 }
 </style>

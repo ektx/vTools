@@ -281,7 +281,6 @@ export default {
         // 进入下级目录
         case 39: {
           if (e.target.nodeName !== 'BODY') return
-          console.log(1)
           break;
         }
         case 40: {
@@ -327,7 +326,6 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/css/mixin.scss';
-$searchBoxH: 36px;
 
 aside {
   position: relative;
@@ -344,10 +342,6 @@ aside {
     overflow: auto;
     box-sizing: border-box;
     scroll-behavior: smooth;
-
-    @supports (backdrop-filter: blur(5px)) {
-      padding: $searchBoxH + 10 0 0;
-    }
 
     li {
       display: flex;
@@ -382,7 +376,7 @@ aside {
 
       &:hover,
       &.current {
-        background: rgba(0, 0, 0, .1);
+        background: var(--listHover);
       }
     }
   }
@@ -390,35 +384,12 @@ aside {
 
 .search-box {
   width: 100%;
-  height: $searchBoxH;
-  background: rgba(255, 255, 255, .5);
-  border-bottom: 1px solid transparent;
+  height: 36px;
+  background: var(--subBGColor);
   @include BGTransition;
-
-  @supports (backdrop-filter: blur(5px)) {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: rgba(255, 255, 255, .65);
-    backdrop-filter: blur(10px); 
-  }
 
   .search-input {
     padding: 5px;
-  }
-}
-.night .search-box {
-  background: transparent;
-  border-bottom-color: var(--mainLineColor);
-
-  /deep/ input {
-    color: var(--mainColor);
-    border-color: var(--mainLineColor);
-    background: transparent;
-  }
-
-  /deep/ svg {
-    fill: var(--mainColor);
   }
 }
 </style>

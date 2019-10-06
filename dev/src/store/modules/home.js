@@ -13,8 +13,6 @@ const state = {
   // 当前文件
   currentFile: {},
   hasCurrentFile: false,
-  // 主题 night | day
-  theme: 'day'
 }
 
 const getters = {
@@ -91,9 +89,6 @@ const mutations = {
     document.title = state.title
   },
 
-  setTheme (state, val) {
-    state.theme = val
-  }
 }
 
 const actions = {

@@ -1,18 +1,28 @@
 <template>
-    <div id="app">
+    <div id="app" :class="{'dark-scheme': isDark}">
         <router-view></router-view>
     </div>
 </template>
 
 <script>
 export default {
-  name: "app"
+  name: "app",
+  data () {
+    return {
+      isDark: false
+    }
+  },
+  methods: {
+    toggleTheme () {
+      this.isDark = !this.isDark
+    }
+  }
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import url("./assets/css/reset-1.5.0.css");
-@import url("./assets/css/theme.css");
+@import "./assets/css/theme.scss";
 
 #app {
     -webkit-font-smoothing: antialiased;

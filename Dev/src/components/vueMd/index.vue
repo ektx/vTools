@@ -158,7 +158,7 @@ export default {
       border-bottom: 1px solid var(--mainLineColor);
     }
 
-    p {
+    p, summary {
       font-size: 14px;
       line-height: 28px;
       color: var(--mainColor);

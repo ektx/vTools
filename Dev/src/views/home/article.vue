@@ -181,3 +181,42 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+@import "@/assets/css/mixin.scss";
+
+article {
+  flex: 1;
+  overflow: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  background: var(--mainBGColor);
+  @include BGTransition;
+
+  @mixin dark-scheme {
+    background-color: #333;
+  }
+
+  .dark-scheme & {
+    @include dark-scheme
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      @include dark-scheme   
+    }
+  }
+
+  .img-box {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+
+    figure {
+      will-change: all;
+      transition: all 300ms ease-in-out;
+    }
+  }
+}
+</style>
