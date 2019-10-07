@@ -76,13 +76,12 @@ export default {
       this.setCurrentFile(this.listData[val])
     },
 
-    searchInner (val) {
+    searchInner () {
       this.currentIndex = -1
     },
 
     // 路由变化后，重置索引 
-    '$route' (val) {
-      console.log(val)
+    '$route' () {
       this.currentIndex = -1
     }
   },
@@ -107,7 +106,6 @@ export default {
       UL.style.scrollBehavior = 'auto'
               
       this.$nextTick(() => {
-        console.log(111,this.scrollObj, scrollTop)
         UL.scrollTop = scrollTop
         UL.style = ''
       })
@@ -230,7 +228,6 @@ export default {
     },
     
     keyEvt (e) {
-      console.log(e, e.keyCode)
       // 键盘事件
       this.keyEventting = true
 

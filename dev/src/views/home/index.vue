@@ -34,7 +34,7 @@ import List from "./list";
 import Footer from "./footer";
 import Article from "./article";
 import Bar from "./bar";
-import { mapActions, mapState, mapMutations } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "home",
