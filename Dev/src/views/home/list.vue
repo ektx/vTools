@@ -312,8 +312,9 @@ export default {
 
         // 更新显示当前选择的文件
         this.$nextTick(() => {
-          // 当前的位置 = 当前索引 * 单个列有高度
-          this.$el.querySelector(".file-list").scrollTop = this.currentIndex * 24
+          document.querySelector(`.current`).scrollIntoView({
+            block: "center"
+          })
         })
       }
     }
@@ -338,7 +339,6 @@ aside {
     padding: 10px 0;
     overflow: auto;
     box-sizing: border-box;
-    scroll-behavior: smooth;
 
     li {
       display: flex;
