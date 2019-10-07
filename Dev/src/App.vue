@@ -1,7 +1,7 @@
 <template>
-    <div id="app" :class="{'dark-scheme': isDark}">
-        <router-view></router-view>
-    </div>
+  <div id="app" :class="{'dark-scheme': isDark}">
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
@@ -25,7 +25,7 @@ export default {
 @import "./assets/css/theme.scss";
 
 #app {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 </style>
