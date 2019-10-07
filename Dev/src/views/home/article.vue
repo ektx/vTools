@@ -75,6 +75,7 @@ export default {
         false
       );
     } else {
+      // eslint-disable-next-line
       console.warn("您的浏览器不支持 History API，请升级您的浏览器！");
     }
   },
@@ -173,6 +174,7 @@ export default {
         };
       };
       img.onerror = () => {
+        // eslint-disable-next-line
         console.warn("图片处理时出现错误");
       };
 

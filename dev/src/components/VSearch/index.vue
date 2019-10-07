@@ -77,7 +77,6 @@ export default {
     },
 
     keyUpEvt (evt) {
-      console.log(evt)
       if (evt.keyCode === 13 && this.value) {
         this.$el.querySelector('input').select()
       }

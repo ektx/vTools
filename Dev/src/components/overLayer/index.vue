@@ -42,7 +42,7 @@ export default {
       }).then(url => {
         this.QRBox.img = url
       }).catch(err => {
-        console.error(err)
+        alert(err)
       })
 
     }
