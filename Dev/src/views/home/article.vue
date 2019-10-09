@@ -45,6 +45,9 @@ export default {
   },
   watch: {
     currentFile(val) {
+      // 防止多次加载，导致页面空白
+      if (!val.name) return
+      
       if (!val.isDir) {
         this.pathname = location.pathname.endsWith("/")
           ? location.pathname
@@ -66,8 +69,8 @@ export default {
             this.getFileList(this.$route.path);
           } else {
             if (location.hash) {
-              let id = decodeURIComponent(location.hash).slice(1);
-              let ele = document.getElementById(id);
+              let id = decodeURIComponent(location.hash);
+              let ele = document.querySelector(id);
               this.$el.scrollTop = ele.offsetTop -90;
             }
           }
@@ -194,19 +197,6 @@ article {
   scroll-behavior: smooth;
   background: var(--mainBGColor);
   @include BGTransition;
-
-  @mixin dark-scheme {
-    background-color: #333;
-  }
-
-  .dark-scheme & {
-    @include dark-scheme
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      @include dark-scheme   
-    }
-  }
 
   .img-box {
     display: flex;
