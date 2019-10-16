@@ -8,8 +8,6 @@ const state = {
   files: [],
   // 展示的文件列表
   displayListCount: 0,
-  // 服务器环境
-  isServer: false,
   // 当前文件
   currentFile: {},
   hasCurrentFile: false,
@@ -61,10 +59,6 @@ const mutations = {
     fileArr = sortArr(fileArr)
 
     state.files = [...dirArr, ...fileArr]
-  },
-
-  setIsServer (state, result) {
-    state.isServer = result
   },
 
   setCurrentFile (state, file = {}) {
@@ -122,22 +116,7 @@ const actions = {
     }).catch(err => {
       console.error(err) // eslint-disable-line
     })
-  },
-
-  // 打开本地文件夹
-  opendir (ctx, file) {
-    let path = file.path
-
-    axios({
-      url: '/api/opendir',
-      method: 'GET',
-      params: { path }
-    }).then(data => {
-      console.log(data) // eslint-disable-line
-    }).catch(err => {
-      console.error(err) // eslint-disable-line
-    })
-  },
+  }
 }
 
 

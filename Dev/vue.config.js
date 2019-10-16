@@ -64,7 +64,8 @@ module.exports = {
         '//cdnjs.cloudflare.com/ajax/libs/vue-router/3.1.3/vue-router.min.js',
         '//cdnjs.cloudflare.com/ajax/libs/vuex/3.1.1/vuex.min.js',
         '//cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js',
-        '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js'
+        '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js',
+        '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js'
       ]
     }
     config.plugin('html')

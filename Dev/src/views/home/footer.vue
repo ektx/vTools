@@ -39,9 +39,11 @@
 <script>
 import filesize from "filesize";
 import { mapState, mapActions } from "vuex";
+import homeMix from '../../mixins/homeMix'
 
 export default {
   name: "footer-mod",
+  mixins: [homeMix],
   data() {
     return {
       // 是否显示升级
@@ -62,8 +64,6 @@ export default {
     this.getNewVersion();
   },
   methods: {
-    ...mapActions("home", ["opendir"]),
-
     getNewVersion() {
       if (navigator.onLine) {
         this.$axios({

@@ -39,9 +39,18 @@
 
 <script>
 import { mapState, mapGetters, mapActions, mapMutations } from 'vuex';
+import io from 'socket.io-client'
+import homeMix from '../../mixins/homeMix'
 
 export default {
   name: 'list-mod',
+  mixins: [homeMix],
+  props: {
+    isServer: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       scrollObj: {},
@@ -53,7 +62,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('home', ['files', 'currentFile', 'isServer', 'displayListCount', 'hasCurrentFile']),
+    ...mapState('home', ['files', 'currentFile', 'displayListCount', 'hasCurrentFile']),
     ...mapGetters('home', ['displayList']),
 
     listData () {
@@ -95,7 +104,12 @@ export default {
     window.addEventListener('keyup', () => {
       this.keyEventting = false
     }, false)
+    
+    let socket = io()
 
+    socket.on('FileEvent', msg => {
+      console.log(msg)
+    })
   },
   updated() {
     // 回显滚动条(非键盘事件时)
@@ -152,7 +166,7 @@ export default {
         rightMenuData.unshift({
           title: "在系统中打开",
           evt: () => {
-            this.askServerOpenDir(file)
+            this.opendir(file)
           }
         },
         {

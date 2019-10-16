@@ -21,7 +21,7 @@
     </header>
     <main>
       <Bar />
-      <List />
+      <List :isServer="isServer"/>
       <Article />
     </main>
     <Footer />
@@ -45,12 +45,19 @@ export default {
     Article,
     Bar
   },
+  data () {
+    return {
+      // 服务器环境
+      isServer: false,
+    }
+  },
   computed: {
     ...mapState("home", ["title", "currentFile"])
   },
   created() {
     // 默认请求地址
     this.getFileList(location.pathname);
+    this.getIsServer()
   },
   methods: {
     ...mapActions("home", ["getFileList"]),
@@ -62,6 +69,17 @@ export default {
     // 切换主题
     toggleTheme() {
       this.$parent.toggleTheme()
+    },
+
+    getIsServer () {
+      this.$axios({
+        url: '/api/isServer',
+        method: 'GET'
+      }).then(res => {
+        this.isServer = res
+      }).catch(err => {
+        console.log(err)
+      })
     }
   },
   beforeRouteUpdate(to, from, next) {
