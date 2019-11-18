@@ -3,7 +3,7 @@
     <header class="search-box">
       <VSearch 
         class="search-input" 
-        placeholder="搜索" 
+        placeholder=" 搜索(Shift F)" 
         v-model="searchInner" 
         :delay="300" 
         :focus="focusSearch"
@@ -244,15 +244,14 @@ export default {
     keyEvt (e) {
       // 键盘事件
       this.keyEventting = true
+      // shift + F 时，快速查询功能
+      if (e.shiftKey && e.keyCode === 70) {
+        e.preventDefault()
+        this.focusSearch = true
+      }
 
       if (e.metaKey) {
         switch (e.keyCode) {
-        // F 时，快速查询功能
-        case 70: {
-          e.preventDefault()
-          this.focusSearch = true
-          break;
-        }
         // 预览 HTML 功能
         case 86: {
           e.preventDefault();

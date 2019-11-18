@@ -38,8 +38,8 @@
 
 <script>
 import filesize from "filesize";
-import { mapState, mapActions } from "vuex";
-import homeMix from '../../mixins/homeMix'
+import { mapState } from "vuex";
+import homeMix from '../../mixins/homeMix';
 
 export default {
   name: "footer-mod",
