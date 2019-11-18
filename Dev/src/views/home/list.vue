@@ -107,9 +107,8 @@ export default {
     
     let socket = io()
 
-    socket.on('FileEvent', msg => {
-      console.log(msg)
-    })
+    // 监听文件的变化
+    socket.on('FileEvent', this.watchFileEvt)
   },
   updated() {
     // 回显滚动条(非键盘事件时)
@@ -329,6 +328,22 @@ export default {
             block: "center"
           })
         })
+      }
+    },
+
+    watchFileEvt(msg) {
+      // 对于文件 如果是当前文件，我们刷新渲染效果
+      if (msg.type === 'change') {
+        if (this.currentFile.path === msg.path) {
+          let file = this.currentFile
+          this.setCurrentFile({})
+          this.setCurrentFile(file)
+        }
+      } 
+      // 如果是目录文件
+      else {
+        // 获取上级目录
+        this.getFileList(this.$route.path)
       }
     }
   }
