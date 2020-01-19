@@ -4,14 +4,6 @@
 
 <script>
 import 'highlight.js/styles/atom-one-light.css'
-import CodeMirror from 'codemirror'
-import 'codemirror/mode/javascript/javascript'
-import 'codemirror/mode/htmlmixed/htmlmixed'
-import 'codemirror/mode/xml/xml'
-import 'codemirror/mode/vue/vue'
-import 'codemirror/mode/css/css'
-import 'codemirror/lib/codemirror.css'
-import 'codemirror/theme/dracula.css'
 
 export default {
   name: 'VCodeMirror',
@@ -52,7 +44,16 @@ export default {
       deep: true
     }
   },	
-  mounted: function () {
+  async mounted () {
+    const CodeMirror = (await import(/* webpackChunkName: "CodeMirror" */ 'codemirror')).default
+    await import(/* webpackChunkName: "CodeMirror-js" */ 'codemirror/mode/javascript/javascript')
+    await import(/* webpackChunkName: "CodeMirror-html" */ 'codemirror/mode/htmlmixed/htmlmixed')
+    await import(/* webpackChunkName: "CodeMirror-xml" */ 'codemirror/mode/xml/xml')
+    await import(/* webpackChunkName: "CodeMirror-vue" */ 'codemirror/mode/vue/vue')
+    await import(/* webpackChunkName: "CodeMirror-css" */ 'codemirror/mode/css/css')
+    await import(/* webpackChunkName: "CodeMirror-lib-css" */ 'codemirror/lib/codemirror.css')
+    await import(/* webpackChunkName: "CodeMirror-theme-dracula" */ 'codemirror/theme/dracula.css')
+
     this.myOption = Object.assign(this.myOption, this.option)
     this.codeBox = CodeMirror(this.$el, this.myOption)
   },

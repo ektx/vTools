@@ -45,12 +45,14 @@ module.exports = {
       })
     
     let externals = {
+      // 引用名: 全局对象
       vue: 'Vue',
       axios: 'axios',
       'vue-router': 'VueRouter',
       vuex: 'Vuex',
       'highlight.js': 'hljs'
     }
+
     if (process.env.NODE_ENV === 'production') {
       config.externals(externals)
     }

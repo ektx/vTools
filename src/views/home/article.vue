@@ -1,7 +1,7 @@
 <template>
   <article class="article-box">
-    <VCode ref="code" v-show="fileType === 'code'" :data="code" :option="codeOption"></VCode>
-    <vueMd v-if="fileType === 'markdown'" :value="markdownInner" />
+    <VCodeMirror ref="code" v-show="fileType === 'code'" :data="code" :option="codeOption"/>
+    <markedVue v-if="fileType === 'markdown'" :value="markdownInner" />
     <div v-else-if="fileType === 'img'" class="img-box">
       <figure :style="imgStyle"></figure>
     </div>
@@ -9,14 +9,12 @@
 </template>
 
 <script>
-import VCode from "@/components/VCodeMirror";
-
 import { mapState, mapActions } from "vuex";
 
 export default {
   name: "article-mod",
   components: {
-    VCode
+    VCodeMirror: () => import('@/components/VCodeMirror')
   },
   data() {
     return {
