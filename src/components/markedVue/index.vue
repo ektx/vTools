@@ -129,127 +129,140 @@ export default {
 
 <style lang="scss">
 .marked-box {
-    padding: 1em 2em;
-    max-width: 800px;
-    font-size: 14px;
+  padding: 1em 2em;
+  max-width: 800px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  position: relative;
+
+  &:empty {
+    display: none
+  }
+    
+  h1, h2, h3, h4, h5, h6 {
+    margin: .5em 0 1em;
     color: #333;
-    position: relative;
+    font-weight: bolder;
+    user-select: none;
 
-    &:empty {
-        display: none
+    &:target {
+      color: #E91E63;
     }
+  }
     
-    h1, h2, h3, h4, h5, h6 {
-        margin: 0 0 1.5rem;
-        color: #333;
-        font-weight: bolder;
-        user-select: none;
+  h4, h5, h6 {
+    color: #444;
+  }
 
-        &:target {
-            color: #E91E63;
-        }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.8rem; }
+  h3 { font-size: 1.6rem; }
+  h4 { font-size: 1.4rem; }
+  h5 { font-size: 1.2rem; }
+  h6 { font-size: 1rem; }
+
+  h1:after,
+  h2:after,
+  h3:after {
+    content: '';
+    display: block;
+    border-bottom: 1px solid #eee;
+  }
+
+  ul, ol {
+    padding: 0 0 0 2em;
+
+    li {
+      margin: 3px 0;
     }
-    
-    h4, h5, h6 {
-        color: #444;
+  }
+  ul {
+    list-style: inherit;
+  }
+
+  p {
+    line-height: 1.85rem;
+  }
+
+  a {
+    color: #09f;
+    font-weight: 400;
+
+    &:hover {
+        text-decoration: underline
     }
+  }
 
-    h1 { font-size: 2rem; }
-    h2 { font-size: 1.8rem; }
-    h3 { font-size: 1.6rem; }
-    h4 { font-size: 1.4rem; }
-    h5 { font-size: 1.2rem; }
-    h6 { font-size: 1rem; }
+  table {
+    width: 100%;
+    margin: 1rem 0;
+    color: #444;
 
-    h1:after,
-    h2:after,
-    h3:after {
-        content: '';
-        display: block;
-        border-bottom: 1px solid #eee;
-    }
-
-    ul {
-        padding: 0 0 0 2em;
-        list-style: inherit;
-
-        li {
-            margin: 3px 0;
-        }
-    }
-
-    p {
-        margin: 1rem 0;
-        line-height: 1.85rem;
-    }
-
-    a {
-        color: #09f;
-        font-weight: 400;
-
-        &:hover {
-            text-decoration: underline
-        }
-    }
-
-    table {
-        width: 100%;
-        margin: 1rem 0;
-        color: #444;
-
-        thead {
-            background: #f1f1f1;
-        }
-
-        th {
-            text-align: left;
-            color: #888;
-            text-transform: capitalize;
-        }
-
-        tr:nth-child(2n) {
-            background-color: #f8f8f8;
-        }
-
-        td, th {
-            font-size: 1.15rem;
-            padding: .5rem .6rem;
-        }
+    thead {
+        background: #f1f1f1;
     }
 
-    /*  引用 */
-    blockquote {
-        margin: .5rem 0;
-        padding: 3px 10px;
-        border-left: 3px solid #4CAF50;
-        background: #eee;
-        border-radius: 0 2px 2px 0;
+    th {
+        text-align: left;
+        color: #888;
+        text-transform: capitalize;
     }
 
-    img {
-        max-width: 100%;
+    tr:nth-child(2n) {
+        background-color: #f8f8f8;
     }
 
-    em {
-        font-style: italic;
+    td, th {
+        font-size: 1.15rem;
+        padding: .5rem .6rem;
     }
-}
+  }
 
-code, kbd, pre, samp, tt {
-    font-family: "Roboto Mono", Monaco, courier, monospace;
-    font-size: 12px;
-    background-color: #f8f8f8;
+  /*  引用 */
+  blockquote {
+    margin: .5rem 0;
+    padding: 3px 10px;
+    border-left: 3px solid #4CAF50;
+    background: #eee;
+    border-radius: 0 2px 2px 0;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  code, kbd, pre, samp, tt {
+    font-family: source-code-pro,Menlo,Monaco,Consolas,Courier New,monospace;
+    font-size: 13px;
     -webkit-font-smoothing: initial;
     -moz-osx-font-smoothing: initial;
-}
+  }
 
-code {
-    color: #28962c;
-}
-
-pre {
-    max-height: 50em;
-    overflow: auto;
+  code:not(.hljs) {
+    color: #4CAF50;
+    padding: .25rem .5rem;
+    margin: 0;
+    font-size: .85em;
+    background-color: rgba(27,31,35,.05);
     border-radius: 3px;
+  }
+
+  pre {
+    code.hljs {
+      margin: 0.5em 0;
+      padding: 1em;
+      max-height: 50em;
+      line-height: 1.4;
+      overflow: auto;
+      border-radius: 3px;
+    }
+  }
+
 }
+
 </style>
