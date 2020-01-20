@@ -50,7 +50,8 @@ module.exports = {
       axios: 'axios',
       'vue-router': 'VueRouter',
       vuex: 'Vuex',
-      'highlight.js': 'hljs'
+      'highlight.js': 'hljs',
+      'socket.io-client': 'io'
     }
 
     if (process.env.NODE_ENV === 'production') {

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import 'highlight.js/styles/atom-one-light.css'
+import 'highlight.js/styles/atom-one-dark.css'
 
 export default {
   name: 'VCodeMirror',
