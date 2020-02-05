@@ -78,7 +78,8 @@ export default {
       }).then(res => {
         this.isServer = res
       }).catch(err => {
-        console.log(err)
+        // eslint-disable-next-line
+        console.log(err) 
       })
     }
   },
