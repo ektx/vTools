@@ -27,92 +27,11 @@ export default {
   methods: {
     // 展示 markedown 文件
     async showMarked () {
-      const marked = (await import(/* webpackChunkName: "marked" */ 'marked')).default
+      const marked = (await import(/* webpackChunkName: "marked" */ '@ektx/marked')).default
 
       // 添加 TOC
-      // https://marked.js.org/#/USING_PRO.md#renderer
       let renderer = new marked.Renderer()
-      let toc = []
-      let levelObj = {}
-
-      renderer.heading = function (text, level) {
-        if (level in levelObj) {
-          levelObj[level] += 1
-        } else {
-          levelObj[level] = 1
-        }
-
-        let slug = encodeURI(text + '-' + levelObj[level])
-
-        toc.push({
-          level,
-          text,
-          slug
-        })
-
-        return `<h${level} id="${slug}">${text}<a href="#${slug}" class="anchor"></a></h${level}>`
-      }
-
-      renderer.link = function (href, title, text) {
-        let target = ''
-        let end = ''
-
-        if (href.startsWith('http')) {
-          target = ' target="_blank" '
-        }
-
-        if (text.endsWith('  ')) {
-          end = '<br/>'
-        }
-
-        return `<a href="${href}" ${target}>${text}</a>${end}`
-      }
-			
-      renderer.paragraph = function (text) {
-        let result = ''
-        if (/\[toc\]/i.test(text)) {
-          result = text
-        } else {
-          if (text.endsWith('  ')) {
-            result = `${text}<br/>`
-          } else {
-            result = `<p>${text}</p>`
-          }
-        }
-
-        return result
-      }
-			
-      let html = marked(this.value, {renderer})
-      let tocHtml = ``
-      // 旧的级别
-      let level = 0
-
-      toc.forEach(val => {
-        // 新建一个 ul
-        if (level < val.level) {
-          tocHtml += `<ul>`
-        }
-        // 相等时，表示为同级，只要为之前生成的 li 收尾
-        else if (val.level === level) {
-          tocHtml += `</li>`
-        }
-        // 小于时 表示现在需要返回上级 而上级的个数正好与级别差呈倍数
-        else if (val.level < level) {
-          tocHtml += `</li></ul>`.repeat(level - val.level)
-        }
-
-        tocHtml += `<li><a href="#${val.slug}">${val.text}</a>`
-
-        // 将当前的级别赋值为老的级别 方便下次循环使用
-        level = val.level
-      })
-
-      // 收尾 ul 因为前面我们并没有结束li与ul
-      // ul与li都是在下次循环时进行收尾工作，最后一次需要人为处理
-      tocHtml += `</li></ul>`.repeat(level)
-
-      this.inner = html.replace(/\[toc\]/i, tocHtml)
+      this.inner = marked(this.value, {renderer})
 
       this.$nextTick(async function() {
         let codes = document.querySelectorAll('pre code')
@@ -133,7 +52,7 @@ export default {
   max-width: 800px;
   font-size: 14px;
   line-height: 1.6;
-  color: #333;
+  color: var(--mainColor);
   position: relative;
 
   &:empty {
@@ -142,17 +61,19 @@ export default {
     
   h1, h2, h3, h4, h5, h6 {
     margin: .5em 0 1em;
-    color: #333;
+    color: var(--mainColor);
     font-weight: bolder;
     user-select: none;
 
     &:target {
       color: #E91E63;
+      font-weight: bold;
+
+      &::before {
+        content: '👉🏻';
+        display: inline-block;
+      }
     }
-  }
-    
-  h4, h5, h6 {
-    color: #444;
   }
 
   h1 { font-size: 2rem; }
@@ -167,7 +88,8 @@ export default {
   h3:after {
     content: '';
     display: block;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--mainLineColor);
+    transition: border .4s ease-in-out;
   }
 
   ul, ol {
@@ -190,32 +112,35 @@ export default {
     font-weight: 400;
 
     &:hover {
-        text-decoration: underline
+      text-decoration: underline
     }
   }
 
   table {
     width: 100%;
     margin: 1rem 0;
-    color: #444;
+    color: var(--mainColor);
+    transition: color .4s ease-in-out;
 
     thead {
-        background: #f1f1f1;
+      background-color: var(--tableHeaderColor);
+      transition: background-color .4s ease-in-out;
     }
 
     th {
-        text-align: left;
-        color: #888;
-        text-transform: capitalize;
+      text-align: left;
+      color: #888;
+      text-transform: capitalize;
     }
 
     tr:nth-child(2n) {
-        background-color: #f8f8f8;
+      background-color: var(--subBGColor);
+      transition: background-color .4s ease-in-out;
     }
 
     td, th {
-        font-size: 1.15rem;
-        padding: .5rem .6rem;
+      font-size: 1.15rem;
+      padding: .5rem .6rem;
     }
   }
 
@@ -224,8 +149,9 @@ export default {
     margin: .5rem 0;
     padding: 3px 10px;
     border-left: 3px solid #4CAF50;
-    background: #eee;
+    background: var(--codeBgColor);
     border-radius: 0 2px 2px 0;
+    transition: background-color .4s ease-in-out;
   }
 
   img {
@@ -248,8 +174,9 @@ export default {
     padding: .25rem .5rem;
     margin: 0;
     font-size: .85em;
-    background-color: rgba(27,31,35,.05);
     border-radius: 3px;
+    background-color: var(--codeBgColor);
+    transition: background-color .4s ease-in-out;
   }
 
   pre {

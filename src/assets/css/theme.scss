@@ -6,6 +6,8 @@
   --subBGColor: #2d2d2d;
   --mainLineColor: #444;
   --listHover: rgba(255, 255, 255, .1);
+  --tableHeaderColor: #272727;
+  --codeBgColor: rgba(255, 255, 255, .05);
 }
 @mixin light-scheme {
   --mainColor: #333;
@@ -15,6 +17,8 @@
   --subBGColor: #f5f5f5;
   --mainLineColor: #eee;
   --listHover: rgba(0, 0, 0, .1);
+  --tableHeaderColor: #f1f1f1;
+  --codeBgColor: rgba(27,31,35,.05);
 }
 
 .light-scheme {

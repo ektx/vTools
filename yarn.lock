@@ -671,7 +671,7 @@
 
 "@ektx/marked@https://github.com/ektx/marked.git":
   version "0.8.1"
-  resolved "https://github.com/ektx/marked.git#7832be3037fe1bc00f90c2511eeec0772d77ab02"
+  resolved "https://github.com/ektx/marked.git#74b75d11295e46a14fac676ed8d428b7e410a9ac"
 
 "@ektx/v-breadcrumb@^0.2.1":
   version "0.2.1"
