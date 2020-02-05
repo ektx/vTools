@@ -1,58 +1,42 @@
 # vTools
 
-## Project setup
-```
-yarn install
-```
+此项目是 [iservers](https://github.com/ektx/iServer) 的渲染功能页面。
 
-### Compiles and hot-reloads for development
+## 启动项目
 ```
+# 安装依赖
+yarn install
+
+# 运行服务
 yarn run serve
 ```
 
-### Compiles and minifies for production
+## 项目构建
 ```
 yarn run build
-```
-
-### Run your tests
-```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
 ```
 
 ## 文件说明
 
 ```bash
-vTools  
+vTools
 │  
-├── Dev 开发文件  
-│  │  
-│  ├── src 开发内容  
-│  │    │   
-│  │    ├── assets 内嵌内容  
-│  │    │   
-│  │    ├── components 组件内容  
-│  │    │  
-│  │    ├── pages 业务内容   
-│  │    │  
-|  |    ├── router 路由   
-│  │    │  
-│  │    └── store 状态     
-│  │  
-│  ├── public 静态资源  
-│  │  
-│  └── dist 生成文件  
+├── src 开发内容  
+│    │   
+│    ├── assets 内嵌内容  
+│    │   
+│    ├── components 组件内容  
+│    │  
+│    ├── pages 业务内容   
+│    │  
+|    ├── router 路由   
+│    │  
+│    └── store 状态     
 │  
-└── Doc 开发文档 
+├── public 静态资源  
+│  
+└── dist 生成文件  
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### 快捷键功能
 | 按键 | 功能 |
