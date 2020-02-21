@@ -128,9 +128,7 @@ export default {
     }
 
     th {
-      text-align: left;
       color: #888;
-      text-transform: capitalize;
     }
 
     tr:nth-child(2n) {
