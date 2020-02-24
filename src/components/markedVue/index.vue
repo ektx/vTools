@@ -104,7 +104,8 @@ export default {
   }
 
   p {
-    line-height: 1.85rem;
+    margin: .5em 0;
+    line-height: 2rem;
   }
 
   a {
