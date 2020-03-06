@@ -60,7 +60,7 @@ module.exports = {
 
     const CDN = {
       css: [
-        '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/monokai-sublime.min.css'
+        // '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/monokai-sublime.min.css'
       ],
       js: [
         '//cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js',
