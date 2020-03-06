@@ -60,7 +60,7 @@ export default {
   }
     
   h1, h2, h3, h4, h5, h6 {
-    margin: .5em 0 1em;
+    margin: 1.5em 0 1em;
     color: var(--mainColor);
     font-weight: bolder;
     user-select: none;
@@ -101,6 +101,12 @@ export default {
   }
   ul {
     list-style: inherit;
+    ul {
+      list-style: circle;
+      ul {
+        list-style: square;
+      }
+    }
   }
 
   p {
