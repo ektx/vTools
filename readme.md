@@ -3,7 +3,8 @@
 此项目是 [iservers](https://github.com/ektx/iServer) 的渲染功能页面。
 
 ## 启动项目
-```
+
+```sh
 # 安装依赖
 yarn install
 
@@ -12,7 +13,8 @@ yarn run serve
 ```
 
 ## 项目构建
-```
+
+```sh
 yarn run build
 ```
 
@@ -40,7 +42,7 @@ vTools
 
 ### 快捷键功能
 | 按键 | 功能 |
-| --- | --- |
+| :--- | :--- |
 | <kdb>⌘</kdb> <kdb>F</kdb> | 查询功能 |
 | <kdb>⌘</kdb> <kdb>V</kdb> | 预览HTML文件 |
 | <kdb>/</kdb> | 返回根目录功能 |

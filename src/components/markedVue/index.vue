@@ -186,15 +186,119 @@ export default {
 
   pre {
     code.hljs {
-      margin: 0.5em 0;
+      position: relative;
+      margin: 1em 0;
       padding: 1em;
       max-height: 50em;
       line-height: 1.4;
       overflow: auto;
       border-radius: 3px;
+
+      &:before {
+        position: absolute;
+        right: 1em;
+        top: .5em;
+        font-size: .7em;
+        color: rgba(255, 255, 255, 0.4);
+      }
     }
   }
 
+  code[class~=language-js]:before {
+    content: "js"
+  }
+
+  code[class~=language-ts]:before {
+    content: "ts"
+  }
+
+  code[class~=language-html]:before {
+    content: "html"
+  }
+
+  code[class~=language-md]:before {
+    content: "md"
+  }
+
+  code[class~=language-vue]:before {
+    content: "vue"
+  }
+
+  code[class~=language-css]:before {
+    content: "css"
+  }
+
+  code[class~=language-sass]:before {
+    content: "sass"
+  }
+
+  code[class~=language-scss]:before {
+    content: "scss"
+  }
+
+  code[class~=language-less]:before {
+    content: "less"
+  }
+
+  code[class~=language-stylus]:before {
+    content: "stylus"
+  }
+
+  code[class~=language-go]:before {
+    content: "go"
+  }
+
+  code[class~=language-java]:before {
+    content: "java"
+  }
+
+  code[class~=language-c]:before {
+    content: "c"
+  }
+
+  code[class~=language-sh]:before {
+    content: "sh"
+  }
+
+  code[class~=language-yaml]:before {
+    content: "yaml"
+  }
+
+  code[class~=language-py]:before {
+    content: "py"
+  }
+
+  code[class~=language-javascript]:before {
+    content: "js"
+  }
+
+  code[class~=language-typescript]:before {
+    content: "ts"
+  }
+
+  code[class~=language-markup]:before {
+    content: "html"
+  }
+
+  code[class~=language-markdown]:before {
+    content: "md"
+  }
+
+  code[class~=language-json]:before {
+    content: "json"
+  }
+
+  code[class~=language-ruby]:before {
+    content: "rb"
+  }
+
+  code[class~=language-python]:before {
+    content: "py"
+  }
+
+  code[class~=language-bash]:before {
+    content: "sh"
+  }
 }
 
 </style>
