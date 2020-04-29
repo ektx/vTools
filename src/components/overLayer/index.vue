@@ -8,7 +8,7 @@
 					<div id="ask-link-qrcode-box">
 						<img :src="QRBox.img">
 					</div>
-                    <textarea v-model="QRBox.text"></textarea>
+					<textarea v-model="QRBox.text"></textarea>
 				</section>
 			</transition>
 			<!-- // 二维码 -->
@@ -59,14 +59,18 @@ export default {
 	height: 100vh;
 	z-index: 1000;
 	background: rgba(0,0,0,.2);
+	backdrop-filter: blur(5px);
 }
+
 .show-layer-enter-active,
 .show-layer-leave-active {
 	transition: background .5s;
 	background: rgba(0,0,0,.2);
+	backdrop-filter: blur(5px);
 }
 .show-layer-enter,
 .show-layer-leave-to {
+	backdrop-filter: blur(0px);
 	background: rgba(0,0,0,0);
 	transition: background .5s;
 }
@@ -86,23 +90,24 @@ export default {
 		height: 180px;
 	}
 
-	input {
+	textarea {
 		width: 100%;
 		padding: 1em 0 0;
 		border: none;
 		outline: none;
+		resize: none;
 	}
 }
 .show-qrcode-enter-active,
 .show-qrcode-leave-active {
-	transition: opacity .5s, transform .5s;
+	transition: opacity .4s, transform .4s;
 	opacity: 1;
 	transform: translate(-50%, -50%);
 }
 .show-qrcode-enter,
 .show-qrcode-leave-to {
 	opacity: 0;
-	transition: opacity .5s, transform .5s;
+	transition: opacity .4s, transform .4s;
 	transform: translate(-50%, -30%);
 }
 </style>
