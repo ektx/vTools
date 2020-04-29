@@ -1,5 +1,5 @@
 <template>
-    <div class="v-code-moirror-box"></div>
+  <div class="v-code-moirror-box"></div>
 </template>
 
 <script>
@@ -48,6 +48,7 @@ export default {
     const CodeMirror = (await import(/* webpackChunkName: "CodeMirror" */ 'codemirror')).default
     await import(/* webpackChunkName: "CodeMirror-js" */ 'codemirror/mode/javascript/javascript')
     await import(/* webpackChunkName: "CodeMirror-html" */ 'codemirror/mode/htmlmixed/htmlmixed')
+    await import(/* webpackChunkName: "CodeMirror-go" */'codemirror/mode/go/go')
     await import(/* webpackChunkName: "CodeMirror-xml" */ 'codemirror/mode/xml/xml')
     await import(/* webpackChunkName: "CodeMirror-vue" */ 'codemirror/mode/vue/vue')
     await import(/* webpackChunkName: "CodeMirror-css" */ 'codemirror/mode/css/css')

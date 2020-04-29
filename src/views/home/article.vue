@@ -105,17 +105,12 @@ export default {
       } else if (/\.vue/i.test(type)) {
         this.fileType = "code";
         result = "text/x-vue";
-      } else if (/\.txt/i.test(type)) {
+      } else if (/\.go/i.test(type)) {
+        this.fileType = "code";
+        result = "text/x-go";
+      } else {
         this.fileType = "code";
         result = "text/plain";
-      } else {
-        if ([".gitignore", ".eslintrc"].includes(file.name)) {
-          this.fileType = "code";
-          result = "bash";
-        } else {
-          this.fileType = "";
-          result = false;
-        }
       }
 
       return result;
