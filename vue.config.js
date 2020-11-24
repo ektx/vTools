@@ -63,12 +63,12 @@ module.exports = {
         // '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/monokai-sublime.min.css'
       ],
       js: [
-        '//cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js',
-        '//cdnjs.cloudflare.com/ajax/libs/vue-router/3.1.3/vue-router.min.js',
-        '//cdnjs.cloudflare.com/ajax/libs/vuex/3.1.1/vuex.min.js',
-        '//cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js',
-        '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js',
-        '//cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js'
+        '//cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js',
+        '//cdn.jsdelivr.net/npm/vue-router@3.4.2/dist/vue-router.min.js',
+        '//cdn.jsdelivr.net/npm/vuex@3.5.1/dist/vuex.min.js',
+        '//cdn.jsdelivr.net/npm/axios@0.19.2/index.min.js',
+        '//cdn.jsdelivr.net/npm/highlight@0.2.4/lib/highlight.js',
+        '//cdn.jsdelivr.net/npm/socket.io@2.3.0/lib/client.js'
       ]
     }
     config.plugin('html')
