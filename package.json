@@ -11,7 +11,7 @@
     "@ektx/marked": "https://github.com/ektx/marked.git",
     "@ektx/v-breadcrumb": "^0.2.1",
     "@ektx/v-contextmenu": "^0.3.1",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "codemirror": "^5.45.0",
     "core-js": "^2.6.5",
     "highlight.js": "^9.17.1",
